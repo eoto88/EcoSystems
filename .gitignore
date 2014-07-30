@@ -1,4 +1,4 @@
 application/cache/*
 application/logs/*
 application/config/*
-application/config/!*.template.php
+!application/config/*.template.php
