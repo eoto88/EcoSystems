@@ -2,6 +2,14 @@
 
 // -- Environment setup --------------------------------------------------------
 
+/**
+ * Base URL settings
+ */
+$BASE_URL = DIRECTORY_SEPARATOR . basename( dirname( dirname(__FILE__) ) ) . DIRECTORY_SEPARATOR;
+if( isset( $_SERVER['DEV_HOME_DIR'] ) ) {
+    $BASE_URL = $_SERVER['DEV_HOME_DIR'] . basename( dirname( dirname(__FILE__) ) ) . DIRECTORY_SEPARATOR;
+}
+
 // Load the core Kohana class
 require SYSPATH.'classes/Kohana/Core'.EXT;
 
@@ -70,6 +78,13 @@ mb_substitute_character('none');
  */
 I18n::lang('en-us');
 
+/**
+ * Need a cookie salt
+ * @see http://tinyurl.com/38atkx9 pour générer un salt
+ */
+Cookie::$salt = "EJsGidEouzwIhHzzdz8U";
+Cookie::$path = $BASE_URL;
+
 if (isset($_SERVER['SERVER_PROTOCOL']))
 {
 	// Replace the default protocol.
@@ -103,7 +118,7 @@ if (isset($_SERVER['KOHANA_ENV']))
  * - boolean  expose      set the X-Powered-By header                        FALSE
  */
 Kohana::init(array(
-	'base_url'   => '/kohana/',
+	'base_url'   => $BASE_URL,
 ));
 
 /**
@@ -123,7 +138,7 @@ Kohana::modules(array(
 	// 'auth'       => MODPATH.'auth',       // Basic authentication
 	// 'cache'      => MODPATH.'cache',      // Caching with multiple backends
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
-	// 'database'   => MODPATH.'database',   // Database access
+    'database'   => MODPATH.'database',   // Database access
 	// 'image'      => MODPATH.'image',      // Image manipulation
 	// 'minion'     => MODPATH.'minion',     // CLI Tasks
 	// 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
