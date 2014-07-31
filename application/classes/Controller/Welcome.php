@@ -7,18 +7,22 @@ class Controller_Welcome extends Controller_Template {
     public function before() {
         parent::before();
         $this->template->title = "Garduinoponics";
+
+        $mDay = new Model_Day();
+        $this->template->day = $mDay->getCurrentDay();
     }
 
     public function after() {
         if( $this->auto_render ) {
             $styles = array(
-                "assets/css/normalize.css" => "screen",
-                "assets/css/main.css" => "screen"
+                "assets/css/main.css" => "screen",
+                "assets/css/normalize.css" => "screen"
             );
             $scripts  = array(
-                //"http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js",
                 "assets/js/plugins.js",
-                "assets/js/main.js"
+                "assets/js/main.js",
+                "http://code.highcharts.com/modules/exporting.js",
+                "http://code.highcharts.com/highcharts.js"
             );
 
             $this->template->styles = array_reverse(
@@ -31,11 +35,9 @@ class Controller_Welcome extends Controller_Template {
         parent::after();
     }
 
-	public function action_index() {
-        $data = array();
-        //$this->template->title = "Garduinoponics";
+    public function action_index() {
         $view = View::factory( "index" )->render();
         $this->template->content = $view;
-	}
+    }
 
 } // End Welcome

@@ -12,10 +12,8 @@
 
     <link rel="shortcut icon" href="favicon.ico" />
 
-    <?php /*
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/main.css">*/ ?>
     <script src="assets/js/vendor/modernizr-2.6.2.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <?php foreach($styles as $file => $type) { echo HTML::style($file, array('media' => $type)), "\n";}?>
 </head>
 <body>
@@ -23,13 +21,31 @@
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<div id="wrapper">
-    <h1><?php echo $title; ?></h1>
-
-    <div id="content">
-        <?php echo $content; ?>
+<header id="header">
+    <div id="header_left">
+        <h1><?php echo $title; ?></h1>
     </div>
+    <div id="header_right">
+        <?php
+        var_dump($day);
+        $sun_status = "";
+        if(isset($day['sunrise'])) {
+            $sun_status = "Sunrise: ". $day['sunrise'];
+        }
+        if(isset($day['sunset'])) {
+            $sun_status .= " | Sunset: ". $day['sunset'];
+        }
+        ?>
+        <span id="still_alive" title="Last communication: 2014-07-29 21:35:24"><i class="fa fa-exclamation-triangle error"></i></span><span id="sun_status" title="<?php echo $sun_status; ?>"><i class="fa fa-sun-o"></i></span>
+    </div>
+    <div class="clearfix"></div>
+</header>
+
+<div id="content">
+    <?php echo $content; ?>
 </div>
+
+<footer id="footer"></footer>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
