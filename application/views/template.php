@@ -26,17 +26,8 @@
         <h1><?php echo $title; ?></h1>
     </div>
     <div id="header_right">
-        <?php
-        var_dump($day);
-        $sun_status = "";
-        if(isset($day['sunrise'])) {
-            $sun_status = "Sunrise: ". $day['sunrise'];
-        }
-        if(isset($day['sunset'])) {
-            $sun_status .= " | Sunset: ". $day['sunset'];
-        }
-        ?>
-        <span id="still_alive" title="Last communication: 2014-07-29 21:35:24"><i class="fa fa-exclamation-triangle error"></i></span><span id="sun_status" title="<?php echo $sun_status; ?>"><i class="fa fa-sun-o"></i></span>
+        <?php echo $communication_status; ?>
+        <?php echo $sun_status; ?>
     </div>
     <div class="clearfix"></div>
 </header>

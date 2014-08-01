@@ -8,8 +8,21 @@ class Controller_Welcome extends Controller_Template {
         parent::before();
         $this->template->title = "Garduinoponics";
 
+        $hStatus = new Helper_Status();
+
         $mDay = new Model_Day();
-        $this->template->day = $mDay->getCurrentDay();
+        $day = $mDay->getCurrentDay();
+        if( ! $day ) {
+            $date = new DateTime();
+            $date->sub(new DateInterval('P1D'));
+
+            $day = $mDay->getDayByDate($date->format('Y-m-d'));
+        }
+        $this->template->sun_status = $hStatus->getSunStatus($day);
+
+        $mLive = new Model_Live();
+        $last_communication = $mLive->getLastCommunication();
+        $this->template->communication_status = $hStatus->getCommunicationStatus($last_communication);
     }
 
     public function after() {
