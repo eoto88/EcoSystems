@@ -15,7 +15,7 @@ $(document).ready(function() {
         },
         xAxis: {
             type: 'datetime',
-            tickPixelInterval: 150,
+            //tickPixelInterval: 150,
             maxZoom: 20 * 1000
         },
         yAxis: {
@@ -49,16 +49,16 @@ $(document).ready(function() {
             }]
         },
         series: [{
-            name: 'Temperature (°C)',
+            name: 'Room temperature (°C)',
             color: '#BF0B23',
             dashStyle: 'ShortDash',
-            data: temperatureData
-        }/*,{
-         name: 'Sunlight (%)',
+            data: roomTemperatureData
+        },{
+         name: 'Tank temperature (°C)',
          color: '#0066FF',
          dashStyle: 'ShortDash',
-         data: sunlightData
-         }*/]
+         data: tankTemperatureData
+         }]
     });
 
     sunlightChart = new Highcharts.Chart({
@@ -73,7 +73,7 @@ $(document).ready(function() {
         },
         xAxis: {
             type: 'datetime',
-            tickPixelInterval: 150,
+            //tickPixelInterval: 150,
             maxZoom: 20 * 1000
         },
         yAxis: {
@@ -119,12 +119,12 @@ $(document).ready(function() {
     setTimeout(requestData, 120000);
 
     setInterval(function() {
-        var data = {};
-        data.action = "still-alive";
+        /*var data = {};
+        data.action = "still-alive";*/
         $.ajax({
-            url: "ajax.php",
-            type: "POST",
-            data: data,
+            url: "ajax/lastCommunication",
+            //type: "POST",
+            //data: data,
             cache: false,
             dataType: "json",
         }).done(function(data) {
@@ -133,25 +133,40 @@ $(document).ready(function() {
                 status = '<i class="fa fa-check success"></i>';
             else
                 status = '<i class="fa fa-exclamation-triangle error"></i>';
-            $("#still_alive").html(status).attr("title", "Last communication: " + data.last_answer);
+            $("#still_alive").html(status).attr("title", "Last communication: " + data.lastCommunication);
         });
     }, 30000);
 });
 
 function requestData() {
-    var data = {};
-    data.action = 'chartsData';
+    /*var data = {};
+    data.action = action;*/
     $.ajax({
-        url: 'ajax.php',
-        type: "POST",
-        data: data,
+        url: 'ajax/chartLiveData',
+        //type: "POST",
+        //data: data,
+        cache: false,
+        dataType: "json",
         success: function(point) {
-            if(temperatureChart.series[0].data[temperatureChart.series[0].data.length-1].x != point.temperatures[0]) {
+            console.debug(point);
+            if(point.roomTemperature.length > 0 &&
+                temperatureChart.series[0].data.length > 0 &&
+                temperatureChart.series[0].data[temperatureChart.series[0].data.length-1].x != point.roomTemperature[0]) {
                 var series = temperatureChart.series[0],
                     shift = series.data.length > 25; // shift if the series is longer than 20
 
                 // add the point
-                temperatureChart.series[0].addPoint(eval(point.temperatures), true, shift);
+                temperatureChart.series[0].addPoint(eval(point.roomTemperature), true, shift);
+            }
+
+            if(point.tankTemperature.length > 0 &&
+                temperatureChart.series[1].data.length > 0 &&
+                temperatureChart.series[1].data[temperatureChart.series[1].data.length-1].x != point.tankTemperature[0]) {
+                var series = temperatureChart.series[0],
+                    shift = series.data.length > 25; // shift if the series is longer than 20
+
+                // add the point
+                temperatureChart.series[0].addPoint(eval(point.tankTemperature), true, shift);
             }
 
             /*if(temperatureChart.series[1].data[temperatureChart.series[1].data.length-1].x != point.sunlights[0]) {
@@ -162,7 +177,9 @@ function requestData() {
              temperatureChart.series[1].addPoint(eval(point.sunlights), true, shift);
              }*/
 
-            if(sunlightChart.series[0].data[sunlightChart.series[0].data.length-1].x != point.sunlights[0]) {
+            if(point.sunlight.length > 0 &&
+                sunlightChart.series[0].data.length > 0 &&
+                sunlightChart.series[0].data[sunlightChart.series[0].data.length-1].x != point.sunlights[0]) {
                 var series = sunlightChart.series[0],
                     shift = series.data.length > 25; // shift if the series is longer than 20
 
@@ -171,7 +188,6 @@ function requestData() {
             }
 
             setTimeout(requestData, 120000);
-        },
-        cache: false
+        }
     });
 }

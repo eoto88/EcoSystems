@@ -150,7 +150,7 @@ Kohana::modules(array(
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-Route::set('ajax', 'ajax/action')
+Route::set('ajax', 'ajax/action(/<id>)')
     ->defaults(array(
         'controller' => 'ajax',
         'action'     => 'index',

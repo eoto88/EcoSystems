@@ -23,7 +23,9 @@ class Helper_Status {
         $icon = "fa-exclamation-triangle error";
         if(isset($last_communication)) {
             $title = "Last communication: ". $last_communication['last_communication'];
-            $icon = "fa-check success";
+            if($last_communication['still_alive']) {
+                $icon = "fa-check success";
+            }
         }
         return '<span id="still_alive" title="'. $title .'"><i class="fa '. $icon .'"></i></span>';
     }

@@ -49,8 +49,29 @@ class Controller_Welcome extends Controller_Template {
     }
 
     public function action_index() {
-        $view = View::factory( "index" )->render();
-        $this->template->content = $view;
+        $mHour = new Model_Hour();
+        $temparatureData = $mHour->getTemperatureData();
+        $roomTemperature = array();
+        $tankTemperature = array();
+        foreach($temparatureData as $temp) {
+            $datetime = strtotime($temp['datetime']. ' GMT') * 1000; //
+            $roomTemperature[] = array( $datetime, floatval($temp['room_temperature']) );
+            $tankTemperature[] = array( $datetime, floatval($temp['tank_temperature']) );
+        }
+        $mQuarterHour = new Model_QuarterHour();
+        $sunlightData = $mQuarterHour->getSunlightData();
+        $sunlight = array();
+        foreach($sunlightData as $sun) {
+            $datetime = strtotime($sun['datetime']. ' GMT') * 1000; //
+            $sunlight[] = array( $datetime, intval($sun['sunlight']) * 100 / 1024 );
+        }
+
+        $view = View::factory( "index" )->set(array(
+            'roomTemperatureData' => $roomTemperature,
+            'tankTemperatureData' => $tankTemperature,
+            'sunlightData' => $sunlight
+        ));
+        $this->template->content = $view->render();
     }
 
 } // End Welcome
