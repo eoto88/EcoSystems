@@ -21,7 +21,7 @@ $(document).ready(function() {
         yAxis: {
             minPadding: 0.5,
             maxPadding: 0.5,
-            minRange: 5,
+            minRange: 2,
             title: {
                 text: 'Value',
                 margin: 25
@@ -66,7 +66,7 @@ $(document).ready(function() {
             renderTo: 'sunlightChart',
             marginTop: 50,
             height: 400,
-            defaultSeriesType: 'spline',
+            defaultSeriesType: 'spline'
         },
         title: {
             text: 'Sunlight'
@@ -162,20 +162,12 @@ function requestData() {
             if(point.tankTemperature.length > 0 &&
                 temperatureChart.series[1].data.length > 0 &&
                 temperatureChart.series[1].data[temperatureChart.series[1].data.length-1].x != point.tankTemperature[0]) {
-                var series = temperatureChart.series[0],
+                var series = temperatureChart.series[1],
                     shift = series.data.length > 25; // shift if the series is longer than 20
 
                 // add the point
-                temperatureChart.series[0].addPoint(eval(point.tankTemperature), true, shift);
+                temperatureChart.series[1].addPoint(eval(point.tankTemperature), true, shift);
             }
-
-            /*if(temperatureChart.series[1].data[temperatureChart.series[1].data.length-1].x != point.sunlights[0]) {
-             var series = temperatureChart.series[1],
-             shift = series.data.length > 25; // shift if the series is longer than 20
-
-             // add the point
-             temperatureChart.series[1].addPoint(eval(point.sunlights), true, shift);
-             }*/
 
             if(point.sunlight.length > 0 &&
                 sunlightChart.series[0].data.length > 0 &&

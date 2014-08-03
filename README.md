@@ -3,7 +3,15 @@
 ## This project is in development and the code here is not complete yet!
 For more infos, come visit later or simply write me!
 
-## Configuration
+## Installation
+1. Create directory application/cache and it must be writable.
+2. Create directory application/logs and it must be writable.
+3. Import the database structure in MySQL
+4. Rename the file application/config/database.template.php to database.php and add your database configurations.
+5. Rename template.htaccess to .htaccess
+
+SALT
+
 Rename template.htaccess to .htaccess
 
 To configure the web application, you need to copy the application/config*.template.php to application/config/*.php

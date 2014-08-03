@@ -126,6 +126,12 @@ h1 {
 #sun_status .fa-moon-o {
     color: #D3D3D3;
 }
+#pump_status .pump-on {
+    color: #0066FF;
+}
+#pump_status .pump-off {
+    color: #D3D3D3;
+}
 .error {
     color: red;
 }

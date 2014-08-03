@@ -28,6 +28,7 @@
     <div id="header_right">
         <?php echo $communication_status; ?>
         <?php echo $sun_status; ?>
+        <?php echo $pump_status; ?>
     </div>
     <div class="clearfix"></div>
 </header>

@@ -156,7 +156,7 @@ Route::set('ajax', 'ajax/action(/<id>)')
         'action'     => 'index',
     ));
 Route::set('default', '(<controller>(/<action>(/<id>)))')
-	->defaults(array(
-		'controller' => 'welcome',
-		'action'     => 'index',
-	));
+    ->defaults(array(
+            'controller' => 'welcome',
+            'action'     => 'index',
+    ));

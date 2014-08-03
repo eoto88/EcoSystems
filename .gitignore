@@ -1,6 +1,8 @@
-.idea
+/.idea
 /.htaccess
-application/cache/*
-application/logs/*
-application/config/*
-!application/config/*.template.php
+/application/cache/*
+/application/logs/*
+/application/config/*
+!/application/config/*.template.php
+/bkp/
+/nbproject/

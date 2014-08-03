@@ -15,11 +15,6 @@ class Controller_Ajax extends Controller {
 
     public function action_index() {}
 
-    /*public function action_getTemperatureData() {
-        $mHour = new Model_Hour();
-        echo json_encode($mHour->getTemperatureData());
-    }*/
-
     public function action_chartLiveData() {
         $mHour = new Model_Hour();
         $tempData = $mHour->getLastTemperatureData();
@@ -38,7 +33,7 @@ class Controller_Ajax extends Controller {
 
     public function action_lastCommunication() {
         $mLive = new Model_Live();
-        $last_communication = $mLive->getLastCommunication();
+        $last_communication = $mLive->getLiveData();
         $status = "dead";
         if($last_communication['still_alive']) {
             $status = "still-alive";
@@ -47,5 +42,64 @@ class Controller_Ajax extends Controller {
             'status' => $status,
             'lastCommunication' => $last_communication['last_communication']
         ));
+    }
+    
+    public function action_postData() {
+        if( isset($_POST['action']) && isset($_POST['datetime']) ) {
+            $datetime = filter_input(INPUT_POST, 'datetime', FILTER_SANITIZE_SPECIAL_CHARS);
+            switch($_POST['action']) {
+                case 'still-alive':
+                    // Do nothing here!
+                    break;
+                case 'temperature':
+                    if( isset($_POST['roomTemperature']) && isset($_POST['tankTemperature']) ) {
+                        $mHour = new Model_Hour();
+                        //$id_day = $mDay->getCurrentDayId();
+                        
+                        $roomTemperature = filter_input(INPUT_POST, 'roomTemperature', FILTER_SANITIZE_SPECIAL_CHARS);
+                        $tankTemperature = filter_input(INPUT_POST, 'tankTemperature', FILTER_SANITIZE_SPECIAL_CHARS);
+                        $mHour->insertHour($datetime, $roomTemperature, $tankTemperature);                 
+                    } else {
+                        throw new HTTP_Exception_403;
+                    }
+                    break;
+                case 'sunlight':
+                    if( isset($_POST['sunlight']) ) {
+                        $mQuarterHour = new Model_QuarterHour();
+                        //$id_day = $mDay->getCurrentDayId();
+                        
+                        $sunlight = filter_input(INPUT_POST, 'sunlight', FILTER_SANITIZE_SPECIAL_CHARS);
+                        $mQuarterHour->insertQuarterHour($datetime, $sunlight);
+                    } else {
+                        throw new HTTP_Exception_403;
+                    }
+                    break;
+                case 'pumpStatus':
+                    if( isset($_POST['pumpStatus']) ) {
+                        $mLive = new Model_Live();
+                        
+                        $pumpStatus = filter_input(INPUT_POST, 'pumpStatus', FILTER_SANITIZE_SPECIAL_CHARS);
+                        $mLive->updatePumpStatus($pumpStatus);
+                    } else {
+                        throw new HTTP_Exception_403;
+                    }
+                    break;
+                case 'sunrise':
+                    $mDay = new Model_Day();
+                    
+                    echo "";
+                    break;
+                case 'sunset':
+                    break;
+            }
+            $this->stillAlive();
+        } else {
+            throw new HTTP_Exception_403;
+        }
+    }
+    
+    private function stillAlive() {
+        $query = DB::query(Database::UPDATE, "UPDATE live SET last_communication = NOW() WHERE id_live = 1");
+        $query->execute();
     }
 }

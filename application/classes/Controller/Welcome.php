@@ -21,8 +21,9 @@ class Controller_Welcome extends Controller_Template {
         $this->template->sun_status = $hStatus->getSunStatus($day);
 
         $mLive = new Model_Live();
-        $last_communication = $mLive->getLastCommunication();
-        $this->template->communication_status = $hStatus->getCommunicationStatus($last_communication);
+        $liveData = $mLive->getLiveData();
+        $this->template->communication_status = $hStatus->getCommunicationStatus($liveData);
+        $this->template->pump_status = $hStatus->getPumpStatus($liveData['pump_on']);
     }
 
     public function after() {
@@ -65,6 +66,9 @@ class Controller_Welcome extends Controller_Template {
             $datetime = strtotime($sun['datetime']. ' GMT') * 1000; //
             $sunlight[] = array( $datetime, intval($sun['sunlight']) * 100 / 1024 );
         }
+        
+        /*$mDay = new Model_Day();
+        var_dump($mDay->verifyCurrentDay());*/
 
         $view = View::factory( "index" )->set(array(
             'roomTemperatureData' => $roomTemperature,

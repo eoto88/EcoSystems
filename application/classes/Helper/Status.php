@@ -18,15 +18,21 @@ class Helper_Status {
         return '<span id="sun_status" title="'. $title .'"><i class="fa '. $icon .'"></i></span>';
     }
 
-    public function getCommunicationStatus($last_communication) {
+    public function getCommunicationStatus($liveData) {
         $title = "";
         $icon = "fa-exclamation-triangle error";
-        if(isset($last_communication)) {
-            $title = "Last communication: ". $last_communication['last_communication'];
-            if($last_communication['still_alive']) {
+        if(isset($liveData)) {
+            $title = "Last communication: ". $liveData['last_communication'];
+            if($liveData['still_alive']) {
                 $icon = "fa-check success";
             }
         }
         return '<span id="still_alive" title="'. $title .'"><i class="fa '. $icon .'"></i></span>';
+    }
+    
+    public function getPumpStatus($pumpStatus) {
+        $title = $pumpStatus ? "Pump is on" : "Pump is off";
+        $class = $pumpStatus ? "pump-on" : "pump-off";
+        return '<span id="pump_status" title="'. $title .'"><i class="fa fa-tint '. $class .'"></i></span>';
     }
 }

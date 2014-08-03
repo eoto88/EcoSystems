@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `day` (
 `id_day` int(11) NOT NULL,
   `date` date NOT NULL,
-  `sunrise` datetime NOT NULL,
+  `sunrise` datetime DEFAULT NULL,
   `sunset` datetime DEFAULT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
