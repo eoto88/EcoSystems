@@ -122,20 +122,25 @@ $(document).ready(function() {
         /*var data = {};
         data.action = "still-alive";*/
         $.ajax({
-            url: "ajax/lastCommunication",
+            url: "ajax/getLiveData",
             //type: "POST",
             //data: data,
             cache: false,
             dataType: "json",
         }).done(function(data) {
             var status;
-            if(data.status == "still-alive")
+            if(data.stillAliveStatus == "still-alive")
                 status = '<i class="fa fa-check success"></i>';
             else
                 status = '<i class="fa fa-exclamation-triangle error"></i>';
             $("#still_alive").html(status).attr("title", "Last communication: " + data.lastCommunication);
+            
+            if(data.pumpStatus == "on")
+                $("#pump_status").attr('title', 'Pump is on').find('.fa-tint').removeClass('pump-off').addClass('pump-on');
+            else
+                $("#pump_status").attr('title', 'Pump is off').find('.fa-tint').removeClass('pump-on').addClass('pump-off');
         });
-    }, 30000);
+    }, 15000);
 });
 
 function requestData() {
@@ -171,12 +176,12 @@ function requestData() {
 
             if(point.sunlight.length > 0 &&
                 sunlightChart.series[0].data.length > 0 &&
-                sunlightChart.series[0].data[sunlightChart.series[0].data.length-1].x != point.sunlights[0]) {
+                sunlightChart.series[0].data[sunlightChart.series[0].data.length-1].x != point.sunlight[0]) {
                 var series = sunlightChart.series[0],
                     shift = series.data.length > 25; // shift if the series is longer than 20
 
                 // add the point
-                sunlightChart.series[0].addPoint(eval(point.sunlights), true, shift);
+                sunlightChart.series[0].addPoint(eval(point.sunlight), true, shift);
             }
 
             setTimeout(requestData, 120000);

@@ -3,13 +3,13 @@
 class Model_Day {
     
     public function getCurrentDayId() {
+        $this->insertIfNoCurrentDay();
         $cd = $this->getCurrentDay();
         return $cd['id_day'];
     }
 
     public function getCurrentDay() {
-        //$query = DB::query(Database::SELECT, "SELECT id_day, date, sunrise, sunset FROM day WHERE date = DATE(NOW())");
-        $query = DB::select()->from('day')->where('date', '=', 'DATE(NOW())');
+        $query = DB::query(Database::SELECT, "SELECT * FROM day WHERE `date` = DATE(NOW())");
         return $query->execute()->current();
     }
 
@@ -19,21 +19,22 @@ class Model_Day {
         return $query->execute()->current();
     }
     
-    public function verifyCurrentDay() {
+    private function verifyCurrentDay() {
         $query = DB::select( array(DB::expr('COUNT(`id_day`)'), 'current_day') )->from('day')->where('date', '=', 'DATE(NOW())');
         $result = $query->execute()->current();
-        return $result['current_day'] > 0;
+        return intval($result['current_day']) != 0;
     }
     
-    private function insertCurrentDay() {
-        if( ! verifyCurrentDay() ) {
-            $query = DB::query(Database::INSERT, "INSERT INTO day ('date') VALUES( DATE(NOW()) )");
+    private function insertIfNoCurrentDay() {
+        if( ! $this->verifyCurrentDay() ) {
+            $query = DB::query(Database::INSERT, "INSERT INTO day (`date`) VALUES( DATE(NOW()) )");
             $query->execute();
         }
     }
     
-    public function updateSunrise() {
-        $query = DB::select()->from('day')->where('date', '=', 'DATE(NOW())');
-
+    public function updateSunrise($datetime) {
+        $this->insertIfNoCurrentDay();
+        $query = DB::update('day')->set(array('sunrise' => date("Y-m-d H:i:s", $datetime)))->where('date', '=', date("Y-m-d", $datetime));
+        $query->execute();
     }
 }

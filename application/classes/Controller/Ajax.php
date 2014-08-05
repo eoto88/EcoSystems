@@ -27,20 +27,25 @@ class Controller_Ajax extends Controller {
         echo json_encode(array(
             'roomTemperature' => array( $tempDatetime, floatval($tempData['room_temperature']) ),
             'tankTemperature' => array( $tempDatetime, floatval($tempData['tank_temperature']) ),
-            'sunlight' => array($sunDatetime, $sunData['sunlight'])
+            'sunlight' => array($sunDatetime, intval($sunData['sunlight']) * 100 / 1024)
         ));
     }
 
-    public function action_lastCommunication() {
+    public function action_getLiveData() {
         $mLive = new Model_Live();
-        $last_communication = $mLive->getLiveData();
-        $status = "dead";
-        if($last_communication['still_alive']) {
-            $status = "still-alive";
+        $liveData = $mLive->getLiveData();
+        $stillAliveStatus = "dead";
+        if($liveData['still_alive']) {
+            $stillAliveStatus = "still-alive";
+        }
+        $pumpStatus = "off";
+        if($liveData['pump_on']) {
+            $pumpStatus = "on";
         }
         echo json_encode(array(
-            'status' => $status,
-            'lastCommunication' => $last_communication['last_communication']
+            'stillAliveStatus' => $stillAliveStatus,
+            'lastCommunication' => $liveData['last_communication'],
+            'pumpStatus' => $pumpStatus
         ));
     }
     
@@ -86,8 +91,8 @@ class Controller_Ajax extends Controller {
                     break;
                 case 'sunrise':
                     $mDay = new Model_Day();
+                    $mDay->updateSunrise($datetime);
                     
-                    echo "";
                     break;
                 case 'sunset':
                     break;
