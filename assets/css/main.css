@@ -121,28 +121,39 @@ h1 {
 
 }
 #sun_status .fa-sun-o {
-    color: #FFFF00;
+    color: #FCD432;
 }
 #sun_status .fa-moon-o {
     color: #D3D3D3;
 }
 #pump_status .pump-on {
-    color: #0066FF;
+    color: #80C5DD;
 }
-#pump_status .pump-off {
-    color: #D3D3D3;
+#light_status .light-on {
+    color: #FCD432;
+}
+#fan_status .fan-on {
+    color: #758918;
+}
+#heater_status .heater-on {
+    color: #F38630;
+}
+#pump_status .pump-off,
+#light_status .light-off,
+#fan_status .fan-off {
+    color: #EBE8E9;
 }
 .error {
-    color: red;
+    color: #DD5350;
 }
 .success {
-    color: #7b8841;
+    color: #758918;
 }
 
 #temperatureChart,
 #sunlightChart {
     min-width: 310px;
-    height: 400px;
+    height: 320px;
     margin: 0 30px;
     padding: 0 15px;
 }

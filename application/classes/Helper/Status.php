@@ -35,4 +35,16 @@ class Helper_Status {
         $class = $pumpStatus ? "pump-on" : "pump-off";
         return '<span id="pump_status" title="'. $title .'"><i class="fa fa-tint '. $class .'"></i></span>';
     }
+    
+    public function getLightStatus($lightStatus) {
+        $title = $lightStatus ? "Light is on" : "Light is off";
+        $class = $lightStatus ? "light-on" : "light-off";
+        return '<span id="light_status" title="'. $title .'"><i class="fa fa-lightbulb-o '. $class .'"></i></span>';
+    }
+    
+    public function getFanStatus($fanStatus) {        
+        $title = $fanStatus ? "Fan is on" : "Fan is off";
+        $class = $fanStatus ? "fan-on" : "fan-off";
+        return '<span id="fan_status" title="'. $title .'"><i class="fa fa-refresh '. $class .'"></i></span>';
+    }
 }

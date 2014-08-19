@@ -9,6 +9,7 @@
     <title><?php echo $title; ?></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
 
     <link rel="shortcut icon" href="favicon.ico" />
 
@@ -29,6 +30,8 @@
         <?php echo $communication_status; ?>
         <?php echo $sun_status; ?>
         <?php echo $pump_status; ?>
+        <?php echo $light_status; ?>
+        <?php echo $fan_status; ?>
     </div>
     <div class="clearfix"></div>
 </header>
