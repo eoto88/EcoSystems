@@ -34,7 +34,7 @@ class Model_Day {
     
     public function updateSunrise($datetime) {
         $this->insertIfNoCurrentDay();
-        $query = DB::update('day')->set(array('sunrise' => date("Y-m-d H:i:s", $datetime)))->where('date', '=', date("Y-m-d", $datetime));
+        $query = DB::update('day')->set(array('sunrise' => gmdate("Y-m-d H:i:s", $datetime)))->where('date', '=', gmdate("Y-m-d", $datetime));
         $query->execute();
     }
 }
