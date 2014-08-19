@@ -7,7 +7,7 @@ $(document).ready(function() {
         chart: {
             renderTo: 'temperatureChart',
             marginTop: 50,
-            height: 400,
+            height: 320,
             defaultSeriesType: 'spline',
         },
         title: {
@@ -21,7 +21,7 @@ $(document).ready(function() {
         yAxis: {
             minPadding: 0.5,
             maxPadding: 0.5,
-            minRange: 2,
+            minRange: 0.5,
             title: {
                 text: 'Value',
                 margin: 25
@@ -65,7 +65,7 @@ $(document).ready(function() {
         chart: {
             renderTo: 'sunlightChart',
             marginTop: 50,
-            height: 400,
+            height: 320,
             defaultSeriesType: 'spline'
         },
         title: {
