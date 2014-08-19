@@ -24,6 +24,8 @@ class Controller_Welcome extends Controller_Template {
         $liveData = $mLive->getLiveData();
         $this->template->communication_status = $hStatus->getCommunicationStatus($liveData);
         $this->template->pump_status = $hStatus->getPumpStatus($liveData['pump_on']);
+        $this->template->light_status = $hStatus->getLightStatus($liveData['light_on']);
+        $this->template->fan_status = $hStatus->getFanStatus($liveData['fan_on']);
     }
 
     public function after() {
