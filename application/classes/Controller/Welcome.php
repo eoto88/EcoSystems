@@ -6,6 +6,15 @@ class Controller_Welcome extends Controller_Template {
 
     public function before() {
         parent::before();
+        
+        if ( ! Auth::instance()->logged_in()) {
+            HTTP::redirect(URL::base(TRUE, TRUE) . 'login');
+        }
+        
+        $user = Auth::instance()->get_user();
+        
+        //var_dump($user);
+        
         $this->template->title = "Garduinoponics";
 
         $hStatus = new Helper_Status();
@@ -26,6 +35,7 @@ class Controller_Welcome extends Controller_Template {
         $this->template->pump_status = $hStatus->getPumpStatus($liveData['pump_on']);
         $this->template->light_status = $hStatus->getLightStatus($liveData['light_on']);
         $this->template->fan_status = $hStatus->getFanStatus($liveData['fan_on']);
+        $this->template->heater_status = $hStatus->getHeaterStatus($liveData['heater_on']);
     }
 
     public function after() {
