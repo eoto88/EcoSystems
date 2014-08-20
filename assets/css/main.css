@@ -114,6 +114,10 @@ body {
     font-size: 28px;
     padding: 0 6px;
 }
+#logout {
+    float: right;
+    color: #c6b38b;
+}
 h1 {
     color: #c6b38b;
 }
