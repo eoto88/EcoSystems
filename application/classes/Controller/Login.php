@@ -1,0 +1,58 @@
+<?php
+
+defined('SYSPATH') or die('No direct script access.');
+
+class Controller_Login extends Controller_Template {
+
+    public $template = 'login'; // Default template
+
+    public function before() {
+        parent::before();
+
+        $this->template->title = "Login Garduinoponics";
+    }
+
+    public function after() {
+        if ($this->auto_render) {
+            $styles = array(
+                "assets/css/login.css" => "screen",
+                "assets/css/normalize.css" => "screen"
+            );
+            $scripts = array(
+                "assets/js/plugins.js",
+                "assets/js/main.js",
+                "http://code.highcharts.com/modules/exporting.js",
+                "http://code.highcharts.com/highcharts.js"
+            );
+
+            $this->template->styles = array_reverse(
+                    $styles // array_merge( $this->template->styles, $styles )
+            );
+            $this->template->scripts = array_reverse(
+                    $scripts // array_merge( $this->template->scripts, $scripts )
+            );
+        }
+        parent::after();
+    }
+
+    public function action_index() {
+        $post = $this->request->post();
+        if ($post) {
+            $success = Auth::instance()->login($post['email'], $post['password']);
+
+            if ($success) {
+                HTTP::redirect(URL::base(TRUE, TRUE));
+            } else {
+                // Login failed, send back to form with error message
+            }
+        }
+    }
+
+    public function action_logout() {
+        Auth::instance()->logout();
+        HTTP::redirect(URL::base(TRUE, TRUE) . 'login');
+    }
+
+}
+
+// End Login
