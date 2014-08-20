@@ -39,7 +39,7 @@ DeviceAddress roomTemperatureSensor = { 0x28, 0x5B, 0x56, 0x0A, 0x06, 0x00, 0x00
 const int lightRelay = 2;
 const int pumpRelay = 3;
 const int fanRelay = 4;
-const int heaterRelay = 5
+const int heaterRelay = 5;
 const int RELAY_ON = LOW;
 const int RELAY_OFF = HIGH;
 
@@ -47,10 +47,12 @@ const int RELAY_OFF = HIGH;
 unsigned long lastPostHourMillis = 0;
 unsigned long lastPostQuarterHourMillis = 0;
 unsigned long lastPostStillAliveMillis = 0;
+unsigned long lastPostTwoMinutesMillis = 0;
 boolean sunriseSent = false;
 boolean sunsetSent = false;
 const long hourMillis = 3600000; /* 3600000 / 60000 (For testing) */
 const long quarterHourMillis = 900000; /* 900000 / 15000 (For testing) */
+const long twoMinutesMillis = 120000; /* 120000 / 60000 (For testing) */
 
 void setup() {
   // Open serial communications and wait for port to open:
@@ -81,19 +83,30 @@ void loop() {
     lastPostStillAliveMillis = currentMillis;
   }
   
-  if (getTemperature(roomTemperatureSensor) > 22.0) {
-    digitalWrite(fanRelay, RELAY_ON);
-  } else {
-    digitalWrite(fanRelay, RELAY_OFF);
+  if ( (currentMillis - lastPostTwoMinutesMillis) >= twoMinutesMillis ) {
+    float roomTemp = getTemperature(roomTemperatureSensor);
+    boolean fanValue = ( roomTemp > 22.0 );
+    digitalWrite(fanRelay, fanValue);
+    String fanStatus = fanValue ? "0" : "1";
+    
+    float tankTemp = getTemperature(tankTemperatureSensor);
+    boolean heaterValue = ( tankTemp < 20.0 );
+    digitalWrite(heaterRelay, heaterValue);
+    String heaterStatus = heaterValue ? "0" : "1";
+    
+    postData("fanStatus=" + fanStatus + "&heaterStatus=" + heaterStatus, "heaterAndFanStatus");
+    
+    lastPostTwoMinutesMillis = currentMillis;
+    lastPostStillAliveMillis = currentMillis;
   }
   
-  if( ! sunriseSent && lightSensorValue > 400 /* && getHour() < 12*/) { // Day
+  if( ! sunriseSent && lightSensorValue > 400 && getHour() < 12) { // Day
     postData("", "sunrise");
     sunriseSent = true;
     sunsetSent = false;
     digitalWrite(lightRelay, RELAY_ON);
     digitalWrite(pumpRelay, RELAY_ON);
-  } else if(!sunsetSent && lightSensorValue < 400 /* && getHour() > 12*/) { // Night
+  } else if(!sunsetSent && lightSensorValue < 400 && getHour() > 12) { // Night
     postData("", "sunset");
     sunsetSent = true;
     sunriseSent = false;
