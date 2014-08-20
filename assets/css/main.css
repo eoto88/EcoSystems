@@ -140,7 +140,8 @@ h1 {
 }
 #pump_status .pump-off,
 #light_status .light-off,
-#fan_status .fan-off {
+#fan_status .fan-off,
+#heater_status .heater-off{
     color: #EBE8E9;
 }
 .error {

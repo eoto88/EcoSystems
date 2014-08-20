@@ -47,4 +47,10 @@ class Helper_Status {
         $class = $fanStatus ? "fan-on" : "fan-off";
         return '<span id="fan_status" title="'. $title .'"><i class="fa fa-refresh '. $class .'"></i></span>';
     }
+    
+    public function getHeaterStatus($heaterStatus) {
+        $title = $heaterStatus ? "Heater is on" : "Heater is off";
+        $class = $heaterStatus ? "heater-on" : "heater-off";
+        return '<span id="heater_status" title="'. $title .'"><i class="fa fa-bolt '. $class .'"></i></span>';
+    }
 }

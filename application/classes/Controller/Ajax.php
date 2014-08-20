@@ -56,6 +56,18 @@ class Controller_Ajax extends Controller {
                 case 'still-alive':
                     // Do nothing here!
                     break;
+                case 'heaterAndFanStatus':
+                    if( isset($_POST['fanStatus']) && isset($_POST['heaterStatus']) ) {
+                        $mLive= new Model_Live();
+                        //$id_day = $mDay->getCurrentDayId();
+                        
+                        $fanStatus = filter_input(INPUT_POST, 'fanStatus', FILTER_SANITIZE_SPECIAL_CHARS);
+                        $heaterStatus = filter_input(INPUT_POST, 'heaterStatus', FILTER_SANITIZE_SPECIAL_CHARS);
+                        $mLive->updateFanAndHeaterStatus($fanStatus, $heaterStatus);                 
+                    } else {
+                        throw new HTTP_Exception_403;
+                    }
+                    break;
                 case 'temperature':
                     if( isset($_POST['roomTemperature']) && isset($_POST['tankTemperature']) ) {
                         $mHour = new Model_Hour();

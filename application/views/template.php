@@ -32,6 +32,8 @@
         <?php echo $pump_status; ?>
         <?php echo $light_status; ?>
         <?php echo $fan_status; ?>
+        <?php echo $heater_status; ?>
+        <a href="<?php echo URL::base(TRUE, TRUE) .'logout'; ?>"><i class="fa fa-sign-out"></i> Logout</a>
     </div>
     <div class="clearfix"></div>
 </header>

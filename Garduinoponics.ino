@@ -3,13 +3,6 @@
  Created 5 July 2014
  by Eric Turcotte
  
- - Turn lights, pump and the fan on and off
- - Send datas to a web server or save datas on SD card while the server can't answer (Temperature, sunrise, sunset, lights on/off, pump on/off, fan on/off and how many times the fish been fed)
- - Count every post as a "still alive" message
- - Control a motor to change the light position
- - Fish feeder
- - Webcam streaming (Raspberry Pi)
- 
  */
 
 #include <Ethernet.h>
@@ -22,7 +15,7 @@
 
 tmElements_t tm;
 
-boolean DEBUG = false;
+boolean DEBUG = true;
 
 /************ ETHERNET ************/
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
@@ -45,6 +38,8 @@ DeviceAddress roomTemperatureSensor = { 0x28, 0x5B, 0x56, 0x0A, 0x06, 0x00, 0x00
 /************ RELAYS ************/
 const int lightRelay = 2;
 const int pumpRelay = 3;
+const int fanRelay = 4;
+const int heaterRelay = 5
 const int RELAY_ON = LOW;
 const int RELAY_OFF = HIGH;
 
@@ -80,10 +75,16 @@ void loop() {
   int lightSensorValue = analogRead(lightSensor);
     
   if( (currentMillis - lastPostHourMillis) >= hourMillis ) {
-    postData("roomTemperature=" + getTemperature(roomTemperatureSensor) + "&tankTemperature=" + getTemperature(tankTemperatureSensor), "temperature");
+    postData("roomTemperature=" + strTemperature(roomTemperatureSensor) + "&tankTemperature=" + strTemperature(tankTemperatureSensor), "temperature");
     
     lastPostHourMillis = currentMillis;
     lastPostStillAliveMillis = currentMillis;
+  }
+  
+  if (getTemperature(roomTemperatureSensor) > 22.0) {
+    digitalWrite(fanRelay, RELAY_ON);
+  } else {
+    digitalWrite(fanRelay, RELAY_OFF);
   }
   
   if( ! sunriseSent && lightSensorValue > 400 /* && getHour() < 12*/) { // Day
@@ -120,10 +121,13 @@ void loop() {
 
 }
 
-String getTemperature(DeviceAddress deviceAddress) {
+float getTemperature(DeviceAddress deviceAddress) {
     sensors.requestTemperatures();
-    float currentTemp;
-    currentTemp = sensors.getTempC(deviceAddress);
+    return sensors.getTempC(deviceAddress);
+}
+
+String strTemperature(DeviceAddress deviceAddress) {
+    float currentTemp = getTemperature(deviceAddress);
     char buffer[10];
     return dtostrf(currentTemp, 4, 1, buffer);
 }
