@@ -84,13 +84,11 @@ void loop() {
   }
   
   if ( (currentMillis - lastPostTwoMinutesMillis) >= twoMinutesMillis ) {
-    float roomTemp = getTemperature(roomTemperatureSensor);
-    boolean fanValue = ( roomTemp > 22.0 );
+    boolean fanValue = !( getTemperature(roomTemperatureSensor) > 22.0 );
     digitalWrite(fanRelay, fanValue);
     String fanStatus = fanValue ? "0" : "1";
     
-    float tankTemp = getTemperature(tankTemperatureSensor);
-    boolean heaterValue = ( tankTemp < 20.0 );
+    boolean heaterValue = !( getTemperature(tankTemperatureSensor) < 20.0 );
     digitalWrite(heaterRelay, heaterValue);
     String heaterStatus = heaterValue ? "0" : "1";
     
