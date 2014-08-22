@@ -32,10 +32,10 @@ class Controller_Welcome extends Controller_Template {
         $mLive = new Model_Live();
         $liveData = $mLive->getLiveData();
         $this->template->communication_status = $hStatus->getCommunicationStatus($liveData);
-        $this->template->pump_status = $hStatus->getPumpStatus($liveData['pump_on']);
-        $this->template->light_status = $hStatus->getLightStatus($liveData['light_on']);
-        $this->template->fan_status = $hStatus->getFanStatus($liveData['fan_on']);
-        $this->template->heater_status = $hStatus->getHeaterStatus($liveData['heater_on']);
+        $this->template->pump_status = $hStatus->getStatus('pump', 'Pump', $liveData['pump_on']);
+        $this->template->light_status = $hStatus->getStatus('light', 'Light', $liveData['light_on']);
+        $this->template->fan_status = $hStatus->getStatus('fan', 'Fan', $liveData['fan_on']);
+        $this->template->heater_status = $hStatus->getStatus('heater', 'Heater', $liveData['heater_on']);
     }
 
     public function after() {
