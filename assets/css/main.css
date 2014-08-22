@@ -124,6 +124,9 @@ h1 {
 #still_alive {
 
 }
+.status-icon {
+    color: #EBE8E9;
+}
 #sun_status .fa-sun-o {
     color: #FCD432;
 }
@@ -141,12 +144,6 @@ h1 {
 }
 #heater_status .heater-on {
     color: #F38630;
-}
-#pump_status .pump-off,
-#light_status .light-off,
-#fan_status .fan-off,
-#heater_status .heater-off{
-    color: #EBE8E9;
 }
 .error {
     color: #DD5350;

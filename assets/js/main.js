@@ -19,8 +19,8 @@ $(document).ready(function() {
             maxZoom: 20 * 1000
         },
         yAxis: {
-            minPadding: 0.5,
-            maxPadding: 0.5,
+            minPadding: 0.2,
+            maxPadding: 0.2,
             minRange: 0.5,
             title: {
                 text: 'Value',
@@ -28,7 +28,7 @@ $(document).ready(function() {
             },
             plotBands: [{ // Cold
                 from: 0,
-                to: 17,
+                to: 18,
                 color: 'rgba(68, 170, 213, 0.1)',
                 label: {
                     text: 'Cold',
@@ -135,13 +135,22 @@ $(document).ready(function() {
                 status = '<i class="fa fa-exclamation-triangle error"></i>';
             $("#still_alive").html(status).attr("title", "Last communication: " + data.lastCommunication);
             
-            if(data.pumpStatus == "on")
-                $("#pump_status").attr('title', 'Pump is on').find('.fa-tint').removeClass('pump-off').addClass('pump-on');
-            else
-                $("#pump_status").attr('title', 'Pump is off').find('.fa-tint').removeClass('pump-on').addClass('pump-off');
+            changeStatus('pump', 'Pump', data.pumpStatus);
+            changeStatus('light', 'Light', data.lightStatus);
+            changeStatus('fan', 'Fan', data.fanStatus);
+            changeStatus('heater', 'Heater', data.heaterStatus);
         });
     }, 15000);
 });
+
+function changeStatus(relayId, relayName, status) {
+    $("#"+ relayId +"_status").attr('title', relayName +' is '+ status);
+    if(status === "on") {
+        $("#"+ relayId +"_status").find('.status-icon').addClass(relayId +'-on');
+    } else {
+        $("#"+ relayId +"_status").find('.status-icon').removeClass(relayId +'-on');
+    }
+}
 
 function requestData() {
     /*var data = {};
@@ -158,7 +167,7 @@ function requestData() {
                 temperatureChart.series[0].data.length > 0 &&
                 temperatureChart.series[0].data[temperatureChart.series[0].data.length-1].x != point.roomTemperature[0]) {
                 var series = temperatureChart.series[0],
-                    shift = series.data.length > 25; // shift if the series is longer than 20
+                    shift = series.data.length > 40;
 
                 // add the point
                 temperatureChart.series[0].addPoint(eval(point.roomTemperature), true, shift);
@@ -168,7 +177,7 @@ function requestData() {
                 temperatureChart.series[1].data.length > 0 &&
                 temperatureChart.series[1].data[temperatureChart.series[1].data.length-1].x != point.tankTemperature[0]) {
                 var series = temperatureChart.series[1],
-                    shift = series.data.length > 25; // shift if the series is longer than 20
+                    shift = series.data.length > 40;
 
                 // add the point
                 temperatureChart.series[1].addPoint(eval(point.tankTemperature), true, shift);
@@ -178,7 +187,7 @@ function requestData() {
                 sunlightChart.series[0].data.length > 0 &&
                 sunlightChart.series[0].data[sunlightChart.series[0].data.length-1].x != point.sunlight[0]) {
                 var series = sunlightChart.series[0],
-                    shift = series.data.length > 25; // shift if the series is longer than 20
+                    shift = series.data.length > 80;
 
                 // add the point
                 sunlightChart.series[0].addPoint(eval(point.sunlight), true, shift);
