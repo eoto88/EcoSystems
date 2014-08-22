@@ -27,30 +27,50 @@ class Helper_Status {
                 $icon = "fa-check success";
             }
         }
-        return '<span id="still_alive" title="'. $title .'"><i class="fa '. $icon .'"></i></span>';
+        return '<span id="still_alive" title="'. $title .'"><i class="status-icon fa '. $icon .'"></i></span>';
     }
     
-    public function getPumpStatus($pumpStatus) {
+    /*public function getPumpStatus($pumpStatus) {
         $title = $pumpStatus ? "Pump is on" : "Pump is off";
         $class = $pumpStatus ? "pump-on" : "pump-off";
-        return '<span id="pump_status" title="'. $title .'"><i class="fa fa-tint '. $class .'"></i></span>';
+        return '<span id="pump_status" title="'. $title .'"><i class="status-icon fa fa-tint '. $class .'"></i></span>';
     }
     
     public function getLightStatus($lightStatus) {
         $title = $lightStatus ? "Light is on" : "Light is off";
         $class = $lightStatus ? "light-on" : "light-off";
-        return '<span id="light_status" title="'. $title .'"><i class="fa fa-lightbulb-o '. $class .'"></i></span>';
+        return '<span id="light_status" title="'. $title .'"><i class="status-icon fa fa-lightbulb-o '. $class .'"></i></span>';
     }
     
     public function getFanStatus($fanStatus) {        
         $title = $fanStatus ? "Fan is on" : "Fan is off";
         $class = $fanStatus ? "fan-on" : "fan-off";
-        return '<span id="fan_status" title="'. $title .'"><i class="fa fa-refresh '. $class .'"></i></span>';
+        return '<span id="fan_status" title="'. $title .'"><i class="status-icon fa fa-refresh '. $class .'"></i></span>';
     }
     
     public function getHeaterStatus($heaterStatus) {
         $title = $heaterStatus ? "Heater is on" : "Heater is off";
         $class = $heaterStatus ? "heater-on" : "heater-off";
-        return '<span id="heater_status" title="'. $title .'"><i class="fa fa-bolt '. $class .'"></i></span>';
+        return '<span id="heater_status" title="'. $title .'"><i class="status-icon fa fa-bolt '. $class .'"></i></span>';
+    }*/
+    
+    public function getStatus($relayId, $relayName, $status) {
+        switch ($relayId) {
+            case 'pump':
+                $icon = 'fa-tint';
+                break;
+            case 'light':
+                $icon = 'fa-lightbulb-o';
+                break;
+            case 'fan':
+                $icon = 'fa-refresh';
+                break;
+            case 'heater':
+                $icon = 'fa-bolt';
+                break;
+        }
+        $title = $status ? $relayName ." is on" : $relayName ." is off";
+        $class = $status ? $relayId ."-on" : "";
+        return '<span id="'. $relayId .'_status" title="'. $title .'"><i class="status-icon fa '. $icon .' '. $class .'"></i></span>';
     }
 }
