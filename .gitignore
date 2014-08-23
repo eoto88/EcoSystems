@@ -6,3 +6,4 @@
 !/application/config/*.template.php
 /bkp/
 /nbproject/
+copyForTesting.sh
