@@ -10,13 +10,27 @@ class Task_Cron extends Minion_Task {
             ->rule('bar', 'numeric'); // This param should be numeric
     }*/
     
-    private function checkToDo() {
-        $mToDo = new Model_ToDo();
-        $toDos = $mToDo->getToDo();
+    private function checkTodos() {
+        $mToDo = new Model_Todo();
+        $toDos = $mToDo->checkTodos();
+        $message = "";
         foreach($toDos as $toDo) {
-            error_log(print_r($toDo, true));
+            $message .= " - ". $toDo['title'];
         }
-        mail('when.the.music.pla@gmail.com', 'Graduinoponics Cron Job', 'Graduinoponics Cron Job');
+        if($message) {
+            $config = Kohana::$config->load('app');
+            $message = array(
+                'subject' => 'Graduinoponics - To Do',
+                'body'    => $message,
+                'from'    => array($config['sender_email'] => 'Garduinoponics'),
+                'to'      => $config['admin_email']
+            );
+            $code = Email::send('default', $message['subject'], $message['body'], $message['from'], $message['to']);
+            if( ! $code ) {
+                $mLog = new Model_Log();
+                $mLog->log("error", "Can't send tasks list.");
+            }
+        }
     }
     
     private function backupLastDays() {
@@ -36,6 +50,6 @@ class Task_Cron extends Minion_Task {
      */
     protected function _execute(array $params) {
         $this->backupLastDays();
-        $this->checkToDo();
+        $this->checkTodos();
     }
 }

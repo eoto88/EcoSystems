@@ -15,10 +15,6 @@ class Controller_Ajax extends Controller {
         parent::after();
     }
 
-    public function action_index() {
-        
-    }
-
     public function action_chartLiveData() {
         $mHour = new Model_Hour();
         $tempData = $mHour->getLastTemperatureData();
@@ -66,6 +62,13 @@ class Controller_Ajax extends Controller {
             'fanStatus' => $fanStatus,
             'heaterStatus' => $heaterStatus
         ));
+    }
+    
+    public function action_updateToDo() {
+        $id = $this->request->param('id');
+        $mToDo = new Model_ToDo();
+        $mToDo->updateTodo($id);
+        echo json_encode(array('id' => $id));
     }
 
     public function action_postData() {

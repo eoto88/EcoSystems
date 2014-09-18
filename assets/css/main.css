@@ -145,6 +145,60 @@ h1 {
 #heater_status .heater-on {
     color: #F38630;
 }
+#tasks_wrapper {
+    position: relative;
+    display: inline-block;
+    width: 220px;
+    
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+#tasks_wrapper:hover {
+    background: #cfb590;
+}
+#tasks_wrapper span {
+    display: inline-block;
+    color: #c6b38b;
+    padding: 0 40px;
+}
+#tasks_wrapper:hover span {
+    color: #564334;
+}
+#tasks_wrapper > #tasks_list {
+    display: none;
+    list-style: none;
+    background: #cfb590;
+    width: 220px;
+    position: absolute;
+    z-index: 9000;
+    margin: 0;
+    padding: 0;
+}
+#tasks_wrapper:hover > #tasks_list {
+    display: block;
+}
+#tasks_list li {
+    position: relative;
+    padding: 10px 10px 10px 40px;
+    border-bottom: 1px solid #564334; 
+}
+#tasks_list li#no-todo {
+    padding: 10px;
+    text-align: center;
+}
+.check {
+    position: absolute;
+    left: 15px;
+    font-size: 20px;
+}
+#tasks_list li:hover .check:before,
+.check.done:before {
+    content: "\f046"!important;
+}
 .error {
     color: #DD5350;
 }

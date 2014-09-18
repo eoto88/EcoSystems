@@ -13,7 +13,7 @@
 
     <link rel="shortcut icon" href="favicon.ico" />
 
-    <script src="assets/js/vendor/modernizr-2.6.2.min.js"></script>
+    <script src="<?php echo URL::base(TRUE, TRUE); ?>assets/js/vendor/modernizr-2.6.2.min.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <?php foreach($styles as $file => $type) { echo HTML::style($file, array('media' => $type)), "\n";}?>
 </head>
@@ -33,6 +33,21 @@
         <?php echo $light_status; ?>
         <?php echo $fan_status; ?>
         <?php echo $heater_status; ?>
+        <div id="tasks_wrapper">
+            <span>Task list <i class="fa fa-tasks"></i></span>
+            <ul id="tasks_list">
+                <?php
+                if(count($toDos)) {
+                    foreach($toDos as $toDo) {
+                        echo '<li id="todo-'. $toDo['id_todo'] .'"><i class="fa fa-square-o check"></i>'. $toDo['title'] .'</li>';
+                    }
+                } else {
+                    echo '<li id="no-todo">No task in the to do list</li>';
+                }
+                ?>
+            </ul>
+        </div>
+        <a href="<?php echo URL::base(TRUE, TRUE) .'history'; ?>">History</a>
         <a id="logout" href="<?php echo URL::base(TRUE, TRUE) .'logout'; ?>"><i class="fa fa-sign-out"></i> Logout</a>
     </div>
     <div class="clearfix"></div>
@@ -46,6 +61,7 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+<script type="text/javascript">var BASE_URL = "<?php echo URL::base(TRUE, TRUE); ?>";</script>
 
 <?php foreach($scripts as $file) { echo HTML::script($file), "\n"; }?>
 

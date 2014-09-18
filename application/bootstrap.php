@@ -135,6 +135,7 @@ Kohana::$config->attach(new Config_File);
  */
 Kohana::modules(array(
     'auth'       => MODPATH.'auth',       // Basic authentication
+    'email'       => MODPATH.'email',       // Email
     // 'cache'      => MODPATH.'cache',      // Caching with multiple backends
     // 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
     'database' => MODPATH . 'database', // Database access
@@ -161,6 +162,6 @@ Route::set('ajax', 'ajax/action(/<id>)')
         ));
 Route::set('default', '(<controller>(/<action>(/<id>)))')
         ->defaults(array(
-            'controller' => 'welcome',
+            'controller' => 'dashboard',
             'action' => 'index',
         ));

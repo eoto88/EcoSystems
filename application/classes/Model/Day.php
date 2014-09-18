@@ -33,7 +33,7 @@ class Model_Day {
     }
     
     public function getLastDays() {
-        $query = DB::query(Database::SELECT, "SELECT * FROM day WHERE `date` <= DATE(SUBDATE(current_date, 2))");
+        $query = DB::query(Database::SELECT, "SELECT date, room_tmp_avg, tank_tmp_avg FROM day WHERE `date` <= DATE(SUBDATE(current_date, 2))");
         return $query->execute()->as_array();
     }
     
