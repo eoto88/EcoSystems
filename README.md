@@ -1,5 +1,7 @@
 # Garduinoponics - Let's gardening with Arduino and Aquaponics
 
+:fish: + :sunny: + :herb: = :tomato:
+
 ## This project is in development and the code here is not complete yet!
 For more infos, come visit later or simply write me!
 
@@ -10,7 +12,9 @@ For more infos, come visit later or simply write me!
 4. Rename the file application/config/database.template.php to database.php and add your database configurations.
 5. Rename template.htaccess to .htaccess
 
-SALT
+### bootstrap.php
+* SALT
+* 
 
 Rename template.htaccess to .htaccess
 
