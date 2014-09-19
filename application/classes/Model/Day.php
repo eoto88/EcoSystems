@@ -20,7 +20,7 @@ class Model_Day {
     }
     
     public function verifyIfCurrentDay() {
-        $query = DB::select( array(DB::expr('COUNT(`id_day`)'), 'current_day') )->from('day')->where('date', '=', 'DATE(NOW())');
+        $query = DB::query(Database::SELECT, "SELECT COUNT(`id_day`) AS current_day FROM day WHERE `date` = DATE(NOW())");
         $result = $query->execute()->current();
         return (intval($result['current_day']) > 0);
     }
