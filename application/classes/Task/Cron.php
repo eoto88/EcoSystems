@@ -2,7 +2,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
  
 class Task_Cron extends Minion_Task {
-    protected $_options = array();
+    protected $_options = array(
+        'action' => ''
+    );
 
     /*public function build_validation(Validation $validation) {
         return parent::build_validation($validation)
@@ -49,7 +51,10 @@ class Task_Cron extends Minion_Task {
      * @return null
      */
     protected function _execute(array $params) {
-        $this->backupLastDays();
-        $this->checkTodos();
+        if( $params['action'] == 'backupLastDays' ) {
+            $this->backupLastDays();
+        } else if( $params['action'] == 'checkTodos' ) {
+            $this->checkTodos();
+        }
     }
 }
