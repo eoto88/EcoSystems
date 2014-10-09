@@ -17,7 +17,6 @@ class Model_Todo {
     }
     
     public function checkTodos() {
-        // SELECT * FROM `todo` WHERE DATE_SUB(NOW(), INTERVAL `nb_month` MONTH) > `last_check` OR `last_check` = '0000-00-00 00:00:00.000000'
         $query = DB::query(Database::SELECT,
             "SELECT *
             FROM todo

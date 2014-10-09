@@ -1,8 +1,5 @@
-<div id="temperatureChart"></div>
-<div id="sunlightChart"></div>
-<?php /*var_dump($sunlightData);*/ ?>
+<div id="temperatureHistoryChart"></div>
 <script type="application/javascript">
-    var roomTemperatureData = <?php echo json_encode($roomTemperatureData); ?>;
-    var tankTemperatureData = <?php echo json_encode($tankTemperatureData); ?>;
-    var sunlightData = <?php echo json_encode($sunlightData); ?>;
+    var roomTemperatureHistory = <?php echo json_encode($roomTemperatureHistory); ?>;
+    var tankTemperatureHistory = <?php echo json_encode($tankTemperatureHistory); ?>;
 </script>

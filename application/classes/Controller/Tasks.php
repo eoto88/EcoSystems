@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_AuthenticatedPage extends Controller_Template {
+class Controller_Task extends Controller_AuthenticatedPage {
 
     public $template = 'template'; // Default template
 
@@ -12,7 +12,11 @@ class Controller_AuthenticatedPage extends Controller_Template {
         }
         
         $user = Auth::instance()->get_user();
-                
+        
+        //var_dump($user);
+        
+        $this->template->title = "Garduinoponics";
+
         $hStatus = new Helper_Status();
 
         $mDay = new Model_Day();
@@ -33,32 +37,34 @@ class Controller_AuthenticatedPage extends Controller_Template {
         $this->template->fan_status = $hStatus->getStatus('fan', 'Fan', $liveData['fan_on']);
         $this->template->heater_status = $hStatus->getStatus('heater', 'Heater', $liveData['heater_on']);
         
-        $mToDo = new Model_Todo();
+        $mToDo = new Model_ToDo();
         $this->template->toDos = $mToDo->checkToDos();
     }
 
-    public function after() {
-        if( $this->auto_render ) {
-            $styles = array(
-                "assets/css/main.css" => "screen",
-                "assets/css/normalize.css" => "screen"
-            );
-            $scripts  = array(
-                "assets/js/plugins.js",
-                "assets/js/main.js",
-                "assets/js/history.js",
-                "http://code.highcharts.com/modules/exporting.js",
-                "http://code.highcharts.com/highcharts.js"
-            );
-
-            $this->template->styles = array_reverse(
-                $styles // array_merge( $this->template->styles, $styles )
-            );
-            $this->template->scripts = array_reverse(
-                $scripts // array_merge( $this->template->scripts, $scripts )
-            );
+    public function action_index() {
+        $mHour = new Model_Hour();
+        $temparatureData = $mHour->getTemperatureData();
+        $roomTemperature = array();
+        $tankTemperature = array();
+        foreach($temparatureData as $temp) {
+            $datetime = strtotime($temp['datetime']. ' GMT') * 1000; //
+            $roomTemperature[] = array( $datetime, floatval($temp['room_temperature']) );
+            $tankTemperature[] = array( $datetime, floatval($temp['tank_temperature']) );
         }
-        parent::after();
+        $mQuarterHour = new Model_QuarterHour();
+        $sunlightData = $mQuarterHour->getSunlightData();
+        $sunlight = array();
+        foreach($sunlightData as $sun) {
+            $datetime = strtotime($sun['datetime']. ' GMT') * 1000; //
+            $sunlight[] = array( $datetime, intval($sun['sunlight']) * 100 / 1024 );
+        }
+
+        $view = View::factory( "index" )->set(array(
+            'roomTemperatureData' => $roomTemperature,
+            'tankTemperatureData' => $tankTemperature,
+            'sunlightData' => $sunlight
+        ));
+        $this->template->content = $view->render();
     }
 
-}
+} // End Welcome

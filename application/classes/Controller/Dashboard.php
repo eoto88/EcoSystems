@@ -15,7 +15,7 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $roomTemperature = array();
         $tankTemperature = array();
         foreach($temparatureData as $temp) {
-            $datetime = strtotime($temp['datetime']. ' GMT') * 1000; //
+            $datetime = strtotime($temp['datetime']. ' GMT') * 1000;
             $roomTemperature[] = array( $datetime, floatval($temp['room_temperature']) );
             $tankTemperature[] = array( $datetime, floatval($temp['tank_temperature']) );
         }
@@ -41,8 +41,9 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $roomTemperatureHistory = array();
         $tankTemperatureHistory = array();
         foreach($lastDays as $day) {
-            $roomTemperatureHistory[] = array($day['date'], $day['room_tmp_avg']);
-            $tankTemperatureHistory[] = array($day['date'], $day['tank_tmp_avg']);
+            $datetime = strtotime($day['date']. ' GMT') * 1000;
+            $roomTemperatureHistory[] = array($datetime, floatval($day['room_tmp_avg']));
+            $tankTemperatureHistory[] = array($datetime, floatval($day['tank_tmp_avg']));
         }
         
         $view = View::factory( "history" )->set(array(
