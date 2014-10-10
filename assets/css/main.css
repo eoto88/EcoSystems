@@ -114,10 +114,6 @@ body {
     font-size: 28px;
     padding: 0 6px;
 }
-#logout {
-    float: right;
-    color: #c6b38b;
-}
 h1 {
     color: #c6b38b;
 }
@@ -199,6 +195,28 @@ h1 {
 .check.done:before {
     content: "\f046"!important;
 }
+#menu {
+    list-style: none;
+    float: right;
+}
+
+#menu li {
+    display: inline-block;
+    text-align: center;
+    padding: 5px 10px;
+}
+#menu li:hover {
+    background-color: #cfb590;
+}
+#menu li:hover a {
+    color: #564334;
+}
+#menu a {
+    color: #c6b38b;
+}
+#menu li i {
+    font-size: 28px;
+}
 .error {
     color: #DD5350;
 }
@@ -206,8 +224,7 @@ h1 {
     color: #758918;
 }
 
-#temperatureChart,
-#sunlightChart {
+.chart {
     min-width: 310px;
     height: 320px;
     margin: 0 30px;

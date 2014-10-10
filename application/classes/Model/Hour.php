@@ -25,10 +25,12 @@ class Model_Hour {
     }
     
     public function insertHour($datetime, $roomTemperature, $tankTemperature) {
+        $model_day = new Model_Day();
+        $currentDayId = $model_day->getCurrentDayId();
         $query = DB::insert('hour', array(
             'id_day', 'datetime', 'room_temperature', 'tank_temperature'
             ))->values( array(
-                '1', gmdate("Y-m-d H:i:s", $datetime), $roomTemperature, $tankTemperature
+                $currentDayId, gmdate("Y-m-d H:i:s", $datetime), $roomTemperature, $tankTemperature
             ) );
         $query->execute();
     }

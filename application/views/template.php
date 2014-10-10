@@ -34,7 +34,7 @@
         <?php echo $fan_status; ?>
         <?php echo $heater_status; ?>
         <div id="tasks_wrapper">
-            <span>Task list <i class="fa fa-tasks"></i></span>
+            <span>Task list <i class="fa fa-list"></i></span>
             <ul id="tasks_list">
                 <?php
                 if(count($toDos)) {
@@ -47,8 +47,11 @@
                 ?>
             </ul>
         </div>
-        <a href="<?php echo URL::base(TRUE, TRUE) .'history'; ?>">History</a>
-        <a id="logout" href="<?php echo URL::base(TRUE, TRUE) .'logout'; ?>"><i class="fa fa-sign-out"></i> Logout</a>
+        <ul id="menu">
+            <li><a href="<?php echo URL::base(TRUE, TRUE) .'history'; ?>"><i class="fa fa-tachometer"></i><br />Dashboard</a></li>
+            <li><a href="<?php echo URL::base(TRUE, TRUE) .'history'; ?>"><i class="fa fa-history"></i><br />History</a></li>
+            <li><a id="logout" href="<?php echo URL::base(TRUE, TRUE) .'logout'; ?>"><i class="fa fa-sign-out"></i><br />Logout</a></li>
+        </ul>
     </div>
     <div class="clearfix"></div>
 </header>

@@ -12,6 +12,17 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
     public function action_index() {
         $mHour = new Model_Hour();
         $temparatureData = $mHour->getTemperatureData();
+
+        $mQuarterHour = new Model_QuarterHour();
+        $sunlightData = $mQuarterHour->getSunlightData();
+        
+        $dashboardData = $this->prepareDashbordData($temparatureData, $sunlightData);
+
+        $view = View::factory( "dashboard" )->set($dashboardData);
+        $this->template->content = $view->render();
+    }
+    
+    private function prepareDashbordData($temparatureData, $sunlightData) {
         $roomTemperature = array();
         $tankTemperature = array();
         foreach($temparatureData as $temp) {
@@ -19,38 +30,47 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
             $roomTemperature[] = array( $datetime, floatval($temp['room_temperature']) );
             $tankTemperature[] = array( $datetime, floatval($temp['tank_temperature']) );
         }
-        $mQuarterHour = new Model_QuarterHour();
-        $sunlightData = $mQuarterHour->getSunlightData();
+
         $sunlight = array();
         foreach($sunlightData as $sun) {
             $datetime = strtotime($sun['datetime']. ' GMT') * 1000; //
             $sunlight[] = array( $datetime, intval($sun['sunlight']) * 100 / 1024 );
         }
-
-        $view = View::factory( "index" )->set(array(
+        
+        return array(
             'roomTemperatureData' => $roomTemperature,
             'tankTemperatureData' => $tankTemperature,
             'sunlightData' => $sunlight
-        ));
-        $this->template->content = $view->render();
+        );
     }
     
     public function action_history() {
         $mDay = new Model_Day();
-        $lastDays = $mDay->getLastDays();
+        $lastDaysData = $mDay->getLastDays();
+
+        $historyData = $this->prepareHistoryData($lastDaysData);
+        
+        $view = View::factory( "history" )->set($historyData);
+        $this->template->content = $view->render();
+    }
+    
+    private function prepareHistoryData($temparatureData) {
         $roomTemperatureHistory = array();
         $tankTemperatureHistory = array();
-        foreach($lastDays as $day) {
+        $sunlightHistory = array();
+        foreach($temparatureData as $day) {
             $datetime = strtotime($day['date']. ' GMT') * 1000;
             $roomTemperatureHistory[] = array($datetime, floatval($day['room_tmp_avg']));
             $tankTemperatureHistory[] = array($datetime, floatval($day['tank_tmp_avg']));
+            
+            $sunlightHistory[] = array($datetime, intval($day['light_hour']));
         }
         
-        $view = View::factory( "history" )->set(array(
+        return array(
             'roomTemperatureHistory' => $roomTemperatureHistory,
-            'tankTemperatureHistory' => $tankTemperatureHistory
-        ));
-        $this->template->content = $view->render();
+            'tankTemperatureHistory' => $tankTemperatureHistory,
+            'sunlightHistory' => $sunlightHistory
+        );
     }
 
 } // End Welcome

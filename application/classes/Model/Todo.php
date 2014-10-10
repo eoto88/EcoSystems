@@ -2,10 +2,10 @@
 
 class Model_Todo {
 
-    public function getLastSunlightData() {
+    /*public function getLastSunlightData() {
         $query = DB::select('datetime', 'sunlight')->from('quarter_hour')->order_by('datetime', 'DESC')->limit(1)->offset(0);
         return $query->execute()->current();
-    }
+    }*/
     
     public function insertQuarterHour($datetime, $sunlight) {
         $query = DB::insert('quarter_hour', array(

@@ -15,10 +15,12 @@ class Model_QuarterHour {
     }
     
     public function insertQuarterHour($datetime, $sunlight) {
+        $model_day = new Model_Day();
+        $currentDayId = $model_day->getCurrentDayId();
         $query = DB::insert('quarter_hour', array(
             'id_day', 'datetime', 'sunlight'
             ))->values( array(
-                '1', gmdate("Y-m-d H:i:s", $datetime), $sunlight
+                $currentDayId, gmdate("Y-m-d H:i:s", $datetime), $sunlight
             ) );
         $query->execute();
     }
