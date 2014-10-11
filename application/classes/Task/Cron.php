@@ -37,11 +37,13 @@ class Task_Cron extends Minion_Task {
     
     private function backupLastDays() {
         $mHour = new Model_Hour();
+        $mQuarterHour = new Model_QuarterHour();
         $mDay = new Model_Day();
         $lastDaysAvg = $mHour->getLastDaysTempAverage();
         foreach($lastDaysAvg as $dayAvg) {
-            $mDay->updateDayAvg($dayAvg['date'], $dayAvg['avg_room_temp'], $dayAvg['avg_tank_temp']);
-            $mHour->deleteHours($dayAvg['date']);
+            $mDay->updateDayAvg( $dayAvg['date'], $dayAvg['avg_room_temp'], $dayAvg['avg_tank_temp'] );
+            $mHour->deleteHours( $dayAvg['date'] );
+            $mQuarterHour->deleteQuarterHours( $dayAvg['date'] );
         }
     }
  

@@ -24,4 +24,9 @@ class Model_QuarterHour {
             ) );
         $query->execute();
     }
+
+    public function deleteQuarterHours($date) {
+        $query = DB::delete('quarter_hour')->where(DB::expr('DATE(datetime)'), '=', $date);
+        $query->execute();
+    }
 }
