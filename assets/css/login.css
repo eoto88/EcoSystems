@@ -98,35 +98,33 @@ textarea {
    ========================================================================== */
 
 body {
-    background-color: #cfb590;
+    height: 100%;
+    background-color: #564334;
 }
 #header {
-    background-color: #564334;
-    padding: 15px 30px;
-}
-#header_left,
-#header_right {
-    width: 50%;
-    float: left;
-}
-#header_right span {
-    display: inline-block;
-    font-size: 28px;
-    padding: 0 6px;
+    background-color: #cfb590;
+    height: 280px;
 }
 h1 {
-    color: #c6b38b;
+    color: #564334;
+    text-align: center;
+    margin: 220px 0 0 0;
+}
+#login {
+    width: 200px;
+    margin: 30px auto 0;
+    color: #cfb590;
 }
 
-#footer {
-    background-color: #564334;
-    height: 50px;
-    width: 100%;
+#login input[type="text"],
+#login input[type="password"] {
+    width: 200px;
 }
 
-
-
-
+#login input[type="submit"] {
+    margin-top: 15px;
+    float: right;
+}
 
 
 

@@ -19,10 +19,7 @@ class Controller_Login extends Controller_Template {
                 "assets/css/normalize.css" => "screen"
             );
             $scripts = array(
-                "assets/js/plugins.js",
-                "assets/js/main.js",
-                "http://code.highcharts.com/modules/exporting.js",
-                "http://code.highcharts.com/highcharts.js"
+                "assets/js/login.js"
             );
 
             $this->template->styles = array_reverse(

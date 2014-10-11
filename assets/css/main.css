@@ -117,8 +117,8 @@ body {
 h1 {
     color: #c6b38b;
 }
-#still_alive {
-
+#liveStatus {
+    float: right;
 }
 .status-icon {
     color: #EBE8E9;
@@ -143,7 +143,7 @@ h1 {
 }
 #tasks_wrapper {
     position: relative;
-    display: inline-block;
+    float: left;
     width: 220px;
     
     -webkit-border-top-left-radius: 10px;
@@ -198,12 +198,18 @@ h1 {
 #menu {
     list-style: none;
     float: right;
+    padding: 0;
+    margin: 15px 0 0 0;
 }
 
 #menu li {
     display: inline-block;
     text-align: center;
     padding: 5px 10px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    transition: all 0.3s ease;
 }
 #menu li:hover {
     background-color: #cfb590;
