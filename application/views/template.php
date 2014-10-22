@@ -57,6 +57,9 @@
                 <a href="<?php echo URL::base(TRUE, TRUE) .'todos'; ?>"><i class="fa fa-lg fa-fw fa-check"></i><?php echo __('ToDo\'s'); ?></a>
             </li>
             <li>
+                <a href="<?php echo URL::base(TRUE, TRUE) .'logs'; ?>"><i class="fa fa-lg fa-fw fa-file-text-o"></i><?php echo __('Logs'); ?></a>
+            </li>
+            <li>
                 <a id="logout" href="<?php echo URL::base(TRUE, TRUE) .'logout'; ?>"><i class="fa fa-lg fa-fw fa-sign-out"></i><?php echo __('Logout'); ?></a>
             </li>
         </ul>
