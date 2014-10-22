@@ -14,23 +14,24 @@ class Controller_Task extends Controller_AuthenticatedPage {
         $user = Auth::instance()->get_user();
         
         //var_dump($user);
-        
+        $idInstance = 1;
+
         $this->template->title = "Garduinoponics";
 
         $hStatus = new Helper_Status();
 
         $mDay = new Model_Day();
-        $day = $mDay->getCurrentDay();
+        $day = $mDay->getCurrentDay($idInstance);
         if( ! $day ) {
             $date = new DateTime();
             $date->sub(new DateInterval('P1D'));
 
-            $day = $mDay->getDayByDate($date->format('Y-m-d'));
+            $day = $mDay->getDayByDate($idInstance, $date->format('Y-m-d'));
         }
         $this->template->sun_status = $hStatus->getSunStatus($day);
 
-        $mLive = new Model_Live();
-        $liveData = $mLive->getLiveData();
+        $mInstance = new Model_Instance();
+        $liveData = $mInstance->getLiveData($idInstance);
         $this->template->communication_status = $hStatus->getCommunicationStatus($liveData);
         $this->template->pump_status = $hStatus->getStatus('pump', 'Pump', $liveData['pump_on']);
         $this->template->light_status = $hStatus->getStatus('light', 'Light', $liveData['light_on']);
@@ -42,8 +43,9 @@ class Controller_Task extends Controller_AuthenticatedPage {
     }
 
     public function action_index() {
+        $idInstance = 1;
         $mHour = new Model_Hour();
-        $temparatureData = $mHour->getTemperatureData();
+        $temparatureData = $mHour->getTemperatureData($idInstance);
         $roomTemperature = array();
         $tankTemperature = array();
         foreach($temparatureData as $temp) {
@@ -52,7 +54,7 @@ class Controller_Task extends Controller_AuthenticatedPage {
             $tankTemperature[] = array( $datetime, floatval($temp['tank_temperature']) );
         }
         $mQuarterHour = new Model_QuarterHour();
-        $sunlightData = $mQuarterHour->getSunlightData();
+        $sunlightData = $mQuarterHour->getSunlightData($idInstance);
         $sunlight = array();
         foreach($sunlightData as $sun) {
             $datetime = strtotime($sun['datetime']. ' GMT') * 1000; //

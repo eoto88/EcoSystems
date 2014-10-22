@@ -2,25 +2,23 @@
 
 class Model_QuarterHour {
 
-    public function getSunlightData() {
-        $query = DB::query(Database::SELECT, "SELECT datetime, sunlight FROM ( SELECT * FROM quarter_hour ORDER BY id_quarter_hour DESC LIMIT 80 ) sub ORDER BY id_quarter_hour ASC");
+    public function getSunlightData($idInstance) {
+        $query = DB::query(Database::SELECT, "SELECT datetime, sunlight FROM ( SELECT * FROM quarter_hour WHERE id_instance = ". $idInstance ." ORDER BY id_quarter_hour DESC LIMIT 80 ) sub ORDER BY id_quarter_hour ASC");
 
         //$query = DB::select('datetime', 'sunlight')->from('quarter_hour')->order_by('datetime', 'DESC')->limit(20)->offset(0);
         return $query->execute()->as_array();
     }
 
-    public function getLastSunlightData() {
-        $query = DB::select('datetime', 'sunlight')->from('quarter_hour')->order_by('datetime', 'DESC')->limit(1)->offset(0);
+    public function getLastSunlightData($idInstance) {
+        $query = DB::select('datetime', 'sunlight')->from('quarter_hour')->where('id_instance', '=', $idInstance)->order_by('datetime', 'DESC')->limit(1)->offset(0);
         return $query->execute()->current();
     }
     
-    public function insertQuarterHour($datetime, $sunlight) {
-        $model_day = new Model_Day();
-        $currentDayId = $model_day->getCurrentDayId();
+    public function insertQuarterHour($idInstance, $idCurrentDay, $datetime, $sunlight) {
         $query = DB::insert('quarter_hour', array(
-            'id_day', 'datetime', 'sunlight'
+                'id_instance', 'id_day', 'datetime', 'sunlight'
             ))->values( array(
-                $currentDayId, gmdate("Y-m-d H:i:s", $datetime), $sunlight
+                $idInstance, $idCurrentDay, gmdate("Y-m-d H:i:s", $datetime), $sunlight
             ) );
         $query->execute();
     }

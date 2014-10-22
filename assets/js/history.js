@@ -1,10 +1,6 @@
-
-var temperatureHistoryChart,
-    sunlightHistoryChart;
-
-$(document).ready(function() {
-    if( $("#temperatureHistoryChart").length == 1 && $("#sunlightHistoryChart").length == 1 ) {
-        temperatureHistoryChart = new Highcharts.Chart({
+var History = Class.extend({
+    init: function() {
+        this.temperatureHistoryChart = new Highcharts.Chart({
             chart: {
                 renderTo: 'temperatureHistoryChart',
                 marginTop: 50,
@@ -29,41 +25,41 @@ $(document).ready(function() {
                     margin: 25
                 },
                 plotBands: [{// Cold
-                        from: 0,
-                        to: 18,
-                        color: 'rgba(68, 170, 213, 0.1)',
-                        label: {
-                            text: 'Cold',
-                            style: {
-                                color: '#606060'
-                            }
+                    from: 0,
+                    to: 18,
+                    color: 'rgba(68, 170, 213, 0.1)',
+                    label: {
+                        text: 'Cold',
+                        style: {
+                            color: '#606060'
                         }
-                    }, {// Hot
-                        from: 35,
-                        to: 60,
-                        color: 'rgba(191, 11, 35, 0.1)',
-                        label: {
-                            text: 'Hot',
-                            style: {
-                                color: '#606060'
-                            }
+                    }
+                }, {// Hot
+                    from: 35,
+                    to: 60,
+                    color: 'rgba(191, 11, 35, 0.1)',
+                    label: {
+                        text: 'Hot',
+                        style: {
+                            color: '#606060'
                         }
-                    }]
+                    }
+                }]
             },
             series: [{
-                    name: 'Room temperature (°C)',
-                    color: '#BF0B23',
-                    dashStyle: 'ShortDash',
-                    data: roomTemperatureHistory
-                }, {
-                    name: 'Tank temperature (°C)',
-                    color: '#0066FF',
-                    dashStyle: 'ShortDash',
-                    data: tankTemperatureHistory
-                }]
+                name: 'Room temperature (°C)',
+                color: '#BF0B23',
+                dashStyle: 'ShortDash',
+                data: roomTemperatureHistory
+            }, {
+                name: 'Tank temperature (°C)',
+                color: '#0066FF',
+                dashStyle: 'ShortDash',
+                data: tankTemperatureHistory
+            }]
         });
 
-        sunlightHistoryChart = new Highcharts.Chart({
+        this.sunlightHistoryChart = new Highcharts.Chart({
             chart: {
                 renderTo: 'sunlightHistoryChart',
                 marginTop: 50,
@@ -90,33 +86,39 @@ $(document).ready(function() {
                     margin: 25
                 },
                 plotBands: [{// Night
-                        from: 0,
-                        to: 7,
-                        color: 'rgba(0, 0, 0, 0.1)',
-                        label: {
-                            text: 'Winter',
-                            style: {
-                                color: '#606060'
-                            }
+                    from: 0,
+                    to: 7,
+                    color: 'rgba(0, 0, 0, 0.1)',
+                    label: {
+                        text: 'Winter',
+                        style: {
+                            color: '#606060'
                         }
-                    }, {// Day
-                        from: 7,
-                        to: 15,
-                        color: 'rgba(255, 255, 0, 0.1)',
-                        label: {
-                            text: 'Summer',
-                            style: {
-                                color: '#606060'
-                            }
+                    }
+                }, {// Day
+                    from: 7,
+                    to: 15,
+                    color: 'rgba(255, 255, 0, 0.1)',
+                    label: {
+                        text: 'Summer',
+                        style: {
+                            color: '#606060'
                         }
-                    }]
+                    }
+                }]
             },
             series: [{
-                    name: 'Sunlight (%)',
-                    color: '#FFFF00',
-                    dashStyle: 'ShortDash',
-                    data: sunlightHistory
-                }]
+                name: 'Sunlight (%)',
+                color: '#FFFF00',
+                dashStyle: 'ShortDash',
+                data: sunlightHistory
+            }]
         });
+    }
+});
+
+$(document).ready(function() {
+    if( $("#temperatureHistoryChart").length == 1 && $("#sunlightHistoryChart").length == 1 ) {
+        var history = new History();
     }
 });

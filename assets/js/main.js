@@ -1,122 +1,38 @@
-
-var temperatureChart; // global
-var sunlightChart;
+var highchartsOptions ={},
+    highchartsLangFr = {
+    months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+        'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+    weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi',
+        'Jeudi', 'Vendredi', 'Samedi'],
+    shortMonths: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil',
+        'Aout', 'Sept', 'Oct', 'Nov', 'Déc'],
+    decimalPoint: ',',
+    downloadPNG: 'Télécharger en image PNG',
+    downloadJPEG: 'Télécharger en image JPEG',
+    downloadPDF: 'Télécharger en document PDF',
+    downloadSVG: 'Télécharger en document Vectoriel',
+    exportButtonTitle: 'Export du graphique',
+    loading: 'Chargement en cours...',
+    printButtonTitle: 'Imprimer le graphique',
+    resetZoom: 'Réinitialiser le zoom',
+    resetZoomTitle: 'Réinitialiser le zoom au niveau 1:1',
+    thousandsSep: ' ',
+    decimalPoint: ','
+};
 
 $(document).ready(function() {
-    if( $("#temperatureChart").length == 1 && $("#sunlightChart").length == 1 ) {
-        temperatureChart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'temperatureChart',
-                marginTop: 50,
-                height: 320,
-                defaultSeriesType: 'spline',
-            },
-            title: {
-                text: 'Temperature'
-            },
-            xAxis: {
-                type: 'datetime',
-                maxZoom: 20 * 1000
-            },
-            yAxis: {
-                minPadding: 0.2,
-                maxPadding: 0.2,
-                minRange: 0.5,
-                title: {
-                    text: 'Value',
-                    margin: 25
-                },
-                plotBands: [{ // Cold
-                    from: 0,
-                    to: 18,
-                    color: 'rgba(68, 170, 213, 0.1)',
-                    label: {
-                        text: 'Cold',
-                        style: {
-                            color: '#606060'
-                        }
-                    }
-                }, { // Hot
-                    from: 35,
-                    to: 60,
-                    color: 'rgba(191, 11, 35, 0.1)',
-                    label: {
-                        text: 'Hot',
-                        style: {
-                            color: '#606060'
-                        }
-                    }
-                }]
-            },
-            series: [{
-                name: 'Room temperature (°C)',
-                color: '#BF0B23',
-                dashStyle: 'ShortDash',
-                data: roomTemperatureData
-            },{
-             name: 'Tank temperature (°C)',
-             color: '#0066FF',
-             dashStyle: 'ShortDash',
-             data: tankTemperatureData
-             }]
-        });
+    resizeMainSection()
 
-        sunlightChart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'sunlightChart',
-                marginTop: 50,
-                height: 320,
-                defaultSeriesType: 'spline'
-            },
-            title: {
-                text: 'Sunlight'
-            },
-            xAxis: {
-                type: 'datetime',
-                maxZoom: 20 * 1000
-            },
-            yAxis: {
-                minPadding: 0.5,
-                maxPadding: 0.5,
-                minRange: 5,
-                max: 100,
-                min: 0,
-                title: {
-                    text: 'Value',
-                    margin: 25
-                },
-                plotBands: [{ // Night
-                    from: 0,
-                    to: 40,
-                    color: 'rgba(0, 0, 0, 0.1)',
-                    label: {
-                        text: 'Night',
-                        style: {
-                            color: '#606060'
-                        }
-                    }
-                }, { // Day
-                    from: 40,
-                    to: 100,
-                    color: 'rgba(255, 255, 0, 0.1)',
-                    label: {
-                        text: 'Day',
-                        style: {
-                            color: '#606060'
-                        }
-                    }
-                }]
-            },
-            series: [{
-                name: 'Sunlight (%)',
-                color: '#FFFF00',
-                dashStyle: 'ShortDash',
-                data: sunlightData
-            }]
-        });
+    highchartsOptions.global =  {
+        timezoneOffset: -4,
+        useUTC: false
+    };
 
-        setTimeout(requestChartData, 120000);
+    if( translations.lang == 'fr') {
+        highchartsOptions.lang = highchartsLangFr;
     }
+
+    Highcharts.setOptions(highchartsOptions);
 
     setInterval(function() {
         $.ajax({
@@ -129,7 +45,7 @@ $(document).ready(function() {
                 status = '<i class="fa fa-check success"></i>';
             else
                 status = '<i class="fa fa-exclamation-triangle error"></i>';
-            $("#still_alive").html(status).attr("title", "Last communication: " + data.lastCommunication);
+            $("#still_alive").html(status).attr("title", translations.lastCommunication + ": " + data.lastCommunication);
             
             changeStatus('pump', 'Pump', data.pumpStatus);
             changeStatus('light', 'Light', data.lightStatus);
@@ -151,12 +67,38 @@ $(document).ready(function() {
             $("#todo-" + data.id).animate({'height': 0, 'opacity': 0}, 500, function() {
                 $(this).remove();
                 if($("#tasks_list li").length === 0) {
-                    $("#tasks_list").html('<li id="no-todo">No task in the to do list</li>');
+                    $("#tasks_list").html('<li id="no-todo">' + translations.noTaskTodoList + '</li>');
                 }
             });
         });
     });
+
+    $("#instance_list li").click(function() {
+        var $instance = $(this);
+        var id_instance = $instance.attr('id');
+        document.location = BASE_URL + '' /id_instance
+    });
+
+    $('#left-panel .parent').click(function(e) {
+        e.preventDefault();
+        $(this).toggleClass('open').find('ul').slideToggle();
+    });
+
+    $( window ).resize(function() {
+        resizeMainSection();
+    });
 });
+
+function resizeMainSection() {
+    var winHeight = $( window ).height(),
+        mainMinHeight = winHeight - 49,
+        contentHeight = $('#content').height() + 80; /* Padding */
+    if( mainMinHeight > contentHeight ) {
+        $('#main').height( mainMinHeight );
+    } else {
+        $('#main').height( contentHeight );
+    }
+}
 
 function changeStatus(relayId, relayName, status) {
     $("#"+ relayId +"_status").attr('title', relayName +' is '+ status);
@@ -167,41 +109,67 @@ function changeStatus(relayId, relayName, status) {
     }
 }
 
-function requestChartData() {
-    $.ajax({
-        url: 'ajax/chartLiveData',
-        cache: false,
-        dataType: "json",
-        success: function(point) {
-            console.debug(point);
-            if(point.roomTemperature.length > 0 &&
-                temperatureChart.series[0].data.length > 0 &&
-                temperatureChart.series[0].data[temperatureChart.series[0].data.length-1].x != point.roomTemperature[0]) {
-                var series = temperatureChart.series[0],
-                    shift = series.data.length > 40;
+/* Simple JavaScript Inheritance
+ * By John Resig http://ejohn.org/
+ * MIT Licensed.
+ */
+// Inspired by base2 and Prototype
+(function(){
+    var initializing = false, fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;
 
-                temperatureChart.series[0].addPoint(eval(point.roomTemperature), true, shift);
-            }
+    // The base Class implementation (does nothing)
+    this.Class = function(){};
 
-            if(point.tankTemperature.length > 0 &&
-                temperatureChart.series[1].data.length > 0 &&
-                temperatureChart.series[1].data[temperatureChart.series[1].data.length-1].x != point.tankTemperature[0]) {
-                var series = temperatureChart.series[1],
-                    shift = series.data.length > 40;
+    // Create a new Class that inherits from this class
+    Class.extend = function(prop) {
+        var _super = this.prototype;
 
-                temperatureChart.series[1].addPoint(eval(point.tankTemperature), true, shift);
-            }
+        // Instantiate a base class (but only create the instance,
+        // don't run the init constructor)
+        initializing = true;
+        var prototype = new this();
+        initializing = false;
 
-            if(point.sunlight.length > 0 &&
-                sunlightChart.series[0].data.length > 0 &&
-                sunlightChart.series[0].data[sunlightChart.series[0].data.length-1].x != point.sunlight[0]) {
-                var series = sunlightChart.series[0],
-                    shift = series.data.length > 80;
+        // Copy the properties over onto the new prototype
+        for (var name in prop) {
+            // Check if we're overwriting an existing function
+            prototype[name] = typeof prop[name] == "function" &&
+            typeof _super[name] == "function" && fnTest.test(prop[name]) ?
+                (function(name, fn){
+                    return function() {
+                        var tmp = this._super;
 
-                sunlightChart.series[0].addPoint(eval(point.sunlight), true, shift);
-            }
+                        // Add a new ._super() method that is the same method
+                        // but on the super-class
+                        this._super = _super[name];
 
-            setTimeout(requestChartData, 120000);
+                        // The method only need to be bound temporarily, so we
+                        // remove it when we're done executing
+                        var ret = fn.apply(this, arguments);
+                        this._super = tmp;
+
+                        return ret;
+                    };
+                })(name, prop[name]) :
+                prop[name];
         }
-    });
-}
+
+        // The dummy class constructor
+        function Class() {
+            // All construction is actually done in the init method
+            if ( !initializing && this.init )
+                this.init.apply(this, arguments);
+        }
+
+        // Populate our constructed prototype object
+        Class.prototype = prototype;
+
+        // Enforce the constructor to be what we expect
+        Class.prototype.constructor = Class;
+
+        // And make this class extendable
+        Class.extend = arguments.callee;
+
+        return Class;
+    };
+})();

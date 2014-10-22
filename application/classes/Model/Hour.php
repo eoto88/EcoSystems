@@ -2,16 +2,18 @@
 
 class Model_Hour {
 
-    public function getTemperatureData() {
+    public function getTemperatureData($idInstance) {
         // SELECT * FROM ( SELECT * FROM temperature ORDER BY id_temperature DESC LIMIT 1 ) sub ORDER BY id_temperature ASC
-        $query = DB::query(Database::SELECT, "SELECT datetime, room_temperature, tank_temperature FROM ( SELECT * FROM hour ORDER BY id_hour DESC LIMIT 40 ) sub ORDER BY id_hour ASC");
+        $query = DB::query(Database::SELECT,
+            "SELECT datetime, room_temperature, tank_temperature FROM ( SELECT * FROM hour WHERE id_instance = ". $idInstance ." ORDER BY id_hour DESC LIMIT 40 ) sub ORDER BY id_hour ASC"
+        );
 
         //$query = DB::select('datetime', 'room_temperature', 'tank_temperature')->from('hour')->order_by('datetime', 'DESC')->limit(20)->offset(0);
         return $query->execute()->as_array();
     }
 
-    public function getLastTemperatureData() {
-        $query = DB::select('datetime', 'room_temperature', 'tank_temperature')->from('hour')->order_by('datetime', 'DESC')->limit(1)->offset(0);
+    public function getLastTemperatureData($idInstance) {
+        $query = DB::select('datetime', 'room_temperature', 'tank_temperature')->from('hour')->where('id_instance', '=', $idInstance)->order_by('datetime', 'DESC')->limit(1)->offset(0);
         return $query->execute()->current();
     }
     
@@ -24,14 +26,12 @@ class Model_Hour {
         return $query->execute()->as_array();
     }
     
-    public function insertHour($datetime, $roomTemperature, $tankTemperature) {
-        $model_day = new Model_Day();
-        $currentDayId = $model_day->getCurrentDayId();
+    public function insertHour($idInstance, $idCurrentDay, $datetime, $roomTemperature, $tankTemperature) {
         $query = DB::insert('hour', array(
-            'id_day', 'datetime', 'room_temperature', 'tank_temperature'
-            ))->values( array(
-                $currentDayId, gmdate("Y-m-d H:i:s", $datetime), $roomTemperature, $tankTemperature
-            ) );
+            'id_instance', 'id_day', 'datetime', 'room_temperature', 'tank_temperature'
+        ))->values( array(
+            $idInstance, $idCurrentDay, gmdate("Y-m-d H:i:s", $datetime), $roomTemperature, $tankTemperature
+        ) );
         $query->execute();
     }
     

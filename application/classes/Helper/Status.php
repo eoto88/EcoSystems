@@ -2,57 +2,53 @@
 
 class Helper_Status {
 
+    public function getTemperatureStatus($data) {
+        $data['datetime'];
+        $data['room_temperature'];
+
+        $title = "Time: ". $data['datetime'];
+
+        $icon = 'wi wi-thermometer';
+
+        $roomTemperature = $this->formatLiveStatus($title, __('Room temperature'), 'room-temperature', $icon, $data['room_temperature'] .' °C');
+        $tankTemperature = $this->formatLiveStatus($title, __('Tank temperature'), 'tank-temperature', $icon, $data['tank_temperature'] .' °C');
+
+        return $roomTemperature . $tankTemperature;
+    }
+
+    private function formatLiveStatus($title, $label, $class, $icon, $value) {
+        return '<div class="live-status" title="'. $title .'"><span class="live-label">'. $label .'</span><span class="live-value '. $class .'"><i class="'. $icon .'"></i>'. $value .'</span></div>';
+    }
+
     public function getSunStatus($day) {
-        $title = "";
-        $icon = "fa-moon-o";
+        $sunrise = "";
+        $sunset = "";
         if(isset($day)) {
             if(isset($day['sunrise'])) {
+                $icon = "fa fa-sun-o";
                 $title = "Sunrise: ". $day['sunrise'];
-                $icon = "fa-sun-o";
+                $sunrise = $this->formatLiveStatus( $title, __('Sunrise'), 'sunrise', $icon, date('H:i:s', strtotime($day['sunrise'])) );
             }
             if(isset($day['sunset'])) {
-                $title .= " | Sunset: ". $day['sunset'];
-                $icon = "fa-moon-o";
+                $title = "Sunset: ". $day['sunset'];
+                $icon = "fa fa-moon-o";
+                $sunset = $this->formatLiveStatus( $title, __('Sunset'), 'sunset', $icon, date('H:i:s', strtotime($day['sunset'])) );
             }
         }
-        return '<span id="sun_status" title="'. $title .'"><i class="fa '. $icon .'"></i></span>';
+        return $sunrise . $sunset;
     }
 
     public function getCommunicationStatus($liveData) {
         $title = "";
         $icon = "fa-exclamation-triangle error";
         if(isset($liveData)) {
-            $title = "Last communication: ". $liveData['last_communication'];
+            $title = __('Last communication') .": ". $liveData['last_communication'];
             if($liveData['still_alive']) {
                 $icon = "fa-check success";
             }
         }
         return '<span id="still_alive" title="'. $title .'"><i class="status-icon fa '. $icon .'"></i></span>';
     }
-    
-    /*public function getPumpStatus($pumpStatus) {
-        $title = $pumpStatus ? "Pump is on" : "Pump is off";
-        $class = $pumpStatus ? "pump-on" : "pump-off";
-        return '<span id="pump_status" title="'. $title .'"><i class="status-icon fa fa-tint '. $class .'"></i></span>';
-    }
-    
-    public function getLightStatus($lightStatus) {
-        $title = $lightStatus ? "Light is on" : "Light is off";
-        $class = $lightStatus ? "light-on" : "light-off";
-        return '<span id="light_status" title="'. $title .'"><i class="status-icon fa fa-lightbulb-o '. $class .'"></i></span>';
-    }
-    
-    public function getFanStatus($fanStatus) {        
-        $title = $fanStatus ? "Fan is on" : "Fan is off";
-        $class = $fanStatus ? "fan-on" : "fan-off";
-        return '<span id="fan_status" title="'. $title .'"><i class="status-icon fa fa-refresh '. $class .'"></i></span>';
-    }
-    
-    public function getHeaterStatus($heaterStatus) {
-        $title = $heaterStatus ? "Heater is on" : "Heater is off";
-        $class = $heaterStatus ? "heater-on" : "heater-off";
-        return '<span id="heater_status" title="'. $title .'"><i class="status-icon fa fa-bolt '. $class .'"></i></span>';
-    }*/
     
     public function getStatus($relayId, $relayName, $status) {
         switch ($relayId) {

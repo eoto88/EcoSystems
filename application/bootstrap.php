@@ -160,7 +160,12 @@ Route::set('ajax', 'ajax/action(/<id>)')
             'controller' => 'ajax',
             'action' => 'index',
         ));
-Route::set('ajax', 'history')
+Route::set('live', 'live/<id>')
+    ->defaults(array(
+        'controller' => 'dashboard',
+        'action' => 'live',
+    ));
+Route::set('history', 'history/<id>')
         ->defaults(array(
             'controller' => 'dashboard',
             'action' => 'history',

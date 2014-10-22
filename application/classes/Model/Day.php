@@ -2,50 +2,68 @@
 
 class Model_Day {
     
-    public function getCurrentDayId() {
-        $this->insertIfNoCurrentDay();
-        $cd = $this->getCurrentDay();
+    public function getCurrentDayId($idInstance) {
+        $this->insertIfNoCurrentDay($idInstance);
+        $cd = $this->getCurrentDay($idInstance);
         return $cd['id_day'];
     }
 
-    public function getCurrentDay() {
-        $this->insertIfNoCurrentDay();
-        $query = DB::query(Database::SELECT, "SELECT * FROM day WHERE `date` = DATE(NOW())");
+    public function getCurrentDay($idInstance) {
+        $this->insertIfNoCurrentDay($idInstance);
+        $query = DB::query(Database::SELECT,
+            "SELECT * FROM day WHERE `date` = DATE(NOW()) AND id_instance = :idInstance"
+        );
+        $query->param(':idInstance', $idInstance);
         return $query->execute()->current();
     }
 
-    public function getDayByDate($date) {
-        $query = DB::query(Database::SELECT, "SELECT id_day, date, sunrise, sunset FROM day WHERE date = DATE(:date)");
-        $query->param(':date', $date);
+    public function getDayByDate($idInstance, $date) {
+        $query = DB::query(Database::SELECT,
+            "SELECT id_day, date, sunrise, sunset FROM day WHERE date = DATE(:date) AND id_instance = :idInstance"
+        );
+        $query->parameters(array(
+            ':date' => $date,
+            ':idInstance' => $idInstance
+        ));
         return $query->execute()->current();
     }
     
-    public function verifyIfCurrentDay() {
-        $query = DB::query(Database::SELECT, "SELECT COUNT(`id_day`) AS current_day FROM day WHERE `date` = DATE(NOW())");
+    public function verifyIfCurrentDay($idInstance) {
+        $query = DB::query(Database::SELECT,
+            "SELECT COUNT(`id_day`) AS current_day FROM day WHERE `date` = DATE(NOW()) AND id_instance = :idInstance"
+        );
+        $query->param(':idInstance', $idInstance);
         $result = $query->execute()->current();
         return (intval($result['current_day']) > 0);
     }
     
-    private function insertIfNoCurrentDay() {
-        if( ! $this->verifyIfCurrentDay() ) {
-            $query = DB::query(Database::INSERT, "INSERT INTO day (`date`) VALUES( DATE(NOW()) )");
+    private function insertIfNoCurrentDay($idInstance) {
+        if( ! $this->verifyIfCurrentDay($idInstance) ) {
+            $query = DB::query(Database::INSERT, "INSERT INTO day (`date`, `id_instance`) VALUES( DATE(NOW()), :idInstance )");
+            $query->param(':idInstance', $idInstance);
             $query->execute();
         }
     }
     
-    public function getLastDays() {
-        $query = DB::query(Database::SELECT, "SELECT date, room_tmp_avg, tank_tmp_avg, TIMESTAMPDIFF(HOUR, sunrise, sunset) AS light_hour FROM day WHERE `date` <= DATE(SUBDATE(current_date, 2))");
+    public function getLastDays($idInstance) {
+        $query = DB::query(Database::SELECT,
+            "SELECT date, room_tmp_avg, tank_tmp_avg, TIMESTAMPDIFF(HOUR, sunrise, sunset) AS light_hour FROM day ".
+            "WHERE `date` <= DATE(SUBDATE(current_date, 2)) AND id_instance = :idInstance"
+        );
+        $query->param(':idInstance', $idInstance);
         return $query->execute()->as_array();
     }
     
-    public function updateSunrise($datetime) {
-        $this->insertIfNoCurrentDay();
-        $query = DB::update('day')->set(array('sunrise' => gmdate("Y-m-d H:i:s", $datetime)))->where('date', '=', gmdate("Y-m-d", $datetime));
+    public function updateSunrise($idInstance, $datetime) {
+        $this->insertIfNoCurrentDay($idInstance);
+        $query = DB::update('day')->set(
+            array('sunrise' => gmdate("Y-m-d H:i:s", $datetime))
+        )->where('date', '=', gmdate("Y-m-d", $datetime))->and_where('id_instance', '=', $idInstance);
         $query->execute();
     }
     
-    public function updateSunset($datetime) {
-        $this->insertIfNoCurrentDay();
+    public function updateSunset($idInstance, $datetime) {
+        $this->insertIfNoCurrentDay($idInstance);
         $query = DB::update('day')->set(array('sunset' => gmdate("Y-m-d H:i:s", $datetime)))->where('date', '=', gmdate("Y-m-d", $datetime));
         $query->execute();
     }
