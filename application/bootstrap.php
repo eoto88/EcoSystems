@@ -7,10 +7,7 @@ defined('SYSPATH') or die('No direct script access.');
 /**
  * Base URL settings
  */
-$BASE_URL = DIRECTORY_SEPARATOR . basename(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR;
-if (isset($_SERVER['DEV_HOME_DIR'])) {
-    $BASE_URL = $_SERVER['DEV_HOME_DIR'] . basename(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR;
-}
+$BASE_URL = '/';
 
 // Load the core Kohana class
 require SYSPATH . 'classes/Kohana/Core' . EXT;

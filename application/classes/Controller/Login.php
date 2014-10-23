@@ -9,14 +9,14 @@ class Controller_Login extends Controller_Template {
     public function before() {
         parent::before();
 
-        $this->template->title = "Login Garduinoponics";
+        $this->template->title = "Login EcoSystem";
     }
 
     public function after() {
         if ($this->auto_render) {
             $styles = array(
-                "assets/css/login.css" => "screen",
-                "assets/css/normalize.css" => "screen"
+                URL::base(TRUE, TRUE) ."assets/css/login.css" => "screen",
+                URL::base(TRUE, TRUE) ."assets/css/normalize.css" => "screen"
             );
             $scripts = array(
                 "assets/js/login.js"

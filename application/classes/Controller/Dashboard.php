@@ -22,7 +22,7 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
     }
 
     public function action_index() {
-        $this->template->title = __('Dashboard') ." | Garduinoponics";
+        $this->template->title = __('Dashboard') ." | EcoSystem";
 
 
         $mHour = new Model_Hour();
@@ -57,7 +57,7 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
 
     public function action_live() {
         $idInstance = $this->request->param('id');
-        $this->template->title = __('Live') ." | Garduinoponics";
+        $this->template->title = __('Live') ." | EcoSystem";
         $mHour = new Model_Hour();
         $temperatureData = $mHour->getTemperatureData($idInstance);
 
@@ -93,7 +93,7 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
     }
     
     public function action_history() {
-        $this->template->title = __('History') ." | Garduinoponics";
+        $this->template->title = __('History') ." | EcoSystem";
         $this->template->translations = array();
         $mDay = new Model_Day();
         $idInstance = 1;

@@ -22,9 +22,9 @@ class Task_Cron extends Minion_Task {
         if($message) {
             $config = Kohana::$config->load('app');
             $message = array(
-                'subject' => 'Graduinoponics - To Do',
+                'subject' => 'EcoSystem - To Do',
                 'body'    => $message,
-                'from'    => array($config['sender_email'] => 'Garduinoponics'),
+                'from'    => array($config['sender_email'] => 'EcoSystem'),
                 'to'      => $config['admin_email']
             );
             $code = Email::send('default', $message['subject'], $message['body'], $message['from'], $message['to']);

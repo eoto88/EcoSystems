@@ -1,6 +1,9 @@
-# Garduinoponics - Let's gardening with Arduino and Aquaponics
+# Ecosystem
 
-:fish: + :sunny: + :herb: = :tomato:
+An ecosystem is a community of living organisms (plants, animals and microbes) in conjunction with the nonliving components of their environment (things like air, water and mineral soil), interacting as a system.
+http://en.wikipedia.org/wiki/Ecosystem
+
+So, :fish: + :sunny: + :herb: = :tomato:
 
 ## This project is in development and the code here is not complete yet!
 For more infos, come visit later or simply write me!

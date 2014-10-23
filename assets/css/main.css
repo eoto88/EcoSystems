@@ -225,6 +225,12 @@ h1 {
   font-weight: 400;
   outline: 0; }
 
+.hidden-menu #left-panel {
+  left: -210px; }
+
+@media (max-width: 979px) {
+  #left-panel {
+    left: -220px; } }
 /* **** Left nav - END **** */
 #main {
   margin-left: 220px;
@@ -237,6 +243,12 @@ h1 {
   background-image: -o-linear-gradient(top, #f3f3f3, #e2e2e2);
   background-image: linear-gradient(to bottom, #f3f3f3, #e2e2e2); }
 
+.hidden-menu {
+  margin-left: 10px; }
+
+@media (max-width: 979px) {
+  #main {
+    margin-left: 0; } }
 #content {
   padding: 15px; }
 
