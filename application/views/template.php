@@ -35,8 +35,8 @@
             <li class="active">
                 <a href="<?php echo URL::base(TRUE, TRUE); ?>"><i class="fa fa-lg fa-fw fa-tachometer"></i><?php echo __('Dashboard'); ?></a>
             </li>
-            <li class="parent">
-                <a href="#">
+            <li>
+                <a href="#" class="menu-item-parent">
                     <i class="fa fa-lg fa-fw fa-list-alt"></i>&nbsp;<span class="menu-item-parent"><?php echo __('Instances') ?></span><b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b>
                 </a>
                 <ul>

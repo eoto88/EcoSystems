@@ -79,9 +79,9 @@ $(document).ready(function() {
         document.location = BASE_URL + '' /id_instance
     });
 
-    $('#left-panel .parent').click(function(e) {
+    $('#left-panel .menu-item-parent').click(function(e) {
         e.preventDefault();
-        $(this).toggleClass('open').find('ul').slideToggle();
+        $(this).parent().toggleClass('open').find('ul').slideToggle();
     });
 
     $( window ).resize(function() {
