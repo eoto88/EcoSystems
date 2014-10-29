@@ -1,11 +1,11 @@
-# EcoSystem
+# EcoSystems
 
-Monitoring system made with Arduino to monitor an aquaponic system. This project is named EcoSystem for the simple fact that an aquaponic system is a small ecosystem and, as all ecosystems, it's important to keep an eye on it.
+Monitoring system made with Arduino to monitor an aquaponic system. This project is named EcoSystems for the simple fact that an aquaponic system is a small ecosystem and, as all ecosystems, it's important to keep an eye on it.
 
 An ecosystem is a community of living organisms (plants, animals and microbes) in conjunction with the nonliving components of their environment (things like air, water and mineral soil), interacting as a system.
 http://en.wikipedia.org/wiki/Ecosystem
 
-Components
+## Components
 - Arduino Uno/Arduino Mega
 - Ethernet Shield
 - Photoresistor
@@ -25,12 +25,13 @@ For more infos, come visit later or simply write me!
 3. Import the database structure in MySQL
 4. Rename the file application/config/database.template.php to database.php and add your database configurations.
 5. Rename template.htaccess to .htaccess
+6. Add cron tasks
+    * [ 0 6 * * 0 ] php index.php --task=Cron --action=backupLastDays
+    * [ 0 5 * * * ] php index.php --task=Cron --action=checkTodos
 
 ### bootstrap.php
 * SALT
-* 
-
-Rename template.htaccess to .htaccess
+*
 
 To configure the web application, you need to copy the application/config*.template.php to application/config/*.php
 
