@@ -34,7 +34,7 @@ $(document).ready(function() {
 
     Highcharts.setOptions(highchartsOptions);
 
-    setInterval(function() {
+    /*setInterval(function() {
         $.ajax({
             url: BASE_URL + "ajax/getLiveData",
             cache: false,
@@ -52,7 +52,7 @@ $(document).ready(function() {
             changeStatus('fan', 'Fan', data.fanStatus);
             changeStatus('heater', 'Heater', data.heaterStatus);
         });
-    }, 15000);
+    }, 15000);*/
     
     $("#tasks_list li").click(function() {
         var $todo = $(this);
@@ -76,18 +76,43 @@ $(document).ready(function() {
     $("#instance_list li").click(function() {
         var $instance = $(this);
         var id_instance = $instance.attr('id');
-        document.location = BASE_URL + '' /id_instance
+        document.location = BASE_URL + '/' + id_instance
     });
 
-    $('#left-panel .menu-item-parent').click(function(e) {
+    $('#dropdown-instances li a').click(function (e) {
+        e.preventDefault();
+        //window.history.pushState($(this).text(), $(this).text(), $(this).attr('href'));
+        $('#select-instance span').text($(this).text());
+        $('#dropdown-instances .active').toggleClass('active');
+        $(this).parent().toggleClass('active');
+        var url = $('#left-panel .active a').attr('href');
+        document.location = url +'/'+ getCurrentInstanceId();
+    })
+
+    /*$('#left-panel .menu-item-parent').click(function(e) {
         e.preventDefault();
         $(this).parent().toggleClass('open').find('ul').slideToggle();
+    });*/
+
+    $('#left-panel a.require-instance-id').click(function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        document.location = url +'/'+ getCurrentInstanceId();
+    });
+
+    $('#minify-menu').click(function() {
+        $(this).find('i').toggleClass('fa-arrow-circle-right').toggleClass('fa-arrow-circle-left');
+        $('body').toggleClass('minified-menu');
     });
 
     $( window ).resize(function() {
         resizeMainSection();
     });
 });
+
+function getCurrentInstanceId() {
+    return $('#dropdown-instances .active').data('id');
+}
 
 function resizeMainSection() {
     var winHeight = $( window ).height(),
@@ -108,6 +133,8 @@ function changeStatus(relayId, relayName, status) {
         $("#"+ relayId +"_status").find('.status-icon').removeClass(relayId +'-on');
     }
 }
+
+/*  http://ejohn.org/blog/simple-javascript-inheritance/  */
 
 /* Simple JavaScript Inheritance
  * By John Resig http://ejohn.org/

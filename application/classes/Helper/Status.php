@@ -7,11 +7,12 @@ class Helper_Status {
         $data['room_temperature'];
 
         $title = "Time: ". $data['datetime'];
-
         $icon = 'wi wi-thermometer';
+        $roomTemperature = (isset($data['room_temperature']) ? $data['room_temperature'] : '--') .' °C';
+        $tankTemperature = (isset($data['tank_temperature']) ? $data['tank_temperature'] : '--') .' °C';
 
-        $roomTemperature = $this->formatLiveStatus($title, __('Room temperature'), 'room-temperature', $icon, $data['room_temperature'] .' °C');
-        $tankTemperature = $this->formatLiveStatus($title, __('Tank temperature'), 'tank-temperature', $icon, $data['tank_temperature'] .' °C');
+        $roomTemperature = $this->formatLiveStatus($title, __('Room temperature'), 'room-temperature', $icon, $roomTemperature);
+        $tankTemperature = $this->formatLiveStatus($title, __('Tank temperature'), 'tank-temperature', $icon, $tankTemperature);
 
         return $roomTemperature . $tankTemperature;
     }
@@ -24,16 +25,15 @@ class Helper_Status {
         $sunrise = "";
         $sunset = "";
         if(isset($day)) {
-            if(isset($day['sunrise'])) {
-                $icon = "fa fa-sun-o";
-                $title = "Sunrise: ". $day['sunrise'];
-                $sunrise = $this->formatLiveStatus( $title, __('Sunrise'), 'sunrise', $icon, date('H:i:s', strtotime($day['sunrise'])) );
-            }
-            if(isset($day['sunset'])) {
-                $title = "Sunset: ". $day['sunset'];
-                $icon = "fa fa-moon-o";
-                $sunset = $this->formatLiveStatus( $title, __('Sunset'), 'sunset', $icon, date('H:i:s', strtotime($day['sunset'])) );
-            }
+            $sunriseTime = isset($day['sunrise']) ? date('H:i:s', strtotime($day['sunrise'])) : '--:--:--';
+            $icon = "fa fa-sun-o";
+            $title = "Sunrise: ". $day['sunrise'];
+            $sunrise = $this->formatLiveStatus( $title, __('Sunrise'), 'sunrise', $icon, $sunriseTime );
+
+            $sunsetTime = isset($day['sunset']) ? date('H:i:s', strtotime($day['sunset'])) : '--:--:--';
+            $title = "Sunset: ". $day['sunset'];
+            $icon = "fa fa-moon-o";
+            $sunset = $this->formatLiveStatus( $title, __('Sunset'), 'sunset', $icon, $sunsetTime );
         }
         return $sunrise . $sunset;
     }

@@ -3,12 +3,10 @@
 class Model_Hour {
 
     public function getTemperatureData($idInstance) {
-        // SELECT * FROM ( SELECT * FROM temperature ORDER BY id_temperature DESC LIMIT 1 ) sub ORDER BY id_temperature ASC
         $query = DB::query(Database::SELECT,
             "SELECT datetime, room_temperature, tank_temperature FROM ( SELECT * FROM hour WHERE id_instance = ". $idInstance ." ORDER BY id_hour DESC LIMIT 40 ) sub ORDER BY id_hour ASC"
         );
 
-        //$query = DB::select('datetime', 'room_temperature', 'tank_temperature')->from('hour')->order_by('datetime', 'DESC')->limit(20)->offset(0);
         return $query->execute()->as_array();
     }
 
@@ -17,11 +15,11 @@ class Model_Hour {
         return $query->execute()->current();
     }
     
-    public function getLastDaysTempAverage() {
+    public function getLastDaysTempAverage($idInstance) {
         $query = DB::query(Database::SELECT,
                 "SELECT DATE(datetime) AS `date`, AVG(room_temperature) AS avg_room_temp, AVG(tank_temperature) AS avg_tank_temp"
                 . " FROM hour"
-                . " WHERE DATE(datetime) <= DATE(SUBDATE(current_date, 2))"
+                . " WHERE DATE(datetime) <= DATE(SUBDATE(current_date, 2)) AND id_instance = ". $idInstance
                 . " GROUP BY DATE(datetime)");
         return $query->execute()->as_array();
     }

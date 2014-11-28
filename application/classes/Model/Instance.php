@@ -19,11 +19,18 @@ class Model_Instance {
         $query->execute();
     }
 
-    public function getLiveData($idInstance) {
-        $query = DB::query(Database::SELECT,
-            "SELECT last_communication, pump_on, light_on, fan_on, heater_on, DATE_SUB(NOW(),INTERVAL 2 MINUTE) <= last_communication AS still_alive FROM instance WHERE id_instance = ". $idInstance
-        );
-        return $query->execute()->current();
+    public function getLiveData($idInstance = null) {
+        if( $idInstance ) {
+            $query = DB::query(Database::SELECT,
+                "SELECT last_communication, pump_on, light_on, fan_on, heater_on, DATE_SUB(NOW(),INTERVAL 2 MINUTE) <= last_communication AS still_alive FROM instance WHERE id_instance = " . $idInstance
+            );
+            return $query->execute()->current();
+        } else {
+            $query = DB::query(Database::SELECT,
+                "SELECT id_instance, last_communication, pump_on, light_on, fan_on, heater_on, DATE_SUB(NOW(),INTERVAL 2 MINUTE) <= last_communication AS still_alive FROM instance"
+            );
+            return $query->execute()->as_array();
+        }
     }
 
     public function updatePumpStatus($pumpStatus) {

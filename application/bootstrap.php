@@ -138,7 +138,7 @@ Kohana::modules(array(
     'database' => MODPATH . 'database', // Database access
     // 'image'      => MODPATH.'image',      // Image manipulation
     'minion'     => MODPATH.'minion',     // CLI Tasks
-    // 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
+    'orm'        => MODPATH.'orm',        // Object Relationship Mapping
     // 'unittest'   => MODPATH.'unittest',   // Unit testing
     // 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 ));
@@ -148,27 +148,37 @@ Kohana::modules(array(
  * defaults for the URI.
  */
 Route::set('logout', 'logout')
-        ->defaults(array(
-            'controller' => 'login',
-            'action' => 'logout',
-        ));
+    ->defaults(array(
+        'controller' => 'login',
+        'action' => 'logout',
+    ));
 Route::set('ajax', 'ajax/action(/<id>)')
-        ->defaults(array(
-            'controller' => 'ajax',
-            'action' => 'index',
-        ));
+    ->defaults(array(
+        'controller' => 'ajax',
+        'action' => 'index',
+    ));
 Route::set('live', 'live/<id>')
     ->defaults(array(
         'controller' => 'dashboard',
         'action' => 'live',
     ));
 Route::set('history', 'history/<id>')
-        ->defaults(array(
-            'controller' => 'dashboard',
-            'action' => 'history',
-        ));
-Route::set('default', '(<controller>(/<action>(/<id>)))')
-        ->defaults(array(
-            'controller' => 'dashboard',
-            'action' => 'index',
-        ));
+    ->defaults(array(
+        'controller' => 'dashboard',
+        'action' => 'history',
+    ));
+Route::set('todos', 'todos/<id>')
+    ->defaults(array(
+        'controller' => 'dashboard',
+        'action' => 'todos',
+    ));
+Route::set('instances', 'instances')
+    ->defaults(array(
+        'controller' => 'dashboard',
+        'action' => 'instances',
+    ));
+Route::set('dashboard', '(<controller>(/<action>(/<id>)))')
+    ->defaults(array(
+        'controller' => 'dashboard',
+        'action' => 'index',
+    ));

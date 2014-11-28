@@ -12,39 +12,59 @@ class Task_Cron extends Minion_Task {
             ->rule('bar', 'numeric'); // This param should be numeric
     }*/
     
-    private function checkTodos() {
-        $mToDo = new Model_Todo();
-        $toDos = $mToDo->checkTodos();
-        $message = "";
+    public function checkTodos() {
+        $config = Kohana::$config->load('app');
+        $mTodo = new Model_Todo();
+        $todos = $mTodo->getUncheckedTodos();
+        // TODO Make a template
+
+        $messageParams = array(
+            'base_url' => $config['base_url'],
+            'todos' => $todos
+        );
+
+        $viewMessage = View::factory( "email/todos" )->set($messageParams);
+
+        /*$message = '<div style="background: #474544; border: 1px solid #CCC;"><h1 style="margin: 0; padding: 10px; color: white;">EcoSystems - ToDo\'s</h1></div><div style="background-color: #f3f3f3; padding: 20px 0; border: 1px solid #CCC;"><ul>';
         foreach($toDos as $toDo) {
-            $message .= " - ". $toDo['title'];
+            $message .= "<li>". $toDo['title'] ."</li>";
         }
-        if($message) {
-            $config = Kohana::$config->load('app');
-            $message = array(
-                'subject' => 'EcoSystem - To Do',
-                'body'    => $message,
-                'from'    => array($config['sender_email'] => 'EcoSystem'),
-                'to'      => $config['admin_email']
-            );
-            $code = Email::send('default', $message['subject'], $message['body'], $message['from'], $message['to']);
-            if( ! $code ) {
-                $mLog = new Model_Log();
-                $mLog->log("error", "Can't send tasks list.");
-            }
+        $message .= "</u></div>";*/
+
+        $mLog = new Model_Log();
+
+        $message = array(
+            'subject' => 'EcoSystem - ToDo\'s',
+            'body'    => $viewMessage->render(),
+            'from'    => array($config['sender_email'] => 'EcoSystem'),
+            'to'      => $config['admin_email']
+        );
+        $code = Email::send('default', $message['subject'], $message['body'], $message['from'], $message['to'], $mime_type = 'text/html');
+        if( ! $code ) {
+            $mLog->log( "error", __("Error while sending tasks list.") );
+        } else {
+            $mLog->log( "info", __("Send tasks list by email") );
+
         }
     }
     
     private function backupLastDays() {
+        $mInstance = new Model_Instance();
+        $instances = $mInstance->getInstances();
         $mHour = new Model_Hour();
         $mQuarterHour = new Model_QuarterHour();
         $mDay = new Model_Day();
-        $lastDaysAvg = $mHour->getLastDaysTempAverage();
-        foreach($lastDaysAvg as $dayAvg) {
-            $mDay->updateDayAvg( $dayAvg['date'], $dayAvg['avg_room_temp'], $dayAvg['avg_tank_temp'] );
-            $mHour->deleteHours( $dayAvg['date'] );
-            $mQuarterHour->deleteQuarterHours( $dayAvg['date'] );
+
+        foreach($instances as $instance) {
+            $lastDaysAvg = $mHour->getLastDaysTempAverage($instance['id_instance']);
+            foreach ($lastDaysAvg as $dayAvg) {
+                $mDay->updateDayAvg($instance['id_instance'], $dayAvg['date'], $dayAvg['avg_room_temp'], $dayAvg['avg_tank_temp']);
+                $mHour->deleteHours($dayAvg['date']);
+                $mQuarterHour->deleteQuarterHours($dayAvg['date']);
+            }
         }
+        $mLog = new Model_Log();
+        $mLog->log( "info", __("Update last days average and delete old data") );
     }
  
     /**

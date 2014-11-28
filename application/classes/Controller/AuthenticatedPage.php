@@ -5,6 +5,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
     public $template = 'template'; // Default template
     public $jsTranslations = array();
     public $user;
+    public $currentInstanceId;
     public $instances;
 
     public function before() {
@@ -14,38 +15,58 @@ class Controller_AuthenticatedPage extends Controller_Template {
         if ( ! Auth::instance()->logged_in()) {
             HTTP::redirect(URL::base(TRUE, TRUE) . 'login');
         }
+
+        $this->getAndSetCurrentInstanceId();
         
         $this->user = Auth::instance()->get_user();
 
         $mInstance = new Model_Instance();
         $this->instances = $mInstance->getInstances();
 
-        $mToDo = new Model_Todo();
-        View::set_global('toDos', $mToDo->checkToDos());
+        //$mToDo = new Model_Todo();
+        //View::set_global('uncheckedToDos', $mToDo->checkToDos());
+    }
+
+    private function getAndSetCurrentInstanceId() {
+        if( $this->request->param('id') ) {
+            $id = $this->request->param('id');
+            if( ! is_numeric($id) )
+                throw new HTTP_Exception_404;
+            $this->currentInstanceId = $this->request->param('id');
+            Cookie::set('current_instance_id', $this->currentInstanceId);
+        } else if( Cookie::get('current_instance_id') ) {
+            $this->currentInstanceId = Cookie::get('current_instance_id');
+        } else {
+            $config = Kohana::$config->load('app');
+            $this->currentInstanceId = $config['default_instance'];
+            Cookie::set('current_instance_id', $this->currentInstanceId);
+        }
     }
 
     public function after() {
-        $idInstance = 1;
+        $this->template->user = $this->user;
 
-        $hStatus = new Helper_Status();
+        $this->template->current_route_name = Route::name($this->request->route());
+        $this->template->current_instance_id = $this->currentInstanceId;
 
-        $mDay = new Model_Day();
-        $day = $mDay->getCurrentDay($idInstance);
-        if( ! $day ) {
+        //$mDay = new Model_Day();
+        //$day = $mDay->getCurrentDay( $this->currentInstanceId );
+        /*if( ! $day ) {
             $date = new DateTime();
             $date->sub(new DateInterval('P1D'));
 
-            $day = $mDay->getDayByDate($idInstance, $date->format('Y-m-d'));
-        }
-        $this->template->sun_status = $hStatus->getSunStatus($day);
+            $day = $mDay->getDayByDate( $this->currentInstanceId, $date->format('Y-m-d') );
+        }*/
+        //$hStatus = new Helper_Status();
+        //$this->template->sun_status = $hStatus->getSunStatus($day);
 
-        $mInstance = new Model_Instance();
-        $liveData = $mInstance->getLiveData($idInstance);
+        /*$mInstance = new Model_Instance();
+        $liveData = $mInstance->getLiveData( $this->currentInstanceId );
         $this->template->communication_status = $hStatus->getCommunicationStatus($liveData);
         $this->template->pump_status = $hStatus->getStatus('pump', 'Pump', $liveData['pump_on']);
         $this->template->light_status = $hStatus->getStatus('light', 'Light', $liveData['light_on']);
         $this->template->fan_status = $hStatus->getStatus('fan', 'Fan', $liveData['fan_on']);
-        $this->template->heater_status = $hStatus->getStatus('heater', 'Heater', $liveData['heater_on']);
+        $this->template->heater_status = $hStatus->getStatus('heater', 'Heater', $liveData['heater_on']);*/
 
         $this->template->instances = $this->instances;
 
@@ -73,10 +94,13 @@ class Controller_AuthenticatedPage extends Controller_Template {
 
     private function getScripts() {
         return array(
-            "assets/js/plugins.js",
-            "assets/js/history.js",
-            "assets/js/dashboard.js",
+            //"assets/js/plugins.js",
+            "assets/js/widgets/history.js",
+            "assets/js/widgets/live.js",
+            "assets/js/widgets/instances.js",
+            "assets/js/widget.js",
             "assets/js/main.js",
+            "assets/js/vendor/bootstrap.min.js",
             "http://code.highcharts.com/modules/exporting.js",
             "http://code.highcharts.com/highcharts.js"
         );

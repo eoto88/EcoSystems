@@ -2,10 +2,10 @@
 
 class Model_Todo {
 
-    /*public function getLastSunlightData() {
-        $query = DB::select('datetime', 'sunlight')->from('quarter_hour')->order_by('datetime', 'DESC')->limit(1)->offset(0);
-        return $query->execute()->current();
-    }*/
+    public function getTodos() {
+        $query = DB::select('*')->from('todo')->order_by('title', 'ASC');
+        return $query->execute()->as_array();
+    }
     
     public function insertQuarterHour($datetime, $sunlight) {
         $query = DB::insert('quarter_hour', array(
@@ -15,8 +15,18 @@ class Model_Todo {
             ) );
         $query->execute();
     }
+
+    public function getTodosWithState() {
+        $query = DB::query(Database::SELECT,
+            "SELECT *, IF(DATE(last_check) > CASE time_unit
+                WHEN \"DAY\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` DAY)
+                WHEN \"MONTH\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` MONTH)
+                END, 1, 0) AS checked
+            FROM todo;");
+        return $query->execute()->as_array();
+    }
     
-    public function checkTodos() {
+    public function getUncheckedTodos() {
         $query = DB::query(Database::SELECT,
             "SELECT *
             FROM todo

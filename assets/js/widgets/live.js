@@ -118,7 +118,7 @@ var Dashboard = Class.extend({
     requestChartData: function() {
         var me = this;
         $.ajax({
-            url: BASE_URL + 'ajax/chartLiveData',
+            url: BASE_URL + 'ajax/chartLiveData/' + getCurrentInstanceId(),
             cache: false,
             dataType: "json",
             success: function(point) {

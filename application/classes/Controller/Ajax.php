@@ -15,8 +15,8 @@ class Controller_Ajax extends Controller {
         parent::after();
     }
 
-    public function action_chartLiveData($idInstance) {
-        $idInstance = 1;
+    public function action_chartLiveData() {
+        $idInstance = $this->request->param('id');
         $mHour = new Model_Hour();
         $tempData = $mHour->getLastTemperatureData($idInstance);
         $tempDatetime = strtotime($tempData['datetime']) * 1000;
@@ -33,37 +33,37 @@ class Controller_Ajax extends Controller {
     }
 
     public function action_getLiveData() {
-        $idInstance = 1;
+        $idInstance = $this->request->param('id');
         $mInstance = new Model_Instance();
         $liveData = $mInstance->getLiveData($idInstance);
-        $stillAliveStatus = "dead";
-        if ($liveData['still_alive']) {
-            $stillAliveStatus = "still-alive";
+
+        if( $idInstance ) {
+            echo json_encode( $this->prepareLiveData($idInstance, $liveData) );
+        } else {
+            $returnData = array();
+            foreach($liveData as $instance) {
+                $returnData[] = $this->prepareLiveData($instance['id_instance'], $instance);
+            }
+            echo json_encode( $returnData );
         }
-        $pumpStatus = "off";
-        $lightStatus = "off";
-        $fanStatus = "off";
-        $heaterStatus = "off";
-        if ($liveData['pump_on']) {
-            $pumpStatus = "on";
-        }
-        if ($liveData['light_on']) {
-            $lightStatus = "on";
-        }
-        if ($liveData['fan_on']) {
-            $fanStatus = "on";
-        }
-        if ($liveData['heater_on']) {
-            $heaterStatus = "on";
-        }
-        echo json_encode(array(
+    }
+
+    private function prepareLiveData($idInstance, $instance) {
+        $stillAliveStatus = $instance['still_alive'] ? "still-alive" : "dead";
+        $pumpStatus = $instance['pump_on'] ? "on" : "off";
+        $lightStatus = $instance['light_on'] ? "on" : "off";
+        $fanStatus = $instance['fan_on'] ? "on" : "off";
+        $heaterStatus = $instance['heater_on'] ? "on" : "off";
+
+        return array(
+            'idInstance' => $idInstance,
             'stillAliveStatus' => $stillAliveStatus,
-            'lastCommunication' => $liveData['last_communication'],
+            'lastCommunication' => $instance['last_communication'],
             'pumpStatus' => $pumpStatus,
             'lightStatus' => $lightStatus,
             'fanStatus' => $fanStatus,
             'heaterStatus' => $heaterStatus
-        ));
+        );
     }
     
     public function action_updateToDo() {

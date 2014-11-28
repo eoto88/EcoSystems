@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo $title; ?></title>
+    <title><?php echo $title; ?> | EcoSystem</title>
     <meta name="description" content="">
     <meta name="robots" content="noindex, nofollow">
 
@@ -27,43 +27,92 @@
 </head>
 <body>
 <header id="header">
-    <div id="header-container"></div>
+    <div id="header-container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <h1>EcoSystem</h1>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="btn-group">
+                    <a href="#" id="select-instance" class="dropdown-toggle" data-toggle="dropdown">
+                        <?php
+                        $currentInstance = null;
+                        foreach($instances as $instance) {
+                            if( $instance['id_instance'] == $current_instance_id ) {
+                                $currentInstance = $instance;
+                            }
+                        }
+                        if( $currentInstance ) {  ?>
+                            <span><?php echo $currentInstance['title'] ?></span>
+                        <?php } else {  ?>
+                            <span>Instances</span>
+                        <?php } ?>
+                        &nbsp;<i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul id="dropdown-instances" class="dropdown-menu js-status-update pull-left">
+                        <?php
+                        foreach($instances as $instance) {
+                            $class = ($current_instance_id == $instance['id_instance']) ? 'class="active"' : '';
+                            ?>
+                            <li <?php echo $class ?> data-id="<?php echo $instance['id_instance'] ?>">
+                                <a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id_instance'] ?>"><?php echo $instance['title'] ?></a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </div>
+                <?php echo $user ?>
+            </div>
+        </div>
+    </div>
 </header>
 <aside id="left-panel">
     <nav>
         <ul>
-            <li class="active">
-                <a href="<?php echo URL::base(TRUE, TRUE); ?>"><i class="fa fa-lg fa-fw fa-tachometer"></i><?php echo __('Dashboard'); ?></a>
-            </li>
-            <li>
-                <a href="#" class="menu-item-parent">
-                    <i class="fa fa-lg fa-fw fa-list-alt"></i>&nbsp;<span class="menu-item-parent"><?php echo __('Instances') ?></span><b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b>
+            <li <?php echo ($current_route_name == 'dashboard') ? 'class="active"' : ''; ?>>
+                <a href="<?php echo URL::base(TRUE, TRUE); ?>">
+                    <i class="fa fa-lg fa-fw fa-tachometer"></i>&nbsp;
+                    <span class="menu-title"><?php echo __('Dashboard'); ?></span>
                 </a>
-                <ul>
-                    <?php foreach($instances as $instance) { ?>
-                        <li id="<?php echo $instance['id_instance'] ?>">
-                            <a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id_instance'] ?>"><?php echo $instance['title'] ?></a>
-                        </li>
-                    <?php } ?>
-                </ul>
+            </li>
+            <li <?php echo ($current_route_name == 'live') ? 'class="active"' : ''; ?>>
+                <a href="<?php echo URL::base(TRUE, TRUE) .'live'; ?>" class="require-instance-id">
+                    <i class="fa fa-lg fa-fw fa-bar-chart-o"></i>&nbsp;
+                    <span class="menu-title"><?php echo __('Live'); ?></span>
+                </a>
+            </li>
+            <li <?php echo ($current_route_name == 'history') ? 'class="active"' : ''; ?>>
+                <a href="<?php echo URL::base(TRUE, TRUE) .'history'; ?>" class="require-instance-id">
+                    <i class="fa fa-lg fa-fw fa-history"></i>&nbsp;
+                    <span class="menu-title"><?php echo __('History'); ?></span>
+                </a>
+            </li>
+            <li <?php echo ($current_route_name == 'todos') ? 'class="active"' : ''; ?>>
+                <a href="<?php echo URL::base(TRUE, TRUE) .'todos'; ?>" class="require-instance-id">
+                    <i class="fa fa-lg fa-fw fa-check"></i>&nbsp;
+                    <span class="menu-title"><?php echo __('ToDo\'s'); ?></span>
+                </a>
+            </li>
+            <li <?php echo ($current_route_name == 'instances') ? 'class="active"' : ''; ?>>
+                <a href="<?php echo URL::base(TRUE, TRUE) .'instances'; ?>">
+                    <i class="fa fa-lg fa-fw fa-list-alt"></i>&nbsp;
+                    <span class="menu-title"><?php echo __('Instances') ?></span>
+                </a>
+            </li>
+            <li  <?php echo ($current_route_name == 'logs') ? 'class="active"' : ''; ?>>
+                <a href="<?php echo URL::base(TRUE, TRUE) .'logs'; ?>">
+                    <i class="fa fa-lg fa-fw fa-file-text-o"></i>&nbsp;
+                    <span class="menu-title"><?php echo __('Logs'); ?></span>
+                </a>
             </li>
             <li>
-                <a href="<?php echo URL::base(TRUE, TRUE) .'live'; ?>"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i><?php echo __('Live'); ?></a>
-            </li>
-            <li>
-                <a href="<?php echo URL::base(TRUE, TRUE) .'history'; ?>"><i class="fa fa-lg fa-fw fa-history"></i><?php echo __('History'); ?></a>
-            </li>
-            <li>
-                <a href="<?php echo URL::base(TRUE, TRUE) .'todos'; ?>"><i class="fa fa-lg fa-fw fa-check"></i><?php echo __('ToDo\'s'); ?></a>
-            </li>
-            <li>
-                <a href="<?php echo URL::base(TRUE, TRUE) .'logs'; ?>"><i class="fa fa-lg fa-fw fa-file-text-o"></i><?php echo __('Logs'); ?></a>
-            </li>
-            <li>
-                <a id="logout" href="<?php echo URL::base(TRUE, TRUE) .'logout'; ?>"><i class="fa fa-lg fa-fw fa-sign-out"></i><?php echo __('Logout'); ?></a>
+                <a id="logout" href="<?php echo URL::base(TRUE, TRUE) .'logout'; ?>">
+                    <i class="fa fa-lg fa-fw fa-sign-out"></i>&nbsp;
+                    <span class="menu-title"><?php echo __('Logout'); ?></span>
+                </a>
             </li>
         </ul>
     </nav>
+    <span id="minify-menu"><i class="fa fa-arrow-circle-left hit"></i></span>
 </aside>
 <div id="main">
     <!--[if lt IE 7]>
@@ -71,6 +120,11 @@
     <![endif]-->
 
     <div id="content">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h1><i class="fa fa-lg fa-fw <?php echo $icon; ?>"></i> <?php echo $title; ?></h1>
+            </div>
+        </div>
         <?php echo $content; ?>
     </div>
 </div>
@@ -90,26 +144,26 @@
                         <div id="tasks_wrapper">
                             <span><?php echo __('Task list'); ?> <i class="fa fa-list"></i></span>
                             <ul id="tasks_list">
-                                <?php
-                                if(count($toDos)) {
-                                    foreach($toDos as $toDo) {
+                                <?php /*
+                                if(count($uncheckedToDos)) {
+                                    foreach($uncheckedToDos as $toDo) {
                                         echo '<li id="todo-'. $toDo['id_todo'] .'"><i class="fa fa-square-o check"></i>'. $toDo['title'] .'</li>';
                                     }
                                 } else {
                                     echo '<li id="no-todo">'. __('No task in the to do list') .'</li>';
-                                }
+                                }*/
                                 ?>
                             </ul>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div id="liveStatus">
-                            <?php echo $communication_status; ?>
+                            <?php /*echo $communication_status; ?>
                             <?php echo $sun_status; ?>
                             <?php echo $pump_status; ?>
                             <?php echo $light_status; ?>
                             <?php echo $fan_status; ?>
-                            <?php echo $heater_status; ?>
+                            <?php echo $heater_status;*/ ?>
                         </div>
                         <ul id="menu" class="nav navbar-nav">
                             <li><a href="<?php echo URL::base(TRUE, TRUE); ?>"><i class="fa fa-tachometer"></i><br /><?php echo __('Dashboard'); ?></a></li>

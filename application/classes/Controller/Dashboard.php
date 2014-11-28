@@ -22,10 +22,11 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
     }
 
     public function action_index() {
-        $this->template->title = __('Dashboard') ." | EcoSystem";
-
+        $this->template->title = __('Dashboard');
+        $this->template->icon = 'fa-tachometer';
 
         $mHour = new Model_Hour();
+        $mToDo = new Model_Todo();
         //$mQuarterHour = new Model_QuarterHour();
         $mDay = new Model_Day();
         $hStatus = new Helper_Status();
@@ -47,8 +48,12 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
             $instances[] = $instance;
         }
 
+        $mLog = new Model_Log();
+
         $dashboardData = array(
-            'instances' => $instances
+            'instances' => $instances,
+            'logs'      => $mLog->getLastLogs(),
+            'toDos'     => $mToDo->getTodosWithState()
         );
 
         $view = View::factory( "dashboard" )->set($dashboardData);
@@ -56,24 +61,46 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
     }
 
     public function action_live() {
-        $idInstance = $this->request->param('id');
-        $this->template->title = __('Live') ." | EcoSystem";
-        $mHour = new Model_Hour();
-        $temperatureData = $mHour->getTemperatureData($idInstance);
+        $this->template->title = __('Live');
+        $this->template->icon = 'fa-bar-chart-o';
 
-        $mQuarterHour = new Model_QuarterHour();
-        $sunlightData = $mQuarterHour->getSunlightData($idInstance);
-
-        $dashboardData = $this->prepareDashbordData($temperatureData, $sunlightData);
-
-        $view = View::factory( "live" )->set($dashboardData);
+        $view = View::factory( "live" )->set( $this->getLiveData() );
         $this->template->content = $view->render();
     }
+
+    private function getLiveStatus($idInstance) {
+        $mDay = new Model_Day();
+        $day = $mDay->getCurrentDay( $idInstance );
+
+        $hStatus = new Helper_Status();
+
+        $mInstance = new Model_Instance();
+        $liveData = $mInstance->getLiveData( $idInstance );
+
+        $mHour = new Model_Hour();
+        $temperatureData = $mHour->getLastTemperatureData( $idInstance );
+
+        return array(
+            'sun_status' => $hStatus->getSunStatus($day),
+            'communication_status' => $hStatus->getCommunicationStatus($liveData),
+            'pump_status' => $hStatus->getStatus('pump', 'Pump', $liveData['pump_on']),
+            'light_status' => $hStatus->getStatus('light', 'Light', $liveData['light_on']),
+            'fan_status' => $hStatus->getStatus('fan', 'Fan', $liveData['fan_on']),
+            'heater_status' => $hStatus->getStatus('heater', 'Heater', $liveData['heater_on']),
+            'temperature_status' => $hStatus->getTemperatureStatus($temperatureData)
+        );
+    }
     
-    private function prepareDashbordData($temparatureData, $sunlightData) {
+    private function getLiveData() {
+        $mHour = new Model_Hour();
+        $temperatureData = $mHour->getTemperatureData( $this->currentInstanceId );
+
+        $mQuarterHour = new Model_QuarterHour();
+        $sunlightData = $mQuarterHour->getSunlightData( $this->currentInstanceId );
+
         $roomTemperature = array();
         $tankTemperature = array();
-        foreach($temparatureData as $temp) {
+        foreach($temperatureData as $temp) {
             $datetime = strtotime($temp['datetime']) * 1000;
             $roomTemperature[] = array( $datetime, floatval($temp['room_temperature']) );
             $tankTemperature[] = array( $datetime, floatval($temp['tank_temperature']) );
@@ -86,18 +113,20 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         }
         
         return array(
-            'roomTemperatureData' => $roomTemperature,
-            'tankTemperatureData' => $tankTemperature,
-            'sunlightData' => $sunlight
+            'roomTemperatureData'   => $roomTemperature,
+            'tankTemperatureData'   => $tankTemperature,
+            'sunlightData'          => $sunlight,
+            'liveStatus'            => $this->getLiveStatus( $this->currentInstanceId )
         );
     }
     
     public function action_history() {
-        $this->template->title = __('History') ." | EcoSystem";
+        $this->template->title = __('History');
+        $this->template->icon = 'fa-history';
+
         $this->template->translations = array();
         $mDay = new Model_Day();
-        $idInstance = 1;
-        $lastDaysData = $mDay->getLastDays($idInstance);
+        $lastDaysData = $mDay->getLastDays( $this->currentInstanceId );
 
         $historyData = $this->prepareHistoryData($lastDaysData);
         
@@ -122,6 +151,47 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
             'tankTemperatureHistory' => $tankTemperatureHistory,
             'sunlightHistory' => $sunlightHistory
         );
+    }
+
+
+    public function action_instances() {
+        $this->template->title = __('Instances');
+        $this->template->icon = 'fa-list-alt';
+
+        $config = Kohana::$config->load('app');
+
+        $instancesData = array(
+            'instances' => $this->instances,
+            'instance_types' => $config['instance_types']
+        );
+
+        $view = View::factory( "instances" )->set( $instancesData );;
+        $this->template->content = $view->render();
+    }
+
+    public function action_todos() {
+        $this->template->title = __('ToDo\'s');
+        $this->template->icon = 'fa-check';
+
+        $config = Kohana::$config->load('app');
+
+        $mTodo = new Model_Todo();
+
+        $instancesData = array(
+            'toDos' => $mTodo->getTodos(),
+            'instance_types' => $config['instance_types']
+        );
+
+        $view = View::factory( "todos" )->set( $instancesData );;
+        $this->template->content = $view->render();
+    }
+
+    public function action_logs() {
+        $this->template->title = __('Logs');
+        $this->template->icon = 'fa-file-text-o';
+
+        $view = View::factory( "logs" )->set( array('instances' => $this->instances) );;
+        $this->template->content = $view->render();
     }
 
 } // End Welcome

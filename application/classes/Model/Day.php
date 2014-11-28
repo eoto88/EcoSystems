@@ -64,12 +64,16 @@ class Model_Day {
     
     public function updateSunset($idInstance, $datetime) {
         $this->insertIfNoCurrentDay($idInstance);
-        $query = DB::update('day')->set(array('sunset' => gmdate("Y-m-d H:i:s", $datetime)))->where('date', '=', gmdate("Y-m-d", $datetime));
+        $query = DB::update('day')->set(
+            array('sunset' => gmdate("Y-m-d H:i:s", $datetime))
+        )->where('date', '=', gmdate("Y-m-d", $datetime))->and_where('id_instance', '=', $idInstance);
         $query->execute();
     }
     
-    public function updateDayAvg($date, $roomTempAvg, $tankTempAvg) {
-        $query = DB::update('day')->set(array('room_tmp_avg' => $roomTempAvg, 'tank_tmp_avg' => $tankTempAvg))->where('date', '=', $date);
+    public function updateDayAvg($idInstance, $date, $roomTempAvg, $tankTempAvg) {
+        $query = DB::update('day')->set(
+            array('room_tmp_avg' => $roomTempAvg, 'tank_tmp_avg' => $tankTempAvg)
+        )->where('date', '=', $date)->and_where('id_instance', '=', $idInstance);
         $query->execute();
     }
 }

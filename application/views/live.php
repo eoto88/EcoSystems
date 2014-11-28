@@ -1,5 +1,39 @@
-<div id="temperatureChart" class="chart"></div>
-<div id="sunlightChart" class="chart"></div>
+<div class="row">
+    <article class="col-sm-12 col-md-12 col-lg-12">
+        <div class="widget-live widget">
+            <header role="heading">
+                <span class="widget-icon"><i class="fa fa-bar-chart-o fa-fw "></i></span>
+                <h2>Bedroom</h2>
+            </header>
+            <div class="widget-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6 col-lg-12">
+
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-12">
+                                <?php echo $liveStatus['communication_status'] ?>
+                                <?php echo $liveStatus['pump_status'] ?>
+                                <?php echo $liveStatus['light_status'] ?>
+                                <?php echo $liveStatus['fan_status'] ?>
+                                <?php echo $liveStatus['heater_status'] ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <?php echo $liveStatus['sun_status'] ?>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <?php echo $liveStatus['temperature_status'] ?>
+                    </div>
+                </div>
+                <div id="temperatureChart" class="chart"></div>
+                <div id="sunlightChart" class="chart"></div>
+            </div>
+        </div>
+    </article>
+</div>
 <script type="application/javascript">
     var roomTemperatureData = <?php echo json_encode($roomTemperatureData); ?>;
     var tankTemperatureData = <?php echo json_encode($tankTemperatureData); ?>;
