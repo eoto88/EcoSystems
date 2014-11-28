@@ -5,7 +5,7 @@
     <div style="background: white; padding: 30px; border: 1px solid #CCC;">
         <table style="border-spacing: 0; padding: 0; list-style: disc;">
             <?php foreach($todos as $todo) { ?>
-                <tr>
+                <tr style="border-bottom: 1px solid #e7e7e7;">
                     <td style="padding: 0;">
                         <span style="display: block; width: 20px; margin: 10px;">
                             <span style="display: block; border: 1px solid black; width: 10px; height: 10px;"></span>
