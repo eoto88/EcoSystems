@@ -16,20 +16,12 @@ class Task_Cron extends Minion_Task {
         $config = Kohana::$config->load('app');
         $mTodo = new Model_Todo();
         $todos = $mTodo->getUncheckedTodos();
-        // TODO Make a template
 
         $messageParams = array(
             'base_url' => $config['base_url'],
             'todos' => $todos
         );
-
         $viewMessage = View::factory( "email/todos" )->set($messageParams);
-
-        /*$message = '<div style="background: #474544; border: 1px solid #CCC;"><h1 style="margin: 0; padding: 10px; color: white;">EcoSystems - ToDo\'s</h1></div><div style="background-color: #f3f3f3; padding: 20px 0; border: 1px solid #CCC;"><ul>';
-        foreach($toDos as $toDo) {
-            $message .= "<li>". $toDo['title'] ."</li>";
-        }
-        $message .= "</u></div>";*/
 
         $mLog = new Model_Log();
 
