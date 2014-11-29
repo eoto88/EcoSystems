@@ -2,16 +2,16 @@
 
 class Model_Hour {
 
-    public function getTemperatureData($idInstance) {
+    public function getHourData($idInstance) {
         $query = DB::query(Database::SELECT,
-            "SELECT datetime, room_temperature, tank_temperature FROM ( SELECT * FROM hour WHERE id_instance = ". $idInstance ." ORDER BY id_hour DESC LIMIT 40 ) sub ORDER BY id_hour ASC"
+            "SELECT datetime, humidity, room_temperature, tank_temperature FROM ( SELECT * FROM hour WHERE id_instance = ". $idInstance ." ORDER BY datetime DESC LIMIT 40 ) sub ORDER BY datetime ASC"
         );
 
         return $query->execute()->as_array();
     }
 
     public function getLastTemperatureData($idInstance) {
-        $query = DB::select('datetime', 'room_temperature', 'tank_temperature')->from('hour')->where('id_instance', '=', $idInstance)->order_by('datetime', 'DESC')->limit(1)->offset(0);
+        $query = DB::select('datetime', 'humidity', 'room_temperature', 'tank_temperature')->from('hour')->where('id_instance', '=', $idInstance)->order_by('datetime', 'DESC')->limit(1)->offset(0);
         return $query->execute()->current();
     }
     
@@ -24,11 +24,11 @@ class Model_Hour {
         return $query->execute()->as_array();
     }
     
-    public function insertHour($idInstance, $idCurrentDay, $datetime, $roomTemperature, $tankTemperature) {
+    public function insertHour($idInstance, $idCurrentDay, $datetime, $humidity, $roomTemperature, $tankTemperature) {
         $query = DB::insert('hour', array(
-            'id_instance', 'id_day', 'datetime', 'room_temperature', 'tank_temperature'
+            'id_hour2', 'id_instance', 'id_day', 'datetime', 'humidity', 'room_temperature', 'tank_temperature'
         ))->values( array(
-            $idInstance, $idCurrentDay, gmdate("Y-m-d H:i:s", $datetime), $roomTemperature, $tankTemperature
+            DB::expr("UNHEX(REPLACE(UUID(),'-',''))"), $idInstance, $idCurrentDay, gmdate("Y-m-d H:i:s", $datetime), $humidity, $roomTemperature, $tankTemperature
         ) );
         $query->execute();
     }
