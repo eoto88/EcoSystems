@@ -2,17 +2,22 @@
 
 class Controller_Dashboard extends Controller_AuthenticatedPage {
 
-    //public $template = 'template'; // Default template
-
     public function before() {
         parent::before();
         $this->jsTranslations = array(
+            // Temperature
             'temperature'       => __('Temperature'),
             'roomTemperature'   => __('Room temperature'),
             'tankTemperature'   => __('Tank temperature'),
             'hot'               => __('Hot'),
             'cold'              => __('Cold'),
             'valueInCelsius'    => __('Value in Celsius (°C)'),
+            // Humidity
+            'humidity'          => __('Humidity'),
+            'low'               => __('Low'),
+            'high'              => __('High'),
+            'humidityPercent'   => __('Humidity (%)'),
+            // Sunlight
             'sunlight'          => __('Sunlight'),
             'sunlightPercent'   => __('Sunlight (%)'),
             'day'               => __('Day'),
@@ -93,17 +98,19 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
     
     private function getLiveData() {
         $mHour = new Model_Hour();
-        $temperatureData = $mHour->getTemperatureData( $this->currentInstanceId );
+        $hourData = $mHour->getHourData( $this->currentInstanceId );
 
         $mQuarterHour = new Model_QuarterHour();
         $sunlightData = $mQuarterHour->getSunlightData( $this->currentInstanceId );
 
+        $humidity = array();
         $roomTemperature = array();
         $tankTemperature = array();
-        foreach($temperatureData as $temp) {
-            $datetime = strtotime($temp['datetime']) * 1000;
-            $roomTemperature[] = array( $datetime, floatval($temp['room_temperature']) );
-            $tankTemperature[] = array( $datetime, floatval($temp['tank_temperature']) );
+        foreach($hourData as $hour) {
+            $datetime = strtotime($hour['datetime']) * 1000;
+            $humidity[] = array( $datetime, floatval($hour['humidity']) );
+            $roomTemperature[] = array( $datetime, floatval($hour['room_temperature']) );
+            $tankTemperature[] = array( $datetime, floatval($hour['tank_temperature']) );
         }
 
         $sunlight = array();
@@ -113,6 +120,7 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         }
         
         return array(
+            'humidityData'          => $humidity,
             'roomTemperatureData'   => $roomTemperature,
             'tankTemperatureData'   => $tankTemperature,
             'sunlightData'          => $sunlight,

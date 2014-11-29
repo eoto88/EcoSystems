@@ -10,9 +10,11 @@ var Dashboard = Class.extend({
                 marginTop: 50,
                 height: 320,
                 defaultSeriesType: 'spline'
+            },  credits: {
+                enabled: false
             },
             title: {
-                text: translations.temperature
+                text: ''
             },
             xAxis: {
                 type: 'datetime',
@@ -61,6 +63,63 @@ var Dashboard = Class.extend({
             }]
         });
 
+        this.humidityChart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'humidityChart',
+                marginTop: 50,
+                height: 320,
+                defaultSeriesType: 'spline'
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                type: 'datetime',
+                maxZoom: 20 * 1000
+            },
+            yAxis: {
+                minPadding: 0.5,
+                maxPadding: 0.5,
+                minRange: 5,
+                max: 100,
+                min: 0,
+                title: {
+                    text: translations.valueInPercent,
+                    margin: 25
+                },
+                plotBands: [{ // Low
+                    from: 0,
+                    to: 20,
+                    color: 'rgba(191, 11, 35, 0.1)',
+                    label: {
+                        text: translations.low,
+                        style: {
+                            color: '#606060'
+                        }
+                    }
+                }, { // High
+                    from: 50,
+                    to: 100,
+                    color: 'rgba(68, 170, 213, 0.1)',
+                    label: {
+                        text: translations.high,
+                        style: {
+                            color: '#606060'
+                        }
+                    }
+                }]
+            },
+            series: [{
+                name: translations.humidityPercent,
+                color: '#44aad5',
+                dashStyle: 'ShortDash',
+                data: humidityData
+            }]
+        });
+
         this.sunlightChart = new Highcharts.Chart({
             chart: {
                 renderTo: 'sunlightChart',
@@ -68,8 +127,11 @@ var Dashboard = Class.extend({
                 height: 320,
                 defaultSeriesType: 'spline'
             },
+            credits: {
+                enabled: false
+            },
             title: {
-                text: translations.sunlight
+                text: ''
             },
             xAxis: {
                 type: 'datetime',

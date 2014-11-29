@@ -80,9 +80,10 @@ textarea {
    Author's custom styles
    ========================================================================== */
 /* Navigation */
+/* Title */
 /* Widget's borders */
-/* On element hover */
 /* Background */
+/* Hover */
 body {
   font-family: "Open Sans",Arial,Helvetica,Sans-Serif;
   font-size: 13px;
@@ -98,7 +99,8 @@ h1, h2, h3, h4 {
 
 h1 {
   font-size: 22px;
-  margin-bottom: 15px; }
+  margin-bottom: 15px;
+  color: #4c4f53; }
 
 #header {
   position: fixed;
@@ -120,6 +122,19 @@ h1 {
   border-width: 1px 0;
   box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.07);
   border-bottom: 1px solid #1A1817; }
+
+#logo {
+  color: white; }
+
+.header-block {
+  display: inline-block;
+  vertical-align: middle;
+  height: 49px;
+  float: left; }
+
+.header-instances > :first-child {
+  display: block;
+  color: white; }
 
 /* **** Left nav - START **** */
 #left-panel {
@@ -285,8 +300,8 @@ h1 {
     height: 34px;
     padding: 0;
     color: white;
-    background: #474544;
-    border: 1px solid #CCC; }
+    background: #60747C;
+    border: 1px solid #60747C; }
     .widget header .widget-icon {
       display: block;
       width: 30px;
@@ -327,7 +342,7 @@ h1 {
   border-bottom: 1px solid #e7e7e7;
   padding: 15px; }
 #widget-instances li:hover {
-  background: #E4E4E4; }
+  background: #ecf3f8; }
 #widget-instances li i {
   font-size: 28px; }
 #widget-instances .live-status {
@@ -344,6 +359,8 @@ h1 {
   color: #FCD432; }
 #widget-instances .sunset i {
   color: #BBB; }
+#widget-instances .humidity i {
+  color: #44aad5; }
 #widget-instances .room-temperature i {
   color: #BF0B23; }
 #widget-instances .tank-temperature i {
@@ -361,7 +378,7 @@ h1 {
   position: relative;
   border-bottom: 1px solid #e7e7e7; }
   #widget-todos li:hover {
-    background: #E4E4E4; }
+    background: #ecf3f8; }
   #widget-todos li .check {
     position: absolute;
     top: 8px;

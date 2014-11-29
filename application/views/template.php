@@ -30,10 +30,11 @@
     <div id="header-container">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-6">
-                <h1>EcoSystem</h1>
+                <h1 id="logo">EcoSystem</h1>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-6">
-                <div class="btn-group">
+                <div class="header-block header-instances">
+                    <span><?php echo __('Instances') .' :'?></span>
                     <a href="#" id="select-instance" class="dropdown-toggle" data-toggle="dropdown">
                         <?php
                         $currentInstance = null;
@@ -45,7 +46,7 @@
                         if( $currentInstance ) {  ?>
                             <span><?php echo $currentInstance['title'] ?></span>
                         <?php } else {  ?>
-                            <span>Instances</span>
+                            <span><?php echo __('Select an instance'); ?></span>
                         <?php } ?>
                         &nbsp;<i class="fa fa-caret-down"></i>
                     </a>

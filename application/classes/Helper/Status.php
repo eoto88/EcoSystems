@@ -7,14 +7,16 @@ class Helper_Status {
         $data['room_temperature'];
 
         $title = "Time: ". $data['datetime'];
-        $icon = 'wi wi-thermometer';
+        $tempIcon = 'wi wi-thermometer';
         $roomTemperature = (isset($data['room_temperature']) ? $data['room_temperature'] : '--') .' °C';
         $tankTemperature = (isset($data['tank_temperature']) ? $data['tank_temperature'] : '--') .' °C';
+        $humidity = (isset($data['humidity']) ? $data['humidity'] : '--') .' %';
 
-        $roomTemperature = $this->formatLiveStatus($title, __('Room temperature'), 'room-temperature', $icon, $roomTemperature);
-        $tankTemperature = $this->formatLiveStatus($title, __('Tank temperature'), 'tank-temperature', $icon, $tankTemperature);
+        $humidity = $this->formatLiveStatus($title, __('Humidity'), 'humidity', 'wi wi-sprinkles', $humidity);
+        $roomTemperature = $this->formatLiveStatus($title, __('Room temperature'), 'room-temperature', $tempIcon, $roomTemperature);
+        $tankTemperature = $this->formatLiveStatus($title, __('Tank temperature'), 'tank-temperature', $tempIcon, $tankTemperature);
 
-        return $roomTemperature . $tankTemperature;
+        return $humidity . $roomTemperature . $tankTemperature;
     }
 
     private function formatLiveStatus($title, $label, $class, $icon, $value) {

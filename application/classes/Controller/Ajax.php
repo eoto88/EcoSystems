@@ -148,9 +148,14 @@ class Controller_Ajax extends Controller {
             $mHour = new Model_Hour();
             $idCurrentDay = $this->getCurrentDayId($idInstance);
 
+            $humidity = '0.0';
+            if( isset($_POST['humidity']) ) {
+                $humidity = filter_input(INPUT_POST, 'humidity', FILTER_SANITIZE_SPECIAL_CHARS);
+            }
+
             $roomTemperature = filter_input(INPUT_POST, 'roomTemperature', FILTER_SANITIZE_SPECIAL_CHARS);
             $tankTemperature = filter_input(INPUT_POST, 'tankTemperature', FILTER_SANITIZE_SPECIAL_CHARS);
-            $mHour->insertHour($idInstance, $idCurrentDay, $datetime, $roomTemperature, $tankTemperature);
+            $mHour->insertHour($idInstance, $idCurrentDay, $datetime, $humidity, $roomTemperature, $tankTemperature);
         } else {
             throw new HTTP_Exception_403;
         }

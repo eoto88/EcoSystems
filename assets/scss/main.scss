@@ -98,9 +98,12 @@ textarea {
    ========================================================================== */
 
 $dark-grey: #3a3633; /* Navigation */
-$medium-grey: #CCC; /* Widget's borders */
-$medium-light-grey: #E4E4E4; /* On element hover */
+$medium-grey: #4c4f53; /* Title */
+$medium-light-grey: #CCC; /* Widget's borders */
 $light-grey: #f3f3f3; /* Background */
+
+$medium-blue: #60747C;
+$light-blue: #ecf3f8; /* Hover */
 
 body {
   font-family: "Open Sans",Arial,Helvetica,Sans-Serif;
@@ -120,6 +123,7 @@ h1, h2, h3, h4 {
 h1 {
   font-size: 22px;
   margin-bottom: 15px;
+  color: $medium-grey;
 }
 
 #header {
@@ -142,6 +146,21 @@ h1 {
   border-width: 1px 0;
   box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07);
   border-bottom: 1px solid #1A1817;
+}
+#logo {
+  color: white;
+}
+.header-block {
+  display: inline-block;
+  vertical-align: middle;
+  height: 49px;
+  float: left;
+}
+.header-instances {
+  >:first-child  {
+    display: block;
+    color: white;
+  }
 }
 
 /* **** Left nav - START **** */
@@ -342,8 +361,8 @@ h1 {
     height: 34px;
     padding: 0;
     color: white;
-    background: #474544;
-    border: 1px solid $medium-grey;
+    background: $medium-blue;
+    border: 1px solid $medium-blue;
 
     .widget-icon {
       display: block;
@@ -376,9 +395,9 @@ h1 {
     border-width: 1px 1px 2px;
     border-style: solid;
     border-top: none;
-    border-right-color: $medium-grey!important;
-    border-bottom-color: $medium-grey!important;
-    border-left-color: $medium-grey!important;
+    border-right-color: $medium-light-grey!important;
+    border-bottom-color: $medium-light-grey!important;
+    border-left-color: $medium-light-grey!important;
   }
 }
 /* **** Widget - END **** */
@@ -395,7 +414,7 @@ h1 {
     padding: 15px;
   }
   li:hover {
-    background: $medium-light-grey;
+    background: $light-blue;
   }
   li i {
     font-size: 28px;
@@ -421,6 +440,9 @@ h1 {
   .sunset i {
     color: #BBB;
   }
+  .humidity i {
+    color: #44aad5;
+  }
   .room-temperature i {
     color: #BF0B23;
   }
@@ -445,7 +467,7 @@ h1 {
     border-bottom: 1px solid #e7e7e7;
 
     &:hover {
-      background: $medium-light-grey;
+      background: $light-blue;
     }
     .check {
       position: absolute;
