@@ -36,3 +36,8 @@ For more infos, come visit later or simply write me!
 To configure the web application, you need to copy the application/config*.template.php to application/config/*.php
 
 Ex: database.template.php => database.php
+
+
+## Arduino configuration
+1. SetTime
+2. one_wire_address_finder
