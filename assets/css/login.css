@@ -99,21 +99,32 @@ textarea {
 
 body {
     height: 100%;
-    background-color: #564334;
+    background: #3a3633;
+    background: -moz-linear-gradient(left, #3a3633 93%, #2a2725 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(93%, #3a3633), color-stop(100%, #2a2725));
+    background: -webkit-linear-gradient(left, #3a3633 93%, #2a2725 100%);
+    background: -o-linear-gradient(left, #3a3633 93%, #2a2725 100%);
+    background: -ms-linear-gradient(left, #3a3633 93%, #2a2725 100%);
+    background: linear-gradient(to right, #3a3633 93%, #2a2725 100%);
 }
 #header {
-    background-color: #cfb590;
     height: 280px;
+    background-color: #f3f3f3;
+    background-image: -moz-linear-gradient(top, #f3f3f3, #e2e2e2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3f3f3), to(#e2e2e2));
+    background-image: -webkit-linear-gradient(top, #f3f3f3, #e2e2e2);
+    background-image: -o-linear-gradient(top, #f3f3f3, #e2e2e2);
+    background-image: linear-gradient(to bottom, #f3f3f3, #e2e2e2);
 }
 h1 {
-    color: #564334;
+    color: #3a3633;
     text-align: center;
     margin: 220px 0 0 0;
 }
 #login {
     width: 200px;
     margin: 30px auto 0;
-    color: #cfb590;
+    color: #f3f3f3;
 }
 
 #login input[type="text"],
