@@ -34,7 +34,7 @@
             </div>
             <div class="col-sm-12 col-md-12 col-lg-6">
                 <div class="header-block header-instances">
-                    <span><?php echo __('Instances') .' :'?></span>
+                    <span><?php echo __('Instance') .' :'?></span>
                     <a href="#" id="select-instance" class="dropdown-toggle" data-toggle="dropdown">
                         <?php
                         $currentInstance = null;

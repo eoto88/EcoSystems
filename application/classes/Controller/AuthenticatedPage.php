@@ -97,9 +97,11 @@ class Controller_AuthenticatedPage extends Controller_Template {
             //"assets/js/plugins.js",
             "assets/js/widgets/history.js",
             "assets/js/widgets/live.js",
+            "assets/js/widgets/todos.js",
             "assets/js/widgets/instances.js",
             "assets/js/widget.js",
             "assets/js/main.js",
+            "assets/js/vendor/handlebars-v2.0.0.js",
             "assets/js/vendor/bootstrap.min.js",
             "http://code.highcharts.com/modules/exporting.js",
             "http://code.highcharts.com/highcharts.js"
@@ -110,7 +112,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
         return array(
             'lang'              => I18n::lang(),
             'lastCommunication' => 'Last communication',
-            'noTaskTodoList'    => 'No task in the to do list'
+            //'noTaskTodoList'    => 'No task in the to do list'
         );
     }
 }

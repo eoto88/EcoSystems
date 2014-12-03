@@ -28,7 +28,7 @@ class Model_Hour {
         $query = DB::insert('hour', array(
             'id_hour2', 'id_instance', 'id_day', 'datetime', 'humidity', 'room_temperature', 'tank_temperature'
         ))->values( array(
-            DB::expr("UNHEX(REPLACE(UUID(),'-',''))"), $idInstance, $idCurrentDay, gmdate("Y-m-d H:i:s", $datetime), $humidity, $roomTemperature, $tankTemperature
+            DB::expr("UNHEX(REPLACE(UUID(),'-',''))"), $idInstance, $idCurrentDay, /*gmdate("Y-m-d H:i:s",*/ $datetime/*)*/, $humidity, $roomTemperature, $tankTemperature
         ) );
         $query->execute();
     }

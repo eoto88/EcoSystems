@@ -59,24 +59,31 @@
                     }
                 }
                 ?>
-                <h4><i class="fa fa-exclamation fa-fw "></i>&nbsp;<?php echo __('Uncompleted tasks') ?>&nbsp;(<?php echo count($uncheckedTodos) ?>)</h4>
+                <h4>
+                    <i class="fa fa-exclamation fa-fw "></i>&nbsp;
+                    <?php echo __('Uncompleted tasks') ?>&nbsp;
+                    (<span id="unchecked-todos-count"><?php echo count($uncheckedTodos) ?></span>)
+                </h4>
                 <ul id="unchecked-todos">
                     <?php
                     if( count($uncheckedTodos) ) {
                         foreach( $uncheckedTodos as $toDo ) {
-                            echo '<li id="todo-' . $toDo['id_todo'] . '"><i class="fa fa-square-o check"></i><span>' . $toDo['title'] . '</span></li>';
+                            echo '<li id="todo-' . $toDo['id_todo'] . '"><i class="fa fa-square-o check-icon"></i><span>' . $toDo['title'] . '</span></li>';
                         }
-                    }/* else {
-                        echo '<li id="no-todo">'. __('No task in the to do list') .'</li>';
-                    }*/
+                    } else {
+                        echo '<li id="no-todo"><span>'. __('No task in the to do list') .'</span></li>';
+                    }
                     ?>
                 </ul>
-                <h4><i class="fa fa-check fa-fw "></i>&nbsp;<?php echo __('Completed tasks') ?>&nbsp;(<?php echo count($checkedTodos) ?>)</h4>
+                <h4><i class="fa fa-check fa-fw "></i>&nbsp;
+                    <?php echo __('Completed tasks') ?>&nbsp;
+                    (<span id="checked-todos-count"><?php echo count($checkedTodos) ?></span>)
+                </h4>
                 <ul id="checked-todos">
                     <?php
                     if( count($checkedTodos) ) {
                         foreach( $checkedTodos as $toDo ) {
-                            echo '<li id="todo-' . $toDo['id_todo'] . '"><i class="fa fa-check-square-o check"></i><span>' . $toDo['title'] . '</span></li>';
+                            echo '<li id="todo-' . $toDo['id_todo'] . '"><i class="fa fa-check-square-o check-icon"></i><span>' . $toDo['title'] . '</span></li>';
                         }
                     }
                     ?>
@@ -116,3 +123,6 @@
         </div>
     </article>
 </div>
+<script type="text/x-handlebars-template" id="no-todo-tmpl">
+    <li id="no-todo" style="opacity: 0; height: 0;"><span><?php echo __('No task in the to do list') ?></span></li>
+</script>

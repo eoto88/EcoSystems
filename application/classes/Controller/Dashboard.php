@@ -100,6 +100,9 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $mHour = new Model_Hour();
         $hourData = $mHour->getHourData( $this->currentInstanceId );
 
+        $mInstance = new Model_Instance();
+        $instance = $mInstance->getInstance( $this->currentInstanceId );
+
         $mQuarterHour = new Model_QuarterHour();
         $sunlightData = $mQuarterHour->getSunlightData( $this->currentInstanceId );
 
@@ -120,6 +123,7 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         }
         
         return array(
+            'instance'              => $instance,
             'humidityData'          => $humidity,
             'roomTemperatureData'   => $roomTemperature,
             'tankTemperatureData'   => $tankTemperature,

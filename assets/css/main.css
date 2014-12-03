@@ -89,7 +89,7 @@ body {
   font-size: 13px;
   line-height: 1.42857143;
   color: #333;
-  background-color: #f3f3f3;
+  background-color: #e7e7e7;
   padding-top: 49px; }
 
 h1, h2, h3, h4 {
@@ -101,6 +101,9 @@ h1 {
   font-size: 22px;
   margin-bottom: 15px;
   color: #4c4f53; }
+
+#header-container {
+  padding: 0 15px; }
 
 #header {
   position: fixed;
@@ -124,7 +127,8 @@ h1 {
   border-bottom: 1px solid #1A1817; }
 
 #logo {
-  color: white; }
+  color: white;
+  margin-top: 12px; }
 
 .header-block {
   display: inline-block;
@@ -134,6 +138,8 @@ h1 {
 
 .header-instances > :first-child {
   display: block;
+  color: #CCC; }
+.header-instances a {
   color: white; }
 
 /* **** Left nav - START **** */
@@ -142,7 +148,7 @@ h1 {
   top: 49px;
   left: 0;
   z-index: 904;
-  width: 220px;
+  width: 200px;
   min-height: 100%;
   overflow: hidden;
   border-top: 1px solid #525151;
@@ -271,15 +277,15 @@ h1 {
     left: -220px; } }
 /* **** Left nav - END **** */
 #main {
-  margin-left: 220px;
+  margin-left: 200px;
   padding: 0;
   overflow: hidden;
-  background-color: #f3f3f3;
-  background-image: -moz-linear-gradient(top, #f3f3f3, #e2e2e2);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3f3f3), to(#e2e2e2));
-  background-image: -webkit-linear-gradient(top, #f3f3f3, #e2e2e2);
-  background-image: -o-linear-gradient(top, #f3f3f3, #e2e2e2);
-  background-image: linear-gradient(to bottom, #f3f3f3, #e2e2e2); }
+  background-color: #e7e7e7;
+  background-image: -moz-linear-gradient(top, #e7e7e7, #e2e2e2);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e7e7e7), to(#e2e2e2));
+  background-image: -webkit-linear-gradient(top, #e7e7e7, #e2e2e2);
+  background-image: -o-linear-gradient(top, #e7e7e7, #e2e2e2);
+  background-image: linear-gradient(to bottom, #e7e7e7, #e2e2e2); }
 
 /*.hidden-menu {
   margin-left: 10px;
@@ -291,8 +297,52 @@ h1 {
   #main {
     margin-left: 0; } }
 #content {
-  padding: 15px; }
+  padding: 15px 30px; }
 
+/* **** Icons - START **** */
+.sunrise i {
+  color: #FCD432; }
+
+.sunset i {
+  color: #BBB; }
+
+.humidity i {
+  color: #44aad5; }
+
+.room-temperature i {
+  color: #BF0B23; }
+
+.tank-temperature i {
+  color: #0066FF; }
+
+.status-icon {
+  color: #EBE8E9; }
+
+.sun-status .fa-sun-o {
+  color: #FCD432; }
+
+.sun-status .fa-moon-o {
+  color: #D3D3D3; }
+
+.pump-status .pump-on {
+  color: #80C5DD; }
+
+.light-status .light-on {
+  color: #FCD432; }
+
+.fan-status .fan-on {
+  color: #758918; }
+
+.heater-status .heater-on {
+  color: #F38630; }
+
+.error {
+  color: #DD5350; }
+
+.success {
+  color: #758918; }
+
+/* **** Icons - END **** */
 /* **** Widget - START **** */
 .widget {
   padding-bottom: 30px; }
@@ -355,22 +405,13 @@ h1 {
 #widget-instances .live-value i {
   font-size: 32px;
   padding-right: 10px; }
-#widget-instances .sunrise i {
-  color: #FCD432; }
-#widget-instances .sunset i {
-  color: #BBB; }
-#widget-instances .humidity i {
-  color: #44aad5; }
-#widget-instances .room-temperature i {
-  color: #BF0B23; }
-#widget-instances .tank-temperature i {
-  color: #0066FF; }
 
 /* **** Widget instances - END **** */
 /* **** Widget ToDos - START **** */
 #widget-todos h4 {
   padding: 10px 0 10px 10px; }
 #widget-todos ul {
+  border-top: 1px solid #e7e7e7;
   list-style: none;
   padding: 0; }
 #widget-todos li {
@@ -379,7 +420,7 @@ h1 {
   border-bottom: 1px solid #e7e7e7; }
   #widget-todos li:hover {
     background: #ecf3f8; }
-  #widget-todos li .check {
+  #widget-todos li .check-icon {
     position: absolute;
     top: 8px;
     left: 12px;
@@ -405,21 +446,39 @@ h1 {
 
 /* **** Widget Table - END **** */
 /* **** Widget Live - START **** */
-.widget-live .chart {
+.widget-live .widget-body {
+  padding: 15px; }
+.widget-live i {
+  font-size: 28px; }
+.widget-live .live-status {
+  text-align: right; }
+.widget-live .live-label {
+  display: block; }
+.widget-live .live-value {
+  display: block;
+  font-size: 24px; }
+.widget-live .live-value i {
+  font-size: 32px;
+  padding-right: 10px; }
+
+/* **** Widget Live - START **** */
+/* **** Widget Live chart - START **** */
+.widget-live-chart .chart {
   min-width: 310px;
   height: 320px;
-  margin: 0;
-  padding: 0 15px; }
+  margin: 0; }
+.widget-live-chart .widget-body {
+  padding: 5px 15px; }
 
-/* **** Widget Live - END **** */
-/* **** Widget Live - START **** */
+/* **** Widget Live chart - END **** */
+/* **** Widget History - START **** */
 .widget-history .chart {
   min-width: 310px;
   height: 320px;
   margin: 0;
   padding: 0 15px; }
 
-/* **** Widget Live - END **** */
+/* **** Widget History - END **** */
 /* **** Widget Logs - END **** */
 #widget-logs ul {
   padding: 15px;
@@ -430,41 +489,6 @@ h1 {
   list-style: none; }
 
 /* **** Widget Logs - END **** */
-#liveStatus span {
-  display: inline-block;
-  font-size: 28px;
-  padding: 0 6px; }
-
-#liveStatus {
-  float: right; }
-
-.status-icon {
-  color: #EBE8E9; }
-
-#sun_status .fa-sun-o {
-  color: #FCD432; }
-
-#sun_status .fa-moon-o {
-  color: #D3D3D3; }
-
-#pump_status .pump-on {
-  color: #80C5DD; }
-
-#light_status .light-on {
-  color: #FCD432; }
-
-#fan_status .fan-on {
-  color: #758918; }
-
-#heater_status .heater-on {
-  color: #F38630; }
-
-.error {
-  color: #DD5350; }
-
-.success {
-  color: #758918; }
-
 /*
 #tasks_wrapper {
   position: relative;

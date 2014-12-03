@@ -16,6 +16,12 @@ var Dashboard = Class.extend({
             title: {
                 text: ''
             },
+            exporting: {
+                enabled: false
+            },
+            legend: {
+                verticalAlign: 'top'
+            },
             xAxis: {
                 type: 'datetime',
                 maxZoom: 20 * 1000
@@ -76,6 +82,12 @@ var Dashboard = Class.extend({
             title: {
                 text: ''
             },
+            exporting: {
+                enabled: false
+            },
+            legend: {
+                verticalAlign: 'top'
+            },
             xAxis: {
                 type: 'datetime',
                 maxZoom: 20 * 1000
@@ -132,6 +144,12 @@ var Dashboard = Class.extend({
             },
             title: {
                 text: ''
+            },
+            exporting: {
+                enabled: false
+            },
+            legend: {
+                verticalAlign: 'top'
             },
             xAxis: {
                 type: 'datetime',

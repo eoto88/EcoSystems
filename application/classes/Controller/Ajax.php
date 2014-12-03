@@ -67,16 +67,38 @@ class Controller_Ajax extends Controller {
     }
     
     public function action_updateToDo() {
-        $id = $this->request->param('id');
-        $mToDo = new Model_Todo();
-        $mToDo->updateTodo($id);
-        echo json_encode(array('id' => $id));
+        $post = json_decode( file_get_contents('php://input') );
+        if ( isset($post->id) ) {
+            $id = Kohana::sanitize( $post->id );
+            $done = Kohana::sanitize( $post->done );
+
+            $mToDo = new Model_Todo();
+            $mToDo->updateTodo($id, $done);
+
+            echo json_encode( array('success' => true) );
+        }
     }
 
     public function action_postData() {
         if ( isset($_POST['pass']) && isset($_POST['action']) && isset($_POST['datetime']) ) {
             $idInstance = $this->getInstanceId(filter_input(INPUT_POST, 'pass', FILTER_SANITIZE_SPECIAL_CHARS));
             $datetime = filter_input(INPUT_POST, 'datetime', FILTER_SANITIZE_SPECIAL_CHARS);
+
+            if( ! date('I', time()) ) {
+                $datetime = new DateTime( gmdate("Y-m-d H:i:s", $datetime) );
+//                $datetime = new DateTime( gmdate("Y-m-d H:i:s", $datetime) );
+
+//                  $mLog = new Model_Log();
+//                 $mLog->log( "error", $idInstance . " => before : " . $datetime2->format("Y-m-d H:i:s") );
+//
+                $datetime->sub( new DateInterval('PT1H') );
+                $datetime = $datetime->format("Y-m-d H:i:s");
+//
+//                 $mLog->log( "error", $idInstance . " => after : " . $datetime2->format("Y-m-d H:i:s") );
+            } else {
+                $datetime = gmdate("Y-m-d H:i:s", $datetime);
+            }
+
             switch ($_POST['action']) {
                 case 'still-alive':
                     // Do nothing here!

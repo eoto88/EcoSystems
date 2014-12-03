@@ -8,6 +8,11 @@ class Model_Instance {
         return $ins['id_instance'];
     }
 
+    public function getInstance($idInstance) {
+        $query = DB::select('*')->from('instance')->where('id_instance', '=', $idInstance);
+        return $query->execute()->current();
+    }
+
     public function getInstances() {
         $query = DB::select('*')->from('instance');
         return $query->execute()->as_array();

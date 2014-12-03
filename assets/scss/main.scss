@@ -100,7 +100,7 @@ textarea {
 $dark-grey: #3a3633; /* Navigation */
 $medium-grey: #4c4f53; /* Title */
 $medium-light-grey: #CCC; /* Widget's borders */
-$light-grey: #f3f3f3; /* Background */
+$light-grey: #e7e7e7; /* Background */
 
 $medium-blue: #60747C;
 $light-blue: #ecf3f8; /* Hover */
@@ -126,6 +126,10 @@ h1 {
   color: $medium-grey;
 }
 
+#header-container {
+  padding: 0 15px;
+}
+
 #header {
   position: fixed;
   top: 0;
@@ -149,6 +153,7 @@ h1 {
 }
 #logo {
   color: white;
+  margin-top: 12px;
 }
 .header-block {
   display: inline-block;
@@ -159,6 +164,9 @@ h1 {
 .header-instances {
   >:first-child  {
     display: block;
+    color: $medium-light-grey;
+  }
+  a {
     color: white;
   }
 }
@@ -169,7 +177,7 @@ h1 {
   top: 49px;
   left: 0;
   z-index: 904;
-  width: 220px;
+  width: 200px;
   min-height: 100%;
   overflow: hidden;
   border-top: 1px solid #525151;
@@ -323,7 +331,7 @@ h1 {
 /* **** Left nav - END **** */
 
 #main {
-  margin-left: 220px;
+  margin-left: 200px;
   padding: 0;
   overflow: hidden;
 
@@ -350,8 +358,54 @@ h1 {
 }
 
 #content {
-  padding: 15px;
+  padding: 15px 30px;
 }
+
+/* **** Icons - START **** */
+.sunrise i {
+  color: #FCD432;
+}
+.sunset i {
+  color: #BBB;
+}
+.humidity i {
+  color: #44aad5;
+}
+.room-temperature i {
+  color: #BF0B23;
+}
+.tank-temperature i {
+  color: #0066FF;
+}
+
+.status-icon {
+  color: #EBE8E9;
+}
+.sun-status .fa-sun-o {
+  color: #FCD432;
+}
+.sun-status .fa-moon-o {
+  color: #D3D3D3;
+}
+.pump-status .pump-on {
+  color: #80C5DD;
+}
+.light-status .light-on {
+  color: #FCD432;
+}
+.fan-status .fan-on {
+  color: #758918;
+}
+.heater-status .heater-on {
+  color: #F38630;
+}
+.error {
+  color: #DD5350;
+}
+.success {
+  color: #758918;
+}
+/* **** Icons - END **** */
 
 /* **** Widget - START **** */
 .widget {
@@ -410,7 +464,7 @@ h1 {
     margin: 0;
   }
   li {
-    border-bottom: 1px solid #e7e7e7;
+    border-bottom: 1px solid $light-grey;
     padding: 15px;
   }
   li:hover {
@@ -434,21 +488,6 @@ h1 {
     font-size: 32px;
     padding-right: 10px;
   }
-  .sunrise i {
-    color: #FCD432;
-  }
-  .sunset i {
-    color: #BBB;
-  }
-  .humidity i {
-    color: #44aad5;
-  }
-  .room-temperature i {
-    color: #BF0B23;
-  }
-  .tank-temperature i {
-    color: #0066FF;
-  }
 }
 /* **** Widget instances - END **** */
 
@@ -458,18 +497,19 @@ h1 {
     padding: 10px 0 10px 10px;
   }
   ul {
+    border-top: 1px solid $light-grey;
     list-style: none;
     padding: 0;
   }
   li {
     cursor: pointer;
     position: relative;
-    border-bottom: 1px solid #e7e7e7;
+    border-bottom: 1px solid $light-grey;
 
     &:hover {
       background: $light-blue;
     }
-    .check {
+    .check-icon {
       position: absolute;
       top: 8px;
       left: 12px;
@@ -507,16 +547,44 @@ h1 {
 
 /* **** Widget Live - START **** */
 .widget-live {
+  .widget-body {
+    padding: 15px;
+  }
+  i {
+    font-size: 28px;
+  }
+
+  .live-status {
+    text-align: right;
+  }
+  .live-label {
+    display: block;
+  }
+  .live-value {
+    display: block;
+    font-size: 24px;
+  }
+  .live-value i {
+    font-size: 32px;
+    padding-right: 10px;
+  }
+}
+/* **** Widget Live - START **** */
+
+/* **** Widget Live chart - START **** */
+.widget-live-chart {
   .chart {
     min-width: 310px;
     height: 320px;
     margin: 0;
-    padding: 0 15px;
+  }
+  .widget-body {
+    padding: 5px 15px;
   }
 }
-/* **** Widget Live - END **** */
+/* **** Widget Live chart - END **** */
 
-/* **** Widget Live - START **** */
+/* **** Widget History - START **** */
 .widget-history {
   .chart {
     min-width: 310px;
@@ -525,7 +593,7 @@ h1 {
     padding: 0 15px;
   }
 }
-/* **** Widget Live - END **** */
+/* **** Widget History - END **** */
 
 /* **** Widget Logs - END **** */
 #widget-logs{
@@ -545,41 +613,7 @@ h1 {
 
 
 
-#liveStatus span {
-  display: inline-block;
-  font-size: 28px;
-  padding: 0 6px;
-}
-#liveStatus {
-  float: right;
-}
-.status-icon {
-  color: #EBE8E9;
-}
-#sun_status .fa-sun-o {
-  color: #FCD432;
-}
-#sun_status .fa-moon-o {
-  color: #D3D3D3;
-}
-#pump_status .pump-on {
-  color: #80C5DD;
-}
-#light_status .light-on {
-  color: #FCD432;
-}
-#fan_status .fan-on {
-  color: #758918;
-}
-#heater_status .heater-on {
-  color: #F38630;
-}
-.error {
-  color: #DD5350;
-}
-.success {
-  color: #758918;
-}
+
 /*
 #tasks_wrapper {
   position: relative;

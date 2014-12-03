@@ -3,7 +3,7 @@
         <div class="widget-live widget">
             <header role="heading">
                 <span class="widget-icon"><i class="fa fa-bar-chart-o fa-fw "></i></span>
-                <h2><?php echo __('Live'); ?></h2>
+                <h2><?php echo $instance['title'] ?></h2>
             </header>
             <div class="widget-body">
                 <div class="row">
@@ -34,7 +34,7 @@
 </div>
 <div class="row">
     <article class="col-sm-12 col-md-12 col-lg-12">
-        <div class="widget-live widget">
+        <div class="widget-live-chart widget">
             <header role="heading">
                 <span class="widget-icon"><i class="fa fa-bar-chart-o fa-fw "></i></span>
                 <h2><?php echo __('Temperature'); ?></h2>
@@ -47,7 +47,7 @@
 </div>
 <div class="row">
     <article class="col-sm-12 col-md-12 col-lg-12">
-        <div class="widget-live widget">
+        <div class="widget-live-chart widget">
             <header role="heading">
                 <span class="widget-icon"><i class="fa fa-bar-chart-o fa-fw "></i></span>
                 <h2><?php echo __('Humidity'); ?></h2>
@@ -60,7 +60,7 @@
 </div>
 <div class="row">
     <article class="col-sm-12 col-md-12 col-lg-12">
-        <div class="widget-live widget">
+        <div class="widget-live-chart widget">
             <header role="heading">
                 <span class="widget-icon"><i class="fa fa-bar-chart-o fa-fw "></i></span>
                 <h2><?php echo __('Sunlight'); ?></h2>

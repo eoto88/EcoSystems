@@ -38,8 +38,13 @@ class Model_Todo {
         return $query->execute()->as_array();
     }
     
-    public function updateTodo($id) {
-        $query = DB::update('todo')->set(array('last_check' => DB::expr('NOW()')))->where('id_todo', '=', $id);
+    public function updateTodo($id, $done) {
+        $query = null;
+        if( $done ) {
+            $query = DB::update('todo')->set(array('last_check' => DB::expr('NOW()')))->where('id_todo', '=', $id);
+        } else {
+            $query = DB::update('todo')->set(array('last_check' => '0000-00-00 00:00:00'))->where('id_todo', '=', $id);
+        }
         $query->execute();
     }
 }

@@ -18,7 +18,7 @@ class Model_QuarterHour {
         $query = DB::insert('quarter_hour', array(
                 'id_quarter_hour2', 'id_instance', 'id_day', 'datetime', 'sunlight'
             ))->values( array(
-                DB::expr("UNHEX(REPLACE(UUID(),'-',''))"), $idInstance, $idCurrentDay, gmdate("Y-m-d H:i:s", $datetime), $sunlight
+                DB::expr("UNHEX(REPLACE(UUID(),'-',''))"), $idInstance, $idCurrentDay, /*gmdate("Y-m-d H:i:s",*/ $datetime/*)*/, $sunlight
             ) );
         $query->execute();
     }

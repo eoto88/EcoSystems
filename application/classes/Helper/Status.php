@@ -69,6 +69,6 @@ class Helper_Status {
         }
         $title = $status ? $relayName ." is on" : $relayName ." is off";
         $class = $status ? $relayId ."-on" : "";
-        return '<span id="'. $relayId .'_status" title="'. $title .'"><i class="status-icon fa '. $icon .' '. $class .'"></i></span>';
+        return '<span class="'. $relayId .'-status" title="'. $title .'"><i class="status-icon fa '. $icon .' '. $class .'"></i></span>';
     }
 }

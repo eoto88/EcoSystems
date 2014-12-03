@@ -7,7 +7,7 @@ class Model_Log {
     }
 
     public function getLastLogs() {
-        $query = DB::select('*')->from('log')->order_by('timestamp', 'DESC')->limit(10);
+        $query = DB::select('*')->from('log')->order_by('timestamp', 'DESC')->order_by('id_log', 'DESC')->limit(10);
         return $query->execute()->as_array();
     }
 

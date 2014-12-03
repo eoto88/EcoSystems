@@ -9,12 +9,6 @@ var Widget = Class.extend({
 
 
 
-var WidgetTodos = Widget.extend({
-    init: function() {
-        this._super( 'widget-todos' );
-    }
-});
-
 var WidgetLogs = Widget.extend({
     init: function() {
         this._super( 'widget-logs' );

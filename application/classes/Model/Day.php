@@ -57,16 +57,16 @@ class Model_Day {
     public function updateSunrise($idInstance, $datetime) {
         $this->insertIfNoCurrentDay($idInstance);
         $query = DB::update('day')->set(
-            array('sunrise' => gmdate("Y-m-d H:i:s", $datetime))
-        )->where('date', '=', gmdate("Y-m-d", $datetime))->and_where('id_instance', '=', $idInstance);
+            array('sunrise' => /*gmdate("Y-m-d H:i:s",*/ $datetime/*)*/)
+        )->where('date', '=', /*gmdate("Y-m-d",*/ $datetime/*)*/)->and_where('id_instance', '=', $idInstance);
         $query->execute();
     }
     
     public function updateSunset($idInstance, $datetime) {
         $this->insertIfNoCurrentDay($idInstance);
         $query = DB::update('day')->set(
-            array('sunset' => gmdate("Y-m-d H:i:s", $datetime))
-        )->where('date', '=', gmdate("Y-m-d", $datetime))->and_where('id_instance', '=', $idInstance);
+            array('sunset' => /*gmdate("Y-m-d H:i:s",*/ $datetime/*)*/)
+        )->where('date', '=', /*gmdate("Y-m-d",*/ $datetime/*)*/)->and_where('id_instance', '=', $idInstance);
         $query->execute();
     }
     
