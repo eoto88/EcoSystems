@@ -1,9 +1,10 @@
-<div class="row">
+<div class="masonry row">
     <article class="col-sm-12 col-md-12 col-lg-6">
         <div id="widget-instances" class="widget">
             <header role="heading">
                 <span class="widget-icon"><i class="fa fa-list-alt fa-fw "></i></span>
                 <h2>Instances</h2>
+                <span class="widget-expand"><i class="fa fa-chevron-down"></i></span>
             </header>
             <div class="widget-body">
                 <ul>
@@ -44,6 +45,7 @@
             <header role="heading">
                 <span class="widget-icon"><i class="fa fa-check fa-fw "></i></span>
                 <h2>ToDo's</h2>
+                <span class="widget-expand"><i class="fa fa-chevron-down"></i></span>
             </header>
             <div class="widget-body">
                 <?php
@@ -96,6 +98,7 @@
             <header role="heading">
                 <span class="widget-icon"><i class="fa fa-file-text-o fa-fw "></i></span>
                 <h2><?php echo __('Logs') ?></h2>
+                <span class="widget-expand"><i class="fa fa-chevron-down"></i></span>
             </header>
             <div class="widget-body">
                 <ul>

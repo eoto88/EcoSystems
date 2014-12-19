@@ -185,11 +185,19 @@
 <?php foreach($scripts as $file) { echo HTML::script($file), "\n"; }?>
 
 <?php if( $translations && count($translations) ) { ?>
-<script  type="text/javascript">
-    var translations = {
+    <script  type="text/javascript">
+    var I18n = {
     <?php foreach($translations as $code => $text) { ?>
         <?php echo $code ?> : "<?php echo $text ?>",
     <?php } ?>
+    };
+
+    var WidgetList = {
+        'widget-todos': App.WidgetTodos,
+        'widget-instances': App.WidgetInstances,
+        //'widget-logs': App.WidgetLogs,
+        'widget-live': App.WidgetLive //,
+        //'widget-logs': 'WidgetLogs'
     };
     </script>
 <?php } ?>

@@ -1,6 +1,11 @@
-var WidgetInstances = Widget.extend({
+App.WidgetInstances = App.Widget.extend({
     init: function() {
-        this._super( 'widget-instances' );
+        var me = this;
+        me._super( 'widget-instances' );
+
+        setInterval(function() {
+            me.refreshStatuses();
+        }, 10000);
     },
     refreshStatuses: function() {
         var me = this;
@@ -17,7 +22,7 @@ var WidgetInstances = Widget.extend({
                     status = '<i class="fa fa-check success"></i>';
                 else
                     status = '<i class="fa fa-exclamation-triangle error"></i>';
-                $instanceRow.find("#still_alive").html(status).attr("title", translations.lastCommunication + ": " + instance.lastCommunication);
+                $instanceRow.find("#still_alive").html(status).attr("title", I18n.lastCommunication + ": " + instance.lastCommunication);
 
                 me.changeStatus($instanceRow, 'pump', 'Pump', instance.pumpStatus);
                 me.changeStatus($instanceRow, 'light', 'Light', instance.lightStatus);
@@ -36,11 +41,11 @@ var WidgetInstances = Widget.extend({
     }
 });
 
-$(document).ready(function() {
+/*$(document).ready(function() {
     if( $("#widget-instances").length ) {
-        var widgetInstances = new WidgetInstances();
+        var widgetInstances = new App.WidgetInstances();
         setInterval(function() {
             widgetInstances.refreshStatuses();
         }, 10000);
     }
-});
+});*/

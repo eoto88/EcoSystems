@@ -408,8 +408,40 @@ h1 {
 /* **** Icons - END **** */
 
 /* **** Widget - START **** */
+//.masonry { /* Masonry container */
+//  -moz-column-count: 2;
+//  -webkit-column-count: 2;
+//  column-count: 2;
+//  -moz-column-gap: 1em;
+//  -webkit-column-gap: 1em;
+//  column-gap: 1em;
+//
+//  .widget { /* Masonry bricks or child elements */
+//    background-color: #eee;
+//    display: inline-block;
+//    margin: 0 0 1em;
+//    width: 100%;
+//  }
+//}
+
+//.masonry {
+//  -moz-column-width: 25em;
+//  -webkit-column-width: 25em;
+//  -moz-column-gap: 1em;
+//  -webkit-column-gap:1em;
+//
+//  article {
+//    display: inline-block;
+//    padding:  .33rem;
+//    width:  100%;
+//    float:none;
+//  }
+//}
+
 .widget {
   padding-bottom: 30px;
+  position:relative;
+  display: block;
 
   header {
     height: 34px;
@@ -428,6 +460,17 @@ h1 {
       line-height: 32px;
       text-align: center;
       margin-right: -10px;
+    }
+    .widget-expand {
+      display: block;
+      width: 30px;
+      height: 32px;
+      position: relative;
+      float: right;
+      font-size: 111%;
+      line-height: 32px;
+      text-align: center;
+      margin-left: -10px;
     }
 
     h2 {
@@ -549,9 +592,10 @@ h1 {
 .widget-live {
   .widget-body {
     padding: 15px;
-  }
-  i {
-    font-size: 28px;
+
+    i {
+      font-size: 28px;
+    }
   }
 
   .live-status {

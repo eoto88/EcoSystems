@@ -1,4 +1,4 @@
-var WidgetTodos = Widget.extend({
+App.WidgetTodos = App.Widget.extend({
     init: function() {
         this._super( 'widget-todos' );
 
@@ -56,8 +56,8 @@ var WidgetTodos = Widget.extend({
     }
 });
 
-$(document).ready(function() {
+/*$(document).ready(function() {
     if( $("#widget-todos").length == 1 ) {
         var wTodos = new WidgetTodos();
     }
-});
+});*/

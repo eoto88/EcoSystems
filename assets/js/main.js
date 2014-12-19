@@ -28,7 +28,7 @@ $(document).ready(function() {
         useUTC: false
     };
 
-    if( translations.lang == 'fr') {
+    if( I18n.lang == 'fr') {
         highchartsOptions.lang = highchartsLangFr;
     }
 
@@ -45,7 +45,7 @@ $(document).ready(function() {
                 status = '<i class="fa fa-check success"></i>';
             else
                 status = '<i class="fa fa-exclamation-triangle error"></i>';
-            $("#still_alive").html(status).attr("title", translations.lastCommunication + ": " + data.lastCommunication);
+            $("#still_alive").html(status).attr("title", I18n.lastCommunication + ": " + data.lastCommunication);
             
             changeStatus('pump', 'Pump', data.pumpStatus);
             changeStatus('light', 'Light', data.lightStatus);
@@ -67,7 +67,7 @@ $(document).ready(function() {
             $("#todo-" + data.id).animate({'height': 0, 'opacity': 0}, 500, function() {
                 $(this).remove();
                 if($("#tasks_list li").length === 0) {
-                    $("#tasks_list").html('<li id="no-todo">' + translations.noTaskTodoList + '</li>');
+                    $("#tasks_list").html('<li id="no-todo">' + I18n.noTaskTodoList + '</li>');
                 }
             });
         });
@@ -133,6 +133,16 @@ function changeStatus(relayId, relayName, status) {
         $("#"+ relayId +"_status").find('.status-icon').removeClass(relayId +'-on');
     }
 }
+
+var App = {
+    factory: function (class_) {
+        return new class_();
+    }
+};
+
+
+
+
 
 /*  http://ejohn.org/blog/simple-javascript-inheritance/  */
 

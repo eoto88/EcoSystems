@@ -38,8 +38,13 @@ class Model_Instance {
         }
     }
 
-    public function updatePumpStatus($pumpStatus) {
-        $query = DB::update('instance')->set(array('pump_on' => $pumpStatus))->where('id_instance', '=', '1');
+    public function updateLightState($lightState, $idInstance) {
+        $query = DB::update('instance')->set(array('light_on' => $lightState))->where('id_instance', '=', $idInstance);
+        $query->execute();
+    }
+
+    public function updatePumpState($pumpStatus, $idInstance) {
+        $query = DB::update('instance')->set(array('pump_on' => $pumpStatus))->where('id_instance', '=', $idInstance);
         $query->execute();
     }
 

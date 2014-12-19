@@ -112,8 +112,11 @@ class Controller_Ajax extends Controller {
                 case 'sunlight':
                     $this->saveSunlightData($idInstance, $datetime);
                     break;
-                case 'pumpStatus':
-                    $this->savePumpStatus($idInstance);
+                case 'lightState':
+                    $this->saveLightState($idInstance);
+                    break;
+                case 'pumpState':
+                    $this->savePumpState($idInstance);
                     break;
                 case 'sunrise':
                     $mDay = new Model_Day();
@@ -142,12 +145,23 @@ class Controller_Ajax extends Controller {
         $mInstance->updateStillAlive($idInstance);
     }
 
-    private function savePumpStatus($idInstance) {
-        if (isset($_POST['pumpStatus'])) {
+    private function saveLightState($idInstance) {
+        if (isset($_POST['lightState'])) {
             $mInstance = new Model_Instance();
 
-            $pumpStatus = filter_input(INPUT_POST, 'pumpStatus', FILTER_SANITIZE_SPECIAL_CHARS);
-            $mInstance->updatePumpStatus($pumpStatus);
+            $lightState = filter_input(INPUT_POST, 'lightState', FILTER_SANITIZE_SPECIAL_CHARS);
+            $mInstance->updateLightState($lightState, $idInstance);
+        } else {
+            throw new HTTP_Exception_403;
+        }
+    }
+
+    private function savePumpState($idInstance) {
+        if (isset($_POST['pumpState'])) {
+            $mInstance = new Model_Instance();
+
+            $pumpState = filter_input(INPUT_POST, 'pumpState', FILTER_SANITIZE_SPECIAL_CHARS);
+            $mInstance->updatePumpState($pumpState, $idInstance);
         } else {
             throw new HTTP_Exception_403;
         }

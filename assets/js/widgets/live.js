@@ -2,8 +2,14 @@
  * Created by eoto on 17/10/14.
  */
 
-var Dashboard = Class.extend({
+var Live = Class.extend({
     init: function() {
+        var me = this;
+
+        setInterval(function() {
+            me.requestChartData()
+        }, 120000);
+
         this.temperatureChart = new Highcharts.Chart({
             chart: {
                 renderTo: 'temperatureChart',
@@ -31,7 +37,7 @@ var Dashboard = Class.extend({
                 maxPadding: 0.2,
                 minRange: 0.5,
                 title: {
-                    text: translations.valueInCelsius,
+                    text: I18n.valueInCelsius,
                     margin: 25
                 },
                 plotBands: [{ // Cold
@@ -39,7 +45,7 @@ var Dashboard = Class.extend({
                     to: 18,
                     color: 'rgba(68, 170, 213, 0.1)',
                     label: {
-                        text: translations.cold,
+                        text: I18n.cold,
                         style: {
                             color: '#606060'
                         }
@@ -49,7 +55,7 @@ var Dashboard = Class.extend({
                     to: 60,
                     color: 'rgba(191, 11, 35, 0.1)',
                     label: {
-                        text: translations.hot,
+                        text: I18n.hot,
                         style: {
                             color: '#606060'
                         }
@@ -57,12 +63,12 @@ var Dashboard = Class.extend({
                 }]
             },
             series: [{
-                name: translations.roomTemperature + ' (°C)',
+                name: I18n.roomTemperature + ' (°C)',
                 color: '#BF0B23',
                 dashStyle: 'ShortDash',
                 data: roomTemperatureData
             },{
-                name: translations.tankTemperature + '(°C)',
+                name: I18n.tankTemperature + '(°C)',
                 color: '#0066FF',
                 dashStyle: 'ShortDash',
                 data: tankTemperatureData
@@ -99,7 +105,7 @@ var Dashboard = Class.extend({
                 max: 100,
                 min: 0,
                 title: {
-                    text: translations.valueInPercent,
+                    text: I18n.valueInPercent,
                     margin: 25
                 },
                 plotBands: [{ // Low
@@ -107,7 +113,7 @@ var Dashboard = Class.extend({
                     to: 20,
                     color: 'rgba(191, 11, 35, 0.1)',
                     label: {
-                        text: translations.low,
+                        text: I18n.low,
                         style: {
                             color: '#606060'
                         }
@@ -117,7 +123,7 @@ var Dashboard = Class.extend({
                     to: 100,
                     color: 'rgba(68, 170, 213, 0.1)',
                     label: {
-                        text: translations.high,
+                        text: I18n.high,
                         style: {
                             color: '#606060'
                         }
@@ -125,7 +131,7 @@ var Dashboard = Class.extend({
                 }]
             },
             series: [{
-                name: translations.humidityPercent,
+                name: I18n.humidityPercent,
                 color: '#44aad5',
                 dashStyle: 'ShortDash',
                 data: humidityData
@@ -162,7 +168,7 @@ var Dashboard = Class.extend({
                 max: 100,
                 min: 0,
                 title: {
-                    text: translations.valueInPercent,
+                    text: I18n.valueInPercent,
                     margin: 25
                 },
                 plotBands: [{ // Night
@@ -170,7 +176,7 @@ var Dashboard = Class.extend({
                     to: 40,
                     color: 'rgba(0, 0, 0, 0.1)',
                     label: {
-                        text: translations.night,
+                        text: I18n.night,
                         style: {
                             color: '#606060'
                         }
@@ -180,7 +186,7 @@ var Dashboard = Class.extend({
                     to: 100,
                     color: 'rgba(255, 255, 0, 0.1)',
                     label: {
-                        text: translations.day,
+                        text: I18n.day,
                         style: {
                             color: '#606060'
                         }
@@ -188,7 +194,7 @@ var Dashboard = Class.extend({
                 }]
             },
             series: [{
-                name: translations.sunlightPercent,
+                name: I18n.sunlightPercent,
                 color: '#FFFF00',
                 dashStyle: 'ShortDash',
                 data: sunlightData
@@ -251,9 +257,9 @@ var Dashboard = Class.extend({
 
 $(document).ready(function() {
     if( $("#temperatureChart").length == 1 && $("#sunlightChart").length == 1 ) {
-        var dashboard = new Dashboard();
+        var live = new Live();
         setInterval(function() {
-            dashboard.requestChartData()
+            live.requestChartData()
         }, 120000);
     }
 });
