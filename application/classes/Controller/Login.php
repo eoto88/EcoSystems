@@ -10,6 +10,8 @@ class Controller_Login extends Controller_Template {
         parent::before();
 
         $this->template->title = "Login EcoSystem";
+        $this->template->login_messages = "";
+        $this->template->create_account_messages = "";
     }
 
     public function after() {
@@ -34,13 +36,27 @@ class Controller_Login extends Controller_Template {
 
     public function action_index() {
         $post = $this->request->post();
-        if ($post) {
-            $success = Auth::instance()->login($post['email'], $post['password']);
+        $messages = null;
+        if ($post && $post['action']) {
+            // TODO isset
+            if ($post['action'] == 'create-account' && $post['username'] && $post['name'] && $post['email'] && $post['password']) {
 
-            if ($success) {
-                HTTP::redirect(URL::base(TRUE, TRUE));
-            } else {
-                // Login failed, send back to form with error message
+                $mUser = new Model_ESUser();
+                $messages = $mUser->insertUser($post['username'], $post['name'], $post['email'], $post['password']);
+
+                if ($messages) {
+                    $this->template->create_account_messages = $messages;
+                }
+            }
+
+            if( !$messages ) {
+                $success = Auth::instance()->login($post['username'], $post['password']);
+
+                if ($success) {
+                    HTTP::redirect(URL::base(TRUE, TRUE));
+                } else {
+                    $this->template->login_messages = array('password' => 'Wrong password');
+                }
             }
         }
     }
@@ -49,7 +65,6 @@ class Controller_Login extends Controller_Template {
         Auth::instance()->logout();
         HTTP::redirect(URL::base(TRUE, TRUE) . 'login');
     }
-
 }
 
 // End Login

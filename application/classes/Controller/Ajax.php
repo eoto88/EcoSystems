@@ -21,14 +21,9 @@ class Controller_Ajax extends Controller {
         $tempData = $mHour->getLastTemperatureData($idInstance);
         $tempDatetime = strtotime($tempData['datetime']) * 1000;
 
-        $mQuarterHour = new Model_QuarterHour();
-        $sunData = $mQuarterHour->getLastSunlightData($idInstance);
-        $sunDatetime = strtotime($sunData['datetime']) * 1000;
-
         echo json_encode(array(
             'roomTemperature' => array($tempDatetime, floatval($tempData['room_temperature'])),
-            'tankTemperature' => array($tempDatetime, floatval($tempData['tank_temperature'])),
-            'sunlight' => array($sunDatetime, intval($sunData['sunlight']) * 100 / 1024)
+            'tankTemperature' => array($tempDatetime, floatval($tempData['tank_temperature']))
         ));
     }
 
@@ -80,22 +75,27 @@ class Controller_Ajax extends Controller {
     }
 
     public function action_postData() {
-        if ( isset($_POST['pass']) && isset($_POST['action']) && isset($_POST['datetime']) ) {
+        if ( isset($_POST['pass']) && isset($_POST['action']) ) {
             $idInstance = $this->getInstanceId(filter_input(INPUT_POST, 'pass', FILTER_SANITIZE_SPECIAL_CHARS));
-            $datetime = filter_input(INPUT_POST, 'datetime', FILTER_SANITIZE_SPECIAL_CHARS);
+            $datetime = null;
 
-            if( ! date('I', time()) ) {
-                $datetime = new DateTime( gmdate("Y-m-d H:i:s", $datetime) );
-//                $datetime = new DateTime( gmdate("Y-m-d H:i:s", $datetime) );
+            if ( isset($_POST['datetime']) ) {
+                $datetime = filter_input(INPUT_POST, 'datetime', FILTER_SANITIZE_SPECIAL_CHARS);
 
-//                  $mLog = new Model_Log();
-//                 $mLog->log( "error", $idInstance . " => before : " . $datetime2->format("Y-m-d H:i:s") );
-//
-                $datetime->sub( new DateInterval('PT1H') );
-                $datetime = $datetime->format("Y-m-d H:i:s");
-//
-//                 $mLog->log( "error", $idInstance . " => after : " . $datetime2->format("Y-m-d H:i:s") );
-            } else {
+    //            if( ! date('I', time()) ) {
+    //                $datetime = new DateTime( gmdate("Y-m-d H:i:s", $datetime) );
+    ////                $datetime = new DateTime( gmdate("Y-m-d H:i:s", $datetime) );
+    //
+    ////                  $mLog = new Model_Log();
+    ////                 $mLog->log( "error", $idInstance . " => before : " . $datetime2->format("Y-m-d H:i:s") );
+    ////
+    //                $datetime->sub( new DateInterval('PT1H') );
+    //                $datetime = $datetime->format("Y-m-d H:i:s");
+    ////
+    ////                 $mLog->log( "error", $idInstance . " => after : " . $datetime2->format("Y-m-d H:i:s") );
+    //            } else {
+    //                $datetime = gmdate("Y-m-d H:i:s", $datetime);
+    //            }
                 $datetime = gmdate("Y-m-d H:i:s", $datetime);
             }
 
@@ -117,16 +117,6 @@ class Controller_Ajax extends Controller {
                     break;
                 case 'pumpState':
                     $this->savePumpState($idInstance);
-                    break;
-                case 'sunrise':
-                    $mDay = new Model_Day();
-                    $mDay->updateSunrise($idInstance, $datetime);
-
-                    break;
-                case 'sunset':
-                    $mDay = new Model_Day();
-                    $mDay->updateSunset($idInstance, $datetime);
-                    
                     break;
             }
             $this->stillAlive($idInstance);

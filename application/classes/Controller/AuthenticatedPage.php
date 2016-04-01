@@ -10,7 +10,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
 
     public function before() {
         parent::before();
-        I18n::lang('fr');
+        //I18n::lang('fr'); // TODO Translate the application in french
         
         if ( ! Auth::instance()->logged_in()) {
             HTTP::redirect(URL::base(TRUE, TRUE) . 'login');
@@ -21,7 +21,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
         $this->user = Auth::instance()->get_user();
 
         $mInstance = new Model_Instance();
-        $this->instances = $mInstance->getInstances();
+        $this->instances = $mInstance->getInstances($this->user['id_user']);
 
         //$mToDo = new Model_Todo();
         //View::set_global('uncheckedToDos', $mToDo->checkToDos());
@@ -30,7 +30,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
     private function getAndSetCurrentInstanceId() {
         if( $this->request->param('id') ) {
             $id = $this->request->param('id');
-            if( ! is_numeric($id) )
+            if( ! is_numeric($id) && $id != 'new' )
                 throw new HTTP_Exception_404;
             $this->currentInstanceId = $this->request->param('id');
             Cookie::set('current_instance_id', $this->currentInstanceId);
@@ -58,7 +58,6 @@ class Controller_AuthenticatedPage extends Controller_Template {
             $day = $mDay->getDayByDate( $this->currentInstanceId, $date->format('Y-m-d') );
         }*/
         //$hStatus = new Helper_Status();
-        //$this->template->sun_status = $hStatus->getSunStatus($day);
 
         /*$mInstance = new Model_Instance();
         $liveData = $mInstance->getLiveData( $this->currentInstanceId );
@@ -95,6 +94,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
     private function getScripts() {
         return array(
             //"assets/js/plugins.js",
+            "assets/js/widgets/form.js",
             "assets/js/widgets/history.js",
             "assets/js/widgets/live.js",
             "assets/js/widgets/todos.js",

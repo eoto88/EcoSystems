@@ -28,7 +28,6 @@ class Controller_Task extends Controller_AuthenticatedPage {
 
             $day = $mDay->getDayByDate($idInstance, $date->format('Y-m-d'));
         }
-        $this->template->sun_status = $hStatus->getSunStatus($day);
 
         $mInstance = new Model_Instance();
         $liveData = $mInstance->getLiveData($idInstance);
@@ -53,18 +52,10 @@ class Controller_Task extends Controller_AuthenticatedPage {
             $roomTemperature[] = array( $datetime, floatval($temp['room_temperature']) );
             $tankTemperature[] = array( $datetime, floatval($temp['tank_temperature']) );
         }
-        $mQuarterHour = new Model_QuarterHour();
-        $sunlightData = $mQuarterHour->getSunlightData($idInstance);
-        $sunlight = array();
-        foreach($sunlightData as $sun) {
-            $datetime = strtotime($sun['datetime']. ' GMT') * 1000; //
-            $sunlight[] = array( $datetime, intval($sun['sunlight']) * 100 / 1024 );
-        }
 
         $view = View::factory( "index" )->set(array(
             'roomTemperatureData' => $roomTemperature,
             'tankTemperatureData' => $tankTemperature,
-            'sunlightData' => $sunlight
         ));
         $this->template->content = $view->render();
     }

@@ -2,8 +2,8 @@
 
 class Model_Todo {
 
-    public function getTodos() {
-        $query = DB::select('*')->from('todo')->order_by('title', 'ASC');
+    public function getTodos($id_instance) {
+        $query = DB::select('*')->from('todo')->where('id_instance', '=', $id_instance)->order_by('title', 'ASC');
         return $query->execute()->as_array();
     }
     
@@ -18,11 +18,23 @@ class Model_Todo {
 
     public function getTodosWithState() {
         $query = DB::query(Database::SELECT,
+            "SELECT id_todo, i.title AS instance_title, t.title, IF(DATE(last_check) > CASE time_unit
+                WHEN \"DAY\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` DAY)
+                WHEN \"MONTH\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` MONTH)
+                END, 1, 0) AS checked
+            FROM todo AS t
+            JOIN instance AS i ON i.id_instance = t.id_instance;");
+        return $query->execute()->as_array();
+    }
+
+    public function getTodosByIdInstance($id_instance) {
+        $query = DB::query(Database::SELECT,
             "SELECT *, IF(DATE(last_check) > CASE time_unit
                 WHEN \"DAY\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` DAY)
                 WHEN \"MONTH\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` MONTH)
                 END, 1, 0) AS checked
-            FROM todo;");
+            FROM todo
+            WHERE id_instance = ". $id_instance .";");
         return $query->execute()->as_array();
     }
     

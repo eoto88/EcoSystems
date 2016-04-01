@@ -152,6 +152,12 @@ Route::set('logout', 'logout')
         'controller' => 'login',
         'action' => 'logout',
     ));
+Route::set('rest-api', 'api/<controller>(/<id>)')
+    ->defaults(array(
+        'directory' => 'rest',
+//        'controller' => 'instance',
+        'action' => 'index',
+    ));
 Route::set('ajax', 'ajax/action(/<id>)')
     ->defaults(array(
         'controller' => 'ajax',
@@ -172,10 +178,10 @@ Route::set('todos', 'todos/<id>')
         'controller' => 'dashboard',
         'action' => 'todos',
     ));
-Route::set('instances', 'instances')
+Route::set('instance', 'instance/<id>')
     ->defaults(array(
-        'controller' => 'dashboard',
-        'action' => 'instances',
+        'controller' => 'instance',
+        'action' => 'index',
     ));
 Route::set('dashboard', '(<controller>(/<action>(/<id>)))')
     ->defaults(array(

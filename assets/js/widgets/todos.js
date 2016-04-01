@@ -2,8 +2,8 @@ App.WidgetTodos = App.Widget.extend({
     init: function() {
         this._super( 'widget-todos' );
 
-        $('#' + this.cssId + ' ul').find('li').click(function() {
-            var $todo = $(this),
+        $('#' + this.cssId + ' span.todo').click(function() {
+            var $todo = $(this).parent(),
                 done = 0;
             if( $todo.parent().attr('id') == 'unchecked-todos') {
                 done = 1;
@@ -52,6 +52,14 @@ App.WidgetTodos = App.Widget.extend({
             }).fail(function() {
                 alert('Error!');
             });
+        });
+
+        $('#' + this.cssId + ' span.edit').click(function() {
+            $('#todo-form').show();
+        });
+
+        $('#' + this.cssId + '.bouton-new-todo').click(function() {
+            $('#todo-form').show();
         });
     }
 });

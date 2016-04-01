@@ -8,13 +8,13 @@ class Model_Instance {
         return $ins['id_instance'];
     }
 
-    public function getInstance($idInstance) {
-        $query = DB::select('*')->from('instance')->where('id_instance', '=', $idInstance);
+    public function getInstance($idInstance, $id_user) {
+        $query = DB::select('*')->from('instance')->where('id_instance', '=', $idInstance)->and_where('id_user', '=', $id_user);
         return $query->execute()->current();
     }
 
-    public function getInstances() {
-        $query = DB::select('*')->from('instance');
+    public function getInstances($id_user) {
+        $query = DB::select('*')->from('instance')->where('id_user', '=', $id_user);
         return $query->execute()->as_array();
     }
 
@@ -32,10 +32,19 @@ class Model_Instance {
             return $query->execute()->current();
         } else {
             $query = DB::query(Database::SELECT,
-                "SELECT id_instance, last_communication, pump_on, light_on, fan_on, heater_on, DATE_SUB(NOW(),INTERVAL 2 MINUTE) <= last_communication AS still_alive FROM instance"
+                "SELECT id_instance, last_communication, pump_on, light_on, fan_on, heater_on, DATE_SUB(NOW(),INTERVAL 1 MINUTE) <= last_communication AS still_alive FROM instance"
             );
             return $query->execute()->as_array();
         }
+    }
+
+    public function insertInstance($id_user, $title, $type, $monitored, $water_tests) {
+        $query = DB::insert('instance', array(
+            'title', 'id_user', 'code', 'type', 'monitored', 'water_tests'
+        ))->values(array(
+            $title, $id_user, DB::expr("UUID()"), $type, $monitored, $water_tests
+        ));
+        $query->execute();
     }
 
     public function updateLightState($lightState, $idInstance) {

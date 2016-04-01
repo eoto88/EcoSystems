@@ -46,19 +46,21 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
             $instance['fan_status'] = $hStatus->getStatus('fan', 'Fan', $instance['fan_on']);
             $instance['heater_status'] = $hStatus->getStatus('heater', 'Heater', $instance['heater_on']);
             $currentDay = $mDay->getCurrentDay($instance['id_instance']);
-            $instance['sun_status'] = $hStatus->getSunStatus($currentDay);
             $temperatureData = $mHour->getLastTemperatureData($instance['id_instance']);
             $instance['temperature_status'] = $hStatus->getTemperatureStatus($temperatureData);
 
             $instances[] = $instance;
         }
 
+        $hWidgetTodos = new Helper_WidgetTodos();
+        $vTodos = $hWidgetTodos->getView();
+
         $mLog = new Model_Log();
 
         $dashboardData = array(
-            'instances' => $instances,
-            'logs'      => $mLog->getLastLogs(),
-            'toDos'     => $mToDo->getTodosWithState()
+            'instances'     => $instances,
+            'logs'          => $mLog->getLastLogs(),
+            'widget_todos'  => $vTodos
         );
 
         $view = View::factory( "dashboard" )->set($dashboardData);
@@ -86,7 +88,6 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $temperatureData = $mHour->getLastTemperatureData( $idInstance );
 
         return array(
-            'sun_status' => $hStatus->getSunStatus($day),
             'communication_status' => $hStatus->getCommunicationStatus($liveData),
             'pump_status' => $hStatus->getStatus('pump', 'Pump', $liveData['pump_on']),
             'light_status' => $hStatus->getStatus('light', 'Light', $liveData['light_on']),
@@ -101,10 +102,7 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $hourData = $mHour->getHourData( $this->currentInstanceId );
 
         $mInstance = new Model_Instance();
-        $instance = $mInstance->getInstance( $this->currentInstanceId );
-
-        $mQuarterHour = new Model_QuarterHour();
-        $sunlightData = $mQuarterHour->getSunlightData( $this->currentInstanceId );
+        $instance = $mInstance->getInstance( $this->currentInstanceId, $this->user['id_user'] );
 
         $humidity = array();
         $roomTemperature = array();
@@ -115,19 +113,12 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
             $roomTemperature[] = array( $datetime, floatval($hour['room_temperature']) );
             $tankTemperature[] = array( $datetime, floatval($hour['tank_temperature']) );
         }
-
-        $sunlight = array();
-        foreach($sunlightData as $sun) {
-            $datetime = strtotime($sun['datetime']) * 1000; //
-            $sunlight[] = array( $datetime, intval($sun['sunlight']) * 100 / 1024 );
-        }
         
         return array(
             'instance'              => $instance,
             'humidityData'          => $humidity,
             'roomTemperatureData'   => $roomTemperature,
             'tankTemperatureData'   => $tankTemperature,
-            'sunlightData'          => $sunlight,
             'liveStatus'            => $this->getLiveStatus( $this->currentInstanceId )
         );
     }
@@ -163,22 +154,6 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
             'tankTemperatureHistory' => $tankTemperatureHistory,
             'sunlightHistory' => $sunlightHistory
         );
-    }
-
-
-    public function action_instances() {
-        $this->template->title = __('Instances');
-        $this->template->icon = 'fa-list-alt';
-
-        $config = Kohana::$config->load('app');
-
-        $instancesData = array(
-            'instances' => $this->instances,
-            'instance_types' => $config['instance_types']
-        );
-
-        $view = View::factory( "instances" )->set( $instancesData );;
-        $this->template->content = $view->render();
     }
 
     public function action_todos() {

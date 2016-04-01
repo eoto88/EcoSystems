@@ -41,7 +41,9 @@ class Task_Cron extends Minion_Task {
     }
     
     private function backupLastDays() {
+        // TODO loop on users for backup
         $mInstance = new Model_Instance();
+        // TODO get user for getInstances
         $instances = $mInstance->getInstances();
         $mHour = new Model_Hour();
         $mQuarterHour = new Model_QuarterHour();

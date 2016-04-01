@@ -87,7 +87,7 @@ $(document).ready(function() {
         $(this).parent().toggleClass('active');
         var url = $('#left-panel .active a').attr('href');
         document.location = url +'/'+ getCurrentInstanceId();
-    })
+    });
 
     /*$('#left-panel .menu-item-parent').click(function(e) {
         e.preventDefault();

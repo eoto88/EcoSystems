@@ -16,7 +16,7 @@ App.Widget = Class.extend({
 $(document).ready(function() {
     $(".widget").each(function() {
         var widget = WidgetList[$(this).attr('id')];
-        if( widget ){
+        if( widget ) {
             App.factory(WidgetList[$(this).attr('id')]);
         }
     });

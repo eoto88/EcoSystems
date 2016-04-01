@@ -121,23 +121,117 @@ h1 {
     text-align: center;
     margin: 220px 0 0 0;
 }
-#login {
-    width: 200px;
+
+#login,
+#create-account {
+    width: 300px;
     margin: 30px auto 0;
     color: #f3f3f3;
 }
 
-#login input[type="text"],
-#login input[type="password"] {
-    width: 200px;
+#create-account {
+    display: none;
 }
 
-#login input[type="submit"] {
-    margin-top: 15px;
-    float: right;
+.form-field {
+    position: relative;
 }
 
+#link-create-account {
+    color: #60747C;
+    margin-left: 10px;
+}
 
+label {
+    display: block;
+    font-weight: 600;
+    line-height: 18px;
+    padding-bottom: 10px;
+}
+
+input[type="text"],
+input[type="password"] {
+    position: relative;
+    display: inline-block;
+    padding: 0 6px;
+    max-width: 284px; /* Not 300px because of the padding + border */
+    width: 100%;
+    border-radius: 3px;
+    vertical-align: middle;
+    min-height: 26px;
+    background-color: #fff;
+    border: 2px solid #c9c9c9;
+    margin-bottom: 20px;
+}
+
+.button,
+input[type="submit"] {
+    color: #484848;
+    background-color: #e0e0e0;
+    -ms-transition: background-color 0.23s ease-in-out 0s;
+    transition: background-color 0.23s ease-in-out 0s;
+    font-weight: 600;
+    font-family: "Open Sans","Helvetica Neue",Arial,Helvetica,Verdana,sans-serif;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: capitalize;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0 16px;
+    cursor: pointer;
+    margin-right: 10px;
+    border: 0 none;
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 13px;
+    height: 32px;
+    line-height: 32px;
+}
+
+.password-field {
+    position: relative;
+}
+
+.password-field input[type="password"],
+.password-field input[type="text"] {
+    position: relative;
+    width: 70%;
+    border-radius: 3px 0 0 3px;
+}
+
+.show-password-wrap {
+    position: absolute;
+    right: 0;
+    width: 30%;
+    display: inline-block;
+    min-height: 22px;
+    padding: 2px 0;
+    border-radius: 0 3px 3px 0;
+    border: 2px solid #c9c9c9;
+    border-left: none;
+    background: #e0e0e0;
+    text-align: center !important;
+}
+
+.show-password-wrap label {
+    display: inline-block;
+    font-weight: 600;
+    padding-bottom: 0;
+    color: #3a3633;
+}
+
+.chk-show-password {
+    display: inline-block;
+}
+
+.form-field.error input[type="text"],
+.form-field.error input[type="password"],
+.password-field.error .show-password-wrap {
+    border-color: #ff0033;
+}
 
 
 

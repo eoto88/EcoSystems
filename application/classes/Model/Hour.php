@@ -2,16 +2,21 @@
 
 class Model_Hour {
 
+    private function getOffset() {
+        $time = new DateTime('now', new DateTimeZone(date_default_timezone_get()) );
+        return $time->format('P');
+    }
+
     public function getHourData($idInstance) {
         $query = DB::query(Database::SELECT,
-            "SELECT datetime, humidity, room_temperature, tank_temperature FROM ( SELECT * FROM hour WHERE id_instance = ". $idInstance ." ORDER BY datetime DESC LIMIT 40 ) sub ORDER BY datetime ASC"
+            "SELECT CONVERT_TZ(datetime, '+00:00', '". $this->getOffset() ."') AS datetime, humidity, room_temperature, tank_temperature FROM ( SELECT * FROM hour WHERE id_instance = ". $idInstance ." ORDER BY datetime DESC LIMIT 40 ) sub ORDER BY datetime ASC"
         );
 
         return $query->execute()->as_array();
     }
 
     public function getLastTemperatureData($idInstance) {
-        $query = DB::select('datetime', 'humidity', 'room_temperature', 'tank_temperature')->from('hour')->where('id_instance', '=', $idInstance)->order_by('datetime', 'DESC')->limit(1)->offset(0);
+        $query = DB::select(DB::expr("CONVERT_TZ(datetime, '+00:00', '". $this->getOffset() ."') AS datetime"), 'humidity', 'room_temperature', 'tank_temperature')->from('hour')->where('id_instance', '=', $idInstance)->order_by('datetime', 'DESC')->limit(1)->offset(0);
         return $query->execute()->current();
     }
     
@@ -25,8 +30,11 @@ class Model_Hour {
     }
     
     public function insertHour($idInstance, $idCurrentDay, $datetime, $humidity, $roomTemperature, $tankTemperature) {
+        if( $datetime == null ) {
+            $datetime = 'NOW()';
+        }
         $query = DB::insert('hour', array(
-            'id_hour2', 'id_instance', 'id_day', 'datetime', 'humidity', 'room_temperature', 'tank_temperature'
+            'id_hour', 'id_instance', 'id_day', 'datetime', 'humidity', 'room_temperature', 'tank_temperature'
         ))->values( array(
             DB::expr("UNHEX(REPLACE(UUID(),'-',''))"), $idInstance, $idCurrentDay, /*gmdate("Y-m-d H:i:s",*/ $datetime/*)*/, $humidity, $roomTemperature, $tankTemperature
         ) );

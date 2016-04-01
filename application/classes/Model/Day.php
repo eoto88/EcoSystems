@@ -19,7 +19,7 @@ class Model_Day {
 
     public function getDayByDate($idInstance, $date) {
         $query = DB::query(Database::SELECT,
-            "SELECT id_day, date, sunrise, sunset FROM day WHERE date = DATE(:date) AND id_instance = :idInstance"
+            "SELECT id_day, date FROM day WHERE date = DATE(:date) AND id_instance = :idInstance"
         );
         $query->parameters(array(
             ':date' => $date,
@@ -47,27 +47,11 @@ class Model_Day {
     
     public function getLastDays($idInstance) {
         $query = DB::query(Database::SELECT,
-            "SELECT date, room_tmp_avg, tank_tmp_avg, TIMESTAMPDIFF(HOUR, sunrise, sunset) AS light_hour FROM day ".
+            "SELECT date, room_tmp_avg, tank_tmp_avg FROM day ".
             "WHERE `date` <= DATE(SUBDATE(current_date, 2)) AND id_instance = :idInstance"
         );
         $query->param(':idInstance', $idInstance);
         return $query->execute()->as_array();
-    }
-    
-    public function updateSunrise($idInstance, $datetime) {
-        $this->insertIfNoCurrentDay($idInstance);
-        $query = DB::update('day')->set(
-            array('sunrise' => /*gmdate("Y-m-d H:i:s",*/ $datetime/*)*/)
-        )->where('date', '=', /*gmdate("Y-m-d",*/ $datetime/*)*/)->and_where('id_instance', '=', $idInstance);
-        $query->execute();
-    }
-    
-    public function updateSunset($idInstance, $datetime) {
-        $this->insertIfNoCurrentDay($idInstance);
-        $query = DB::update('day')->set(
-            array('sunset' => /*gmdate("Y-m-d H:i:s",*/ $datetime/*)*/)
-        )->where('date', '=', /*gmdate("Y-m-d",*/ $datetime/*)*/)->and_where('id_instance', '=', $idInstance);
-        $query->execute();
     }
     
     public function updateDayAvg($idInstance, $date, $roomTempAvg, $tankTempAvg) {

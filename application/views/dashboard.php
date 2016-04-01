@@ -11,7 +11,7 @@
                     <?php foreach($instances as $instance) { ?>
                         <li class="instance" data-id="<?php echo $instance['id_instance'] ?>">
                             <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-4">
+                                <div class="col-sm-12 col-md-12 col-lg-6">
                                     <div class="row">
                                         <div class="col-sm-6 col-md-6 col-lg-12">
                                             <h3><a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id_instance'] ?>">
@@ -27,10 +27,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-6 col-lg-4">
-                                    <?php echo $instance['sun_status'] ?>
-                                </div>
-                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                <div class="col-sm-12 col-md-12 col-lg-6">
                                     <?php echo $instance['temperature_status'] ?>
                                 </div>
                             </div>
@@ -41,57 +38,7 @@
         </div>
     </article>
     <article class="col-sm-12 col-md-12 col-lg-6">
-        <div id="widget-todos" class="widget">
-            <header role="heading">
-                <span class="widget-icon"><i class="fa fa-check fa-fw "></i></span>
-                <h2>ToDo's</h2>
-                <span class="widget-expand"><i class="fa fa-chevron-down"></i></span>
-            </header>
-            <div class="widget-body">
-                <?php
-                $checkedTodos = array();
-                $uncheckedTodos = array();
-                if( count($toDos) ) {
-                    foreach( $toDos as $toDo ) {
-                        if( $toDo['checked'] ) {
-                            $checkedTodos[] = $toDo;
-                        } else {
-                            $uncheckedTodos[] = $toDo;
-                        }
-                    }
-                }
-                ?>
-                <h4>
-                    <i class="fa fa-exclamation fa-fw "></i>&nbsp;
-                    <?php echo __('Uncompleted tasks') ?>&nbsp;
-                    (<span id="unchecked-todos-count"><?php echo count($uncheckedTodos) ?></span>)
-                </h4>
-                <ul id="unchecked-todos">
-                    <?php
-                    if( count($uncheckedTodos) ) {
-                        foreach( $uncheckedTodos as $toDo ) {
-                            echo '<li id="todo-' . $toDo['id_todo'] . '"><i class="fa fa-square-o check-icon"></i><span>' . $toDo['title'] . '</span></li>';
-                        }
-                    } else {
-                        echo '<li id="no-todo"><span>'. __('No task in the to do list') .'</span></li>';
-                    }
-                    ?>
-                </ul>
-                <h4><i class="fa fa-check fa-fw "></i>&nbsp;
-                    <?php echo __('Completed tasks') ?>&nbsp;
-                    (<span id="checked-todos-count"><?php echo count($checkedTodos) ?></span>)
-                </h4>
-                <ul id="checked-todos">
-                    <?php
-                    if( count($checkedTodos) ) {
-                        foreach( $checkedTodos as $toDo ) {
-                            echo '<li id="todo-' . $toDo['id_todo'] . '"><i class="fa fa-check-square-o check-icon"></i><span>' . $toDo['title'] . '</span></li>';
-                        }
-                    }
-                    ?>
-                </ul>
-            </div>
-        </div>
+        <?php echo $widget_todos; ?>
     </article>
     <article class="col-sm-12 col-md-12 col-lg-6">
         <div id="widget-logs" class="widget">

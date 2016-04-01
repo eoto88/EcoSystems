@@ -59,9 +59,25 @@
                                 <a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id_instance'] ?>"><?php echo $instance['title'] ?></a>
                             </li>
                         <?php } ?>
+                        <li role="separator" class="divider"></li>
+                        <li data-id="<?php echo $instance['id_instance'] ?>">
+                            <a href="<?php echo URL::base(TRUE, TRUE) .'instance/new' ?>"><?php echo __('Create new instance'); ?></a>
+                        </li>
                     </ul>
                 </div>
-                <?php echo $user ?>
+                <div class="header-block header-user">
+                    <a href="#" id="welcome" class="dropdown-toggle" data-toggle="dropdown">
+                        <span>Welcome <?php echo $user['name']; ?></span>&nbsp;<i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul id="dropdown-user" class="dropdown-menu js-status-update pull-right">
+                        <li data-id="">
+                            <a href="<?php echo URL::base(TRUE, TRUE) .'profile' ?>"><?php echo __('Profile') ?></a>
+                        </li>
+                        <li data-id="">
+                            <a href="<?php echo URL::base(TRUE, TRUE) .'logout' ?>"><?php echo __('Logout') ?></a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -93,10 +109,10 @@
                     <span class="menu-title"><?php echo __('ToDo\'s'); ?></span>
                 </a>
             </li>
-            <li <?php echo ($current_route_name == 'instances') ? 'class="active"' : ''; ?>>
-                <a href="<?php echo URL::base(TRUE, TRUE) .'instances'; ?>">
+            <li <?php echo ($current_route_name == 'instance') ? 'class="active"' : ''; ?>>
+                <a href="<?php echo URL::base(TRUE, TRUE) .'instance'; ?>" class="require-instance-id">
                     <i class="fa fa-lg fa-fw fa-list-alt"></i>&nbsp;
-                    <span class="menu-title"><?php echo __('Instances') ?></span>
+                    <span class="menu-title"><?php echo __('Instance') ?></span>
                 </a>
             </li>
             <li  <?php echo ($current_route_name == 'logs') ? 'class="active"' : ''; ?>>
@@ -160,7 +176,6 @@
                     <div class="col-md-4">
                         <div id="liveStatus">
                             <?php /*echo $communication_status; ?>
-                            <?php echo $sun_status; ?>
                             <?php echo $pump_status; ?>
                             <?php echo $light_status; ?>
                             <?php echo $fan_status; ?>
@@ -193,6 +208,7 @@
     };
 
     var WidgetList = {
+        'widget-form': App.WidgetForm,
         'widget-todos': App.WidgetTodos,
         'widget-instances': App.WidgetInstances,
         //'widget-logs': App.WidgetLogs,

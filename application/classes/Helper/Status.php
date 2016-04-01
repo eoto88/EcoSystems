@@ -23,23 +23,6 @@ class Helper_Status {
         return '<div class="live-status" title="'. $title .'"><span class="live-label">'. $label .'</span><span class="live-value '. $class .'"><i class="'. $icon .'"></i>'. $value .'</span></div>';
     }
 
-    public function getSunStatus($day) {
-        $sunrise = "";
-        $sunset = "";
-        if(isset($day)) {
-            $sunriseTime = isset($day['sunrise']) ? date('H:i:s', strtotime($day['sunrise'])) : '--:--:--';
-            $icon = "fa fa-sun-o";
-            $title = "Sunrise: ". $day['sunrise'];
-            $sunrise = $this->formatLiveStatus( $title, __('Sunrise'), 'sunrise', $icon, $sunriseTime );
-
-            $sunsetTime = isset($day['sunset']) ? date('H:i:s', strtotime($day['sunset'])) : '--:--:--';
-            $title = "Sunset: ". $day['sunset'];
-            $icon = "fa fa-moon-o";
-            $sunset = $this->formatLiveStatus( $title, __('Sunset'), 'sunset', $icon, $sunsetTime );
-        }
-        return $sunrise . $sunset;
-    }
-
     public function getCommunicationStatus($liveData) {
         $title = "";
         $icon = "fa-exclamation-triangle error";
