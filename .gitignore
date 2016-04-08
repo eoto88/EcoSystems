@@ -6,4 +6,6 @@
 !/application/config/*.template.php
 /bkp/
 /nbproject/
+/assets/css/main.css
+/assets/css/main.css.map
 copyForTesting.sh
