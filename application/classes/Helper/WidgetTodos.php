@@ -10,7 +10,7 @@ class Helper_WidgetTodos {
 
         $form = $hForm->createForm(array(
             'name' => 'form-todo',
-            'api-url' => 'todos',
+//            'api-url' => 'todos',
             'fields' => array(
                 array(
                     'name' => 'id_todo',
@@ -19,7 +19,7 @@ class Helper_WidgetTodos {
                 array(
                     'name' => 'title',
                     'label' => __('Title'),
-                    'maxlength' => 25
+                    'maxlength' => 50
                 ),
                 array(
                     'type' => 'select',

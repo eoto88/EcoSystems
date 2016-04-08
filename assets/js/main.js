@@ -21,7 +21,7 @@ var highchartsOptions ={},
 };
 
 $(document).ready(function() {
-    resizeMainSection()
+    //resizeMainSection();
 
     highchartsOptions.global =  {
         timezoneOffset: -4,
@@ -54,24 +54,24 @@ $(document).ready(function() {
         });
     }, 15000);*/
     
-    $("#tasks_list li").click(function() {
-        var $todo = $(this);
-        $todo.find('.check').addClass('done');
-        var id = $todo.attr('id');
-        id = id.replace("todo-", "");
-        $.ajax({
-            url: BASE_URL + "ajax/updateToDo/" + id,
-            cache: false,
-            dataType: "json"
-        }).done(function(data) {
-            $("#todo-" + data.id).animate({'height': 0, 'opacity': 0}, 500, function() {
-                $(this).remove();
-                if($("#tasks_list li").length === 0) {
-                    $("#tasks_list").html('<li id="no-todo">' + I18n.noTaskTodoList + '</li>');
-                }
-            });
-        });
-    });
+    //$("#tasks_list li").click(function() {
+    //    var $todo = $(this);
+    //    $todo.find('.check').addClass('done');
+    //    var id = $todo.attr('id');
+    //    id = id.replace("todo-", "");
+    //    $.ajax({
+    //        url: BASE_URL + "ajax/updateToDo/" + id,
+    //        cache: false,
+    //        dataType: "json"
+    //    }).done(function(data) {
+    //        $("#todo-" + data.id).animate({'height': 0, 'opacity': 0}, 500, function() {
+    //            $(this).remove();
+    //            if($("#tasks_list li").length === 0) {
+    //                $("#tasks_list").html('<li id="no-todo">' + I18n.noTaskTodoList + '</li>');
+    //            }
+    //        });
+    //    });
+    //});
 
     $("#instance_list li").click(function() {
         var $instance = $(this);
@@ -105,25 +105,29 @@ $(document).ready(function() {
         $('body').toggleClass('minified-menu');
     });
 
-    $( window ).resize(function() {
-        resizeMainSection();
-    });
+    //$( window ).resize(function() {
+    //    resizeMainSection();
+    //});
 });
 
 function getCurrentInstanceId() {
     return $('#dropdown-instances .active').data('id');
 }
 
-function resizeMainSection() {
-    var winHeight = $( window ).height(),
-        mainMinHeight = winHeight - 49,
-        contentHeight = $('#content').height() + 80; /* Padding */
-    if( mainMinHeight > contentHeight ) {
-        $('#main').height( mainMinHeight );
-    } else {
-        $('#main').height( contentHeight );
-    }
+function isDashboard() {
+    return window.location.pathname == '/';
 }
+
+//function resizeMainSection() {
+//    var winHeight = $( window ).height(),
+//        mainMinHeight = winHeight - 49,
+//        contentHeight = $('#content').height() + 80; /* Padding */
+//    if( mainMinHeight > contentHeight ) {
+//        $('#main').height( mainMinHeight );
+//    } else {
+//        $('#main').height( contentHeight );
+//    }
+//}
 
 function changeStatus(relayId, relayName, status) {
     $("#"+ relayId +"_status").attr('title', relayName +' is '+ status);

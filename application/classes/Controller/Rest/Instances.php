@@ -4,30 +4,28 @@ class Controller_Rest_Instances extends Controller_REST {
 
     public function action_index() {
         $id_instance = $this->request->param('id');
-        $user = Auth::instance()->get_user();
         $mInstance = new Model_Instance();
 
         if( isset($id_instance) ) {
-            echo json_encode( $mInstance->getInstance($id_instance, $user['id_user']) );
+            echo json_encode( $mInstance->getInstance($id_instance, $this->_user['id_user']) );
         } else {
-            echo json_encode( $mInstance->getInstances($user['id_user']) );
+            echo json_encode( $mInstance->getInstances($this->_user['id_user']) );
         }
     }
 
     public function action_update() {
         $id_instance = $this->request->param('id');
-        $user = Auth::instance()->get_user();
         $mInstance = new Model_Instance();
 
         if( isset($id_instance) ) {
-            echo json_encode( $mInstance->getInstance($id_instance, $user['id_user']) );
+            echo json_encode( $mInstance->getInstance($id_instance, $this->_user['id_user']) );
         } else {
-            echo json_encode( $mInstance->getInstances($user['id_user']) );
+            echo json_encode( $mInstance->getInstances($this->_user['id_user']) );
         }
     }
 
     public function action_create() {
-        $user = Auth::instance()->get_user();
+        $user = $this->_user;
         $mInstance = new Model_Instance();
         $post = $this->request->post();
 

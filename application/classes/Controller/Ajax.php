@@ -68,7 +68,7 @@ class Controller_Ajax extends Controller {
             $done = Kohana::sanitize( $post->done );
 
             $mToDo = new Model_Todo();
-            $mToDo->updateTodo($id, $done);
+            $mToDo->checkTodo($id, $done);
 
             echo json_encode( array('success' => true) );
         }

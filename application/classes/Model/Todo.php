@@ -2,18 +2,41 @@
 
 class Model_Todo {
 
+    public function getTodo($id_todo) {
+        $query = DB::select('todo.id_todo', array('instance.title', 'instance_title'), 'todo.title', 'todo.time_unit', 'todo.interval_value')
+            ->from('todo')
+            ->join('instance')->on('todo.id_instance', '=', 'instance.id_instance')
+            ->where('id_todo', '=', $id_todo);
+        return $query->execute()->as_array();
+    }
+
     public function getTodos($id_instance) {
         $query = DB::select('*')->from('todo')->where('id_instance', '=', $id_instance)->order_by('title', 'ASC');
         return $query->execute()->as_array();
     }
     
-    public function insertQuarterHour($datetime, $sunlight) {
-        $query = DB::insert('quarter_hour', array(
-            'id_day', 'datetime', 'sunlight'
+    public function insertTodo($data) {
+        $return = array();
+        $validation = Validation::factory($data);
+        $validation->rule('title', 'not_empty')->rule('title', 'max_length', array(':value', '50'));
+        $validation->rule('interval_value', 'not_empty')->rule('interval_value', 'digit');
+
+        if( $validation->check() ) {
+
+            $query = DB::insert('todo', array(
+                'id_instance', 'title', 'time_unit', 'interval_value'
             ))->values( array(
-                '1', gmdate("Y-m-d H:i:s", $datetime), $sunlight
+                $data['id_instance'], $data['title'], $data['time_unit'], $data['interval_value']
             ) );
-        $query->execute();
+            $result = $query->execute();
+
+            $return['success'] = true;
+            $return['entities'] = $this->getTodo($result[0]);;
+        } else {
+            $return['success'] = false;
+            $return['errors'] = $validation->errors('todo');
+        }
+        return $return;
     }
 
     public function getTodosWithState() {
@@ -49,8 +72,8 @@ class Model_Todo {
             OR `last_check` = '0000-00-00 00:00:00.000000';");
         return $query->execute()->as_array();
     }
-    
-    public function updateTodo($id, $done) {
+
+    public function checkTodo($id, $done) {
         $query = null;
         if( $done ) {
             $query = DB::update('todo')->set(array('last_check' => DB::expr('NOW()')))->where('id_todo', '=', $id);
@@ -58,5 +81,23 @@ class Model_Todo {
             $query = DB::update('todo')->set(array('last_check' => '0000-00-00 00:00:00'))->where('id_todo', '=', $id);
         }
         $query->execute();
+    }
+
+    public function updateTodo($id, $title, $time_unit, $interval_value) {
+        $query = DB::update('todo')->set(array(
+            'title' => $title,
+            'time_unit' => $time_unit,
+            'interval_value' => $interval_value
+        ))->where('id_todo', '=', $id);
+        $query->execute();
+
+        return $this->getTodo($id);
+    }
+
+    public function deleteTodo($id) {
+        $query = DB::delete('todo')->where('id_todo', '=', $id);
+        $query->execute();
+
+        return array('success' => true);
     }
 }

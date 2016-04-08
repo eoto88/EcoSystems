@@ -155,7 +155,11 @@ Route::set('logout', 'logout')
 Route::set('rest-api', 'api/<controller>(/<id>)')
     ->defaults(array(
         'directory' => 'rest',
-//        'controller' => 'instance',
+        'action' => 'index',
+    ));
+Route::set('rest-api-instances', 'api/instances/<id_instance>/<controller>(/<id>)')
+    ->defaults(array(
+        'directory' => 'rest',
         'action' => 'index',
     ));
 Route::set('ajax', 'ajax/action(/<id>)')

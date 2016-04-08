@@ -31,9 +31,9 @@
                     if( isset($toDo['instance_title']) ) {
                         $title .= ' ('.$toDo['instance_title'].')';
                     }
-                    $edit = '<span class="edit"><i class="fa fa-pencil"></i></span>';
+                    $edit = '<span class="actions"><i class="fa fa-pencil edit"></i><i class="fa fa-trash-o delete"></i></span>';
                     $title = '<span class="todo"><i class="fa fa-square-o check-icon"></i><span class="todo-title">'.$title.'</span></span>';
-                    echo '<li id="todo-'.$toDo['id_todo'].'">'.$title.$edit.'<span class="clearfix"></span></li>';
+                    echo '<li data-id="'.$toDo['id_todo'].'">'.$title.$edit.'<span class="clearfix"></span></li>';
                 }
             } else {
                 echo '<li id="no-todo"><span>'. __('No task in the to do list') .'</span></li>';
@@ -52,14 +52,14 @@
                     if( isset($toDo['instance_title']) ) {
                         $title .= ' ('.$toDo['instance_title'].')';
                     }
-                    $edit = '<span class="edit"><i class="fa fa-pencil"></i></span>';
+                    $edit = '<span class="actions"><i class="fa fa-pencil edit"></i><i class="fa fa-trash-o delete"></i></span>';
                     $title = '<span class="todo"><i class="fa fa-check-square-o check-icon"></i><span class="todo-title">'.$title.'</span></span>';
-                    echo '<li id="todo-'.$toDo['id_todo'].'">'.$title.$edit.'<span class="clearfix"></span></li>';
+                    echo '<li data-id="'.$toDo['id_todo'].'">'.$title.$edit.'<span class="clearfix"></span></li>';
                 }
             }
             ?>
         </ul>
-        <button class="bouton-new-todo btn btn-default"><?php echo __('Add a ToDo') ?></button>
+        <button class="btn-new-todo btn btn-default"><?php echo __('Add a ToDo') ?></button>
 
         <div id="todo-form">
             <header role="heading">
@@ -71,4 +71,15 @@
             </div>
         </div>
     </div>
+
+    <script type="text/x-handlebars-template" id="no-todo-tmpl">
+        <li id="no-todo" style="opacity: 0; height: 0;"><span><?php echo __('No task in the to do list') ?></span></li>
+    </script>
+    <script type="text/x-handlebars-template" id="new-todo-tmpl">
+        <li data-id="{{id_todo}}">
+            <span class="todo"><i class="fa fa-square-o check-icon"></i><span class="todo-title">{{title}}</span></span>
+            <span class="actions"><i class="fa fa-pencil edit"></i><i class="fa fa-trash-o delete"></i></span>
+            <span class="clearfix"></span>
+        </li>
+    </script>
 </div>

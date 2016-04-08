@@ -29,10 +29,10 @@
 <header id="header">
     <div id="header-container">
         <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-6">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <h1 id="logo">EcoSystem</h1>
             </div>
-            <div class="col-sm-12 col-md-12 col-lg-6">
+            <div class="col-xs-12 col-sm- col-md-6 col-lg-6">
                 <div class="header-block header-instances">
                     <span><?php echo __('Instance') .' :'?></span>
                     <a href="#" id="select-instance" class="dropdown-toggle" data-toggle="dropdown">
@@ -192,6 +192,27 @@
         </nav-->
     </div>
 </div>
+
+<script type="text/x-handlebars-template" id="dialog-tmpl">
+    <div class="modal fade" id="dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{{title}}</h4>
+                </div>
+                <div class="modal-body">
+                    {{body}}
+                </div>
+                {{footer}}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>

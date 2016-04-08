@@ -72,7 +72,5 @@
             </div>
         </div>
     </article>
+    <div class="clearfix"></div>
 </div>
-<script type="text/x-handlebars-template" id="no-todo-tmpl">
-    <li id="no-todo" style="opacity: 0; height: 0;"><span><?php echo __('No task in the to do list') ?></span></li>
-</script>

@@ -85,7 +85,8 @@ class Controller_AuthenticatedPage extends Controller_Template {
     private function getStyles() {
         return array(
             "assets/css/main.css" => "screen",
-            "assets/css/bootstrap.min.css" => "screen",
+            "assets/css/vendor/bootstrap-dialog.css" => "screen",
+            "assets/css/vendor/bootstrap.min.css" => "screen",
             "assets/css/normalize.css" => "screen",
             "assets/css/weather-icons.min.css" => "screen"
         );
@@ -102,7 +103,9 @@ class Controller_AuthenticatedPage extends Controller_Template {
             "assets/js/widget.js",
             "assets/js/main.js",
             "assets/js/vendor/handlebars-v2.0.0.js",
+            "assets/js/vendor/bootstrap-dialog.js",
             "assets/js/vendor/bootstrap.min.js",
+            "assets/js/vendor/jquery.populate.js",
             "http://code.highcharts.com/modules/exporting.js",
             "http://code.highcharts.com/highcharts.js"
         );

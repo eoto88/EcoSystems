@@ -111,7 +111,7 @@ body {
   line-height: 1.42857143;
   color: #333;
   background-color: $light-grey;
-  padding-top: 49px;
+  padding-top: 82px;
 }
 
 h1, h2, h3, h4 {
@@ -135,7 +135,7 @@ h1 {
   top: 0;
   z-index: 905;
   display: block;
-  height: 49px;
+  height: 82px;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -153,22 +153,63 @@ h1 {
 }
 #logo {
   color: white;
-  margin-top: 12px;
+  margin: 5px 0;
 }
 .header-block {
   display: inline-block;
   vertical-align: middle;
-  height: 49px;
+  margin: 5px 0;
   float: left;
+
+  a,
+  a:focus,
+  a:hover {
+    color: white;
+    text-decoration: none;
+  }
 }
 .header-instances {
   >:first-child  {
     display: block;
     color: $medium-light-grey;
   }
-  a {
-    color: white;
+}
+#header .dropdown-menu {
+  top: 95%;
+  margin: 0;
+  background-color: #3a3633;
+  background: -moz-linear-gradient(left, #3a3633 93%, #2a2725 100%);
+  background: -webkit-gradient(linear, left top, right top, color-stop(93%, #3a3633), color-stop(100%, #2a2725));
+  background: -webkit-linear-gradient(left, #3a3633 93%, #2a2725 100%);
+  background: -o-linear-gradient(left, #3a3633 93%, #2a2725 100%);
+  background: -ms-linear-gradient(left, #3a3633 93%, #2a2725 100%);
+  background: linear-gradient(to right, #3a3633 93%, #2a2725 100%);
+
+  >li>a {
+    color: #a8a8a8;
   }
+  >li>a:hover,
+  >li>a:focus {
+    color: white;
+    background-color: #3a3633;
+  }
+  >.active>a,
+  >.active>a:hover,
+  >.active>a:focus {
+    color: white;
+    background: #646464;
+  }
+}
+
+#welcome {
+  font-size: 18px;
+  margin-top: 12px;
+  color: white;
+}
+
+.header-user {
+  padding-top: 10px;
+  float: right;
 }
 
 /* **** Left nav - START **** */
@@ -362,12 +403,12 @@ h1 {
 }
 
 /* **** Icons - START **** */
-.sunrise i {
-  color: #FCD432;
-}
-.sunset i {
-  color: #BBB;
-}
+//.sunrise i {
+//  color: #FCD432;
+//}
+//.sunset i {
+//  color: #BBB;
+//}
 .humidity i {
   color: #44aad5;
 }
@@ -501,6 +542,10 @@ h1 {
 
 /* **** Widget instances - START **** */
 #widget-instances {
+  .widget-body {
+    max-height: 400px;
+    overflow-y: scroll;
+  }
   ul {
     list-style: none;
     padding: 0;
@@ -558,15 +603,50 @@ h1 {
       left: 12px;
       font-size: 20px;
     }
-    &:hover .check:before,
-    .check.done:before {
-      content: "\f046"!important;
-    }
+//    &:hover .check:before,
+//    .check.done:before {
+//      content: "\f046"!important;
+//    }
     span {
+      display: block;
+    }
+    span.todo {
+      width: 90%;
+      float: left;
+    }
+    span span.todo-title {
       display: block;
       padding: 10px;
       margin-left: 40px;
       border-left: 3px double #FFE1EB;
+    }
+    span.actions {
+      display: block;
+      text-align: right;
+      width: 10%;
+      float: left;
+      padding: 5px;
+      border-left: 1px solid #e7e7e7;
+    }
+    span.actions i {
+      font-size: 18px;
+    }
+    span.actions i:hover {
+      color: #60747C;
+    }
+  }
+  #checked-todos li span.todo-title {
+    text-decoration: line-through;
+  }
+  .btn-new-todo {
+    margin: 0 0 10px 15px;
+  }
+  #todo-form {
+    display: none;
+    margin: 5px 15px 15px 15px;
+
+    .widget-body {
+      padding: 15px;
     }
   }
 }
@@ -751,9 +831,31 @@ h1 {
 
 
 
+/* **** Responsive - START **** */
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  body {
+    padding-top: 49px;
+  }
+  #header {
+    height: 49px;
+  }
+  #logo {
+    margin: 12px 0 15px;
+  }
+}
 
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
 
+}
 
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+
+}
+
+/* **** Responsive - END **** */
 
 
 
