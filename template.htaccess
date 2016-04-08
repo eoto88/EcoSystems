@@ -10,6 +10,10 @@ RewriteBase /
 	Deny From All
 </Files>
 
+<Limit GET POST PUT DELETE>
+  Allow from all
+</Limit>
+
 # Protect application and system files from being viewed
 RewriteRule ^(?:application|modules|system)\b.* index.php/$0 [L]
 
