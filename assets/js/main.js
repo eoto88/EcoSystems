@@ -34,49 +34,10 @@ $(document).ready(function() {
 
     Highcharts.setOptions(highchartsOptions);
 
-    /*setInterval(function() {
-        $.ajax({
-            url: BASE_URL + "ajax/getLiveData",
-            cache: false,
-            dataType: "json"
-        }).done(function(data) {
-            var status;
-            if(data.stillAliveStatus == "still-alive")
-                status = '<i class="fa fa-check success"></i>';
-            else
-                status = '<i class="fa fa-exclamation-triangle error"></i>';
-            $("#still_alive").html(status).attr("title", I18n.lastCommunication + ": " + data.lastCommunication);
-            
-            changeStatus('pump', 'Pump', data.pumpStatus);
-            changeStatus('light', 'Light', data.lightStatus);
-            changeStatus('fan', 'Fan', data.fanStatus);
-            changeStatus('heater', 'Heater', data.heaterStatus);
-        });
-    }, 15000);*/
-    
-    //$("#tasks_list li").click(function() {
-    //    var $todo = $(this);
-    //    $todo.find('.check').addClass('done');
-    //    var id = $todo.attr('id');
-    //    id = id.replace("todo-", "");
-    //    $.ajax({
-    //        url: BASE_URL + "ajax/updateToDo/" + id,
-    //        cache: false,
-    //        dataType: "json"
-    //    }).done(function(data) {
-    //        $("#todo-" + data.id).animate({'height': 0, 'opacity': 0}, 500, function() {
-    //            $(this).remove();
-    //            if($("#tasks_list li").length === 0) {
-    //                $("#tasks_list").html('<li id="no-todo">' + I18n.noTaskTodoList + '</li>');
-    //            }
-    //        });
-    //    });
-    //});
-
     $("#instance_list li").click(function() {
         var $instance = $(this);
         var id_instance = $instance.attr('id');
-        document.location = BASE_URL + '/' + id_instance
+        document.location = BASE_URL + '/live/' + id_instance
     });
 
     $('#dropdown-instances li a').click(function (e) {

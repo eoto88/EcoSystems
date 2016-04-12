@@ -51,48 +51,5 @@
         if( isset($widget_todos) ) {
             echo $widget_todos;
         } ?>
-<!--        <div class="widget-table widget">-->
-<!--            <header role="heading">-->
-<!--                <span class="widget-icon"><i class="fa fa-check fa-fw "></i></span>-->
-<!--                <h2>--><?php //echo __('ToDo\'s') ?><!--</h2>-->
-<!--            </header>-->
-<!--            <div class="widget-body">-->
-<!--                <table class="table table-bordered">-->
-<!--                    <tr><th>--><?php //echo __('Title') ?><!--</th><th>--><?php //echo __('Interval value') ?><!--</th><th>--><?php //echo __('Time unit') ?><!--</th><th>--><?php //echo __('Last check') ?><!--</th></tr>-->
-<!--                    --><?php
-//                    foreach ($toDos as $toDo) {
-//                        echo '<tr><td>' . $toDo['title'] .'</td><td>' . $toDo['interval_value'] .'</td><td>' . __($toDo['time_unit']) .'</td><td>' . $toDo['last_check'] .'</td></tr>';
-//                    }
-//                    ?>
-<!--                </table>-->
-<!--            </div>-->
-<!--        </div>-->
     </article>
-<!--    <article class="col-sm-12 col-md-12 col-lg-6">-->
-<!--        <div class="widget-table widget">-->
-<!--            <header role="heading">-->
-<!--                <span class="widget-icon"><i class="fa fa-check fa-fw "></i></span>-->
-<!--                <h2>--><?php //echo __('ToDo\'s') ?><!--</h2>-->
-<!--                <span class="widget-expand"><i class="fa fa-chevron-down"></i></span>-->
-<!--            </header>-->
-<!--            <div class="widget-body">-->
-<!--                <table class="table table-bordered">-->
-<!--                    <tr>-->
-<!--                        <th>--><?php //echo __('Title') ?><!--</th>-->
-<!--                        <th>--><?php //echo __('Type') ?><!--</th>-->
-<!--                        <th>--><?php //echo __('Code') ?><!--</th>-->
-<!--                        <th>--><?php //echo __('Monitored') ?><!--</th>-->
-<!--                    </tr>-->
-<!--                    --><?php //foreach ($instances as $instance) { ?>
-<!--                        <tr data-id="--><?php //echo $instance['id_instance']; ?><!--">-->
-<!--                            <td>--><?php //echo $instance['title']; ?><!--</td>-->
-<!--                            <td>--><?php //echo $instance_types[$instance['type']]; ?><!--</td>-->
-<!--                            <td>--><?php //echo $instance['code']; ?><!--</td>-->
-<!--                            <td>--><?php //echo $instance['monitored']; ?><!--</td>-->
-<!--                        </tr>-->
-<!--                    --><?php //} ?>
-<!--                </table>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </article>-->
 </div>

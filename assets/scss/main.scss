@@ -83,17 +83,6 @@ textarea {
 }
 
 /* ==========================================================================
-   Browse Happy prompt
-   ========================================================================== */
-
-.browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
-}
-
-/* ==========================================================================
    Author's custom styles
    ========================================================================== */
 
@@ -104,6 +93,10 @@ $light-grey: #e7e7e7; /* Background */
 
 $medium-blue: #60747C;
 $light-blue: #ecf3f8; /* Hover */
+
+$warning: #aa6708;
+$success: #5cb85c;
+$light-success: #dff0d8;
 
 body {
   font-family: "Open Sans",Arial,Helvetica,Sans-Serif;
@@ -125,6 +118,25 @@ h1 {
   margin-bottom: 15px;
   color: $medium-grey;
 }
+
+/* **** Utilities - START **** */
+form {
+  .message {
+    padding: 15px 15px 5px 15px;
+    margin: 15px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+  }
+  .message-warning {
+    border-left-color: $warning;
+  }
+  .message-success {
+    border-left-color: $success;
+    background-color: #dff0d8;
+  }
+}
+/* **** Utilities - END **** */
 
 #header-container {
   padding: 0 15px;
@@ -584,57 +596,60 @@ h1 {
   h4 {
     padding: 10px 0 10px 10px;
   }
-  ul {
+  #unchecked-todos,
+  #checked-todos {
     border-top: 1px solid $light-grey;
     list-style: none;
     padding: 0;
-  }
-  li {
-    cursor: pointer;
-    position: relative;
-    border-bottom: 1px solid $light-grey;
 
-    &:hover {
-      background: $light-blue;
-    }
-    .check-icon {
-      position: absolute;
-      top: 8px;
-      left: 12px;
-      font-size: 20px;
-    }
-//    &:hover .check:before,
-//    .check.done:before {
-//      content: "\f046"!important;
-//    }
-    span {
-      display: block;
-    }
-    span.todo {
-      width: 90%;
-      float: left;
-    }
-    span span.todo-title {
-      display: block;
-      padding: 10px;
-      margin-left: 40px;
-      border-left: 3px double #FFE1EB;
-    }
-    span.actions {
-      display: block;
-      text-align: right;
-      width: 10%;
-      float: left;
-      padding: 5px;
-      border-left: 1px solid #e7e7e7;
-    }
-    span.actions i {
-      font-size: 18px;
-    }
-    span.actions i:hover {
-      color: #60747C;
+    li.todo {
+      cursor: pointer;
+      position: relative;
+      border-bottom: 1px solid $light-grey;
+
+      &:hover {
+        background: $light-blue;
+      }
+      .check-icon {
+        position: absolute;
+        top: 8px;
+        left: 12px;
+        font-size: 20px;
+      }
+      //    &:hover .check:before,
+      //    .check.done:before {
+      //      content: "\f046"!important;
+      //    }
+      span {
+        display: block;
+      }
+      span.todo {
+        width: 90%;
+        float: left;
+      }
+      span span.todo-title {
+        display: block;
+        padding: 10px;
+        margin-left: 40px;
+        border-left: 3px double #FFE1EB;
+      }
+      span.actions {
+        display: block;
+        text-align: right;
+        width: 10%;
+        float: left;
+        padding: 5px;
+        border-left: 1px solid #e7e7e7;
+      }
+      span.actions i {
+        font-size: 18px;
+      }
+      span.actions i:hover {
+        color: #60747C;
+      }
     }
   }
+
   #checked-todos li span.todo-title {
     text-decoration: line-through;
   }
@@ -856,9 +871,6 @@ h1 {
 }
 
 /* **** Responsive - END **** */
-
-
-
 
 
 

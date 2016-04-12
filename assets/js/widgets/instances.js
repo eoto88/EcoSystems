@@ -3,9 +3,9 @@ App.WidgetInstances = App.Widget.extend({
         var me = this;
         me._super( 'widget-instances' );
 
-        setInterval(function() {
-            me.refreshStatuses();
-        }, 10000);
+        //setInterval(function() {
+        //    me.refreshStatuses();
+        //}, 10000);
     },
     refreshStatuses: function() {
         var me = this;

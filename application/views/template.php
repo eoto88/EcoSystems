@@ -15,7 +15,7 @@
 
     <script src="<?php echo URL::base(TRUE, TRUE); ?>assets/js/vendor/modernizr-2.6.2.min.js"></script>
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <?php foreach($styles as $file => $type) { echo HTML::style($file, array('media' => $type)), "\n";}?>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -39,7 +39,7 @@
                         <?php
                         $currentInstance = null;
                         foreach($instances as $instance) {
-                            if( $instance['id_instance'] == $current_instance_id ) {
+                            if( $instance['id'] == $current_instance_id ) {
                                 $currentInstance = $instance;
                             }
                         }
@@ -53,14 +53,14 @@
                     <ul id="dropdown-instances" class="dropdown-menu js-status-update pull-left">
                         <?php
                         foreach($instances as $instance) {
-                            $class = ($current_instance_id == $instance['id_instance']) ? 'class="active"' : '';
+                            $class = ($current_instance_id == $instance['id']) ? 'class="active"' : '';
                             ?>
-                            <li <?php echo $class ?> data-id="<?php echo $instance['id_instance'] ?>">
-                                <a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id_instance'] ?>"><?php echo $instance['title'] ?></a>
+                            <li <?php echo $class ?> data-id="<?php echo $instance['id'] ?>">
+                                <a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id'] ?>"><?php echo $instance['title'] ?></a>
                             </li>
                         <?php } ?>
                         <li role="separator" class="divider"></li>
-                        <li data-id="<?php echo $instance['id_instance'] ?>">
+                        <li data-id="<?php echo $instance['id'] ?>">
                             <a href="<?php echo URL::base(TRUE, TRUE) .'instance/new' ?>"><?php echo __('Create new instance'); ?></a>
                         </li>
                     </ul>
@@ -164,7 +164,7 @@
                                 <?php /*
                                 if(count($uncheckedToDos)) {
                                     foreach($uncheckedToDos as $toDo) {
-                                        echo '<li id="todo-'. $toDo['id_todo'] .'"><i class="fa fa-square-o check"></i>'. $toDo['title'] .'</li>';
+                                        echo '<li id="todo-'. $toDo['id'] .'"><i class="fa fa-square-o check"></i>'. $toDo['title'] .'</li>';
                                     }
                                 } else {
                                     echo '<li id="no-todo">'. __('No task in the to do list') .'</li>';

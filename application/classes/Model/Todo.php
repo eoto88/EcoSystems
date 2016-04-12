@@ -2,22 +2,52 @@
 
 class Model_Todo {
 
-    public function getTodo($id_todo) {
-        $query = DB::select('todo.id_todo', array('instance.title', 'instance_title'), 'todo.title', 'todo.time_unit', 'todo.interval_value')
+    public function getTodo($id) {
+        $query = DB::select('todo.id', 'todo.title', 'todo.time_unit', 'todo.interval_value', array('instance.id', 'id_instance'), array('instance.title', 'instance_title'))
             ->from('todo')
-            ->join('instance')->on('todo.id_instance', '=', 'instance.id_instance')
-            ->where('id_todo', '=', $id_todo);
+            ->join('instance')->on('todo.id_instance', '=', 'instance.id')
+            ->where('todo.id', '=', $id);
         return $query->execute()->as_array();
     }
 
-    public function getTodos($id_instance) {
-        $query = DB::select('*')->from('todo')->where('id_instance', '=', $id_instance)->order_by('title', 'ASC');
+    public function getTodos() {
+        $query = DB::query(Database::SELECT,
+            "SELECT t.id AS id, t.title, i.id AS id_instance, i.title AS instance_title, IF(DATE(last_check) > CASE time_unit
+                WHEN \"DAY\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` DAY)
+                WHEN \"MONTH\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` MONTH)
+                END, 1, 0) AS checked
+            FROM todo AS t
+            JOIN instance AS i ON i.id = t.id_instance;");
+        return $query->execute()->as_array();
+    }
+
+    public function getTodosByIdInstance($id_instance) {
+        $query = DB::query(Database::SELECT,
+            "SELECT t.id AS id, t.title, i.id AS id_instance, IF(DATE(last_check) > CASE time_unit
+                WHEN \"DAY\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` DAY)
+                WHEN \"MONTH\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` MONTH)
+                END, 1, 0) AS checked
+            FROM todo
+            WHERE id_instance = ". $id_instance .";");
+        return $query->execute()->as_array();
+    }
+
+    public function getUncheckedTodos() {
+        $query = DB::query(Database::SELECT,
+            "SELECT *
+            FROM todo
+            WHERE DATE(last_check) < CASE time_unit
+                WHEN \"DAY\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` DAY)
+                WHEN \"MONTH\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` MONTH)
+                END
+            OR `last_check` = '0000-00-00 00:00:00.000000';");
         return $query->execute()->as_array();
     }
     
     public function insertTodo($data) {
         $return = array();
         $validation = Validation::factory($data);
+        $validation->rule('id_instance', 'not_empty')->rule('id_instance', 'digit');
         $validation->rule('title', 'not_empty')->rule('title', 'max_length', array(':value', '50'));
         $validation->rule('interval_value', 'not_empty')->rule('interval_value', 'digit');
 
@@ -39,63 +69,57 @@ class Model_Todo {
         return $return;
     }
 
-    public function getTodosWithState() {
-        $query = DB::query(Database::SELECT,
-            "SELECT id_todo, i.title AS instance_title, t.title, IF(DATE(last_check) > CASE time_unit
-                WHEN \"DAY\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` DAY)
-                WHEN \"MONTH\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` MONTH)
-                END, 1, 0) AS checked
-            FROM todo AS t
-            JOIN instance AS i ON i.id_instance = t.id_instance;");
-        return $query->execute()->as_array();
-    }
+    public function updateTodo($data) {
+        $return = array();
+        $validation = Validation::factory($data);
+        $validation->rule('id', 'not_empty')->rule('id', 'digit');
+        $validation->rule('title', 'not_empty')->rule('title', 'max_length', array(':value', '50'));
+        $validation->rule('interval_value', 'not_empty')->rule('interval_value', 'digit');
 
-    public function getTodosByIdInstance($id_instance) {
-        $query = DB::query(Database::SELECT,
-            "SELECT *, IF(DATE(last_check) > CASE time_unit
-                WHEN \"DAY\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` DAY)
-                WHEN \"MONTH\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` MONTH)
-                END, 1, 0) AS checked
-            FROM todo
-            WHERE id_instance = ". $id_instance .";");
-        return $query->execute()->as_array();
-    }
-    
-    public function getUncheckedTodos() {
-        $query = DB::query(Database::SELECT,
-            "SELECT *
-            FROM todo
-            WHERE DATE(last_check) < CASE time_unit
-                WHEN \"DAY\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` DAY)
-                WHEN \"MONTH\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` MONTH)
-                END
-            OR `last_check` = '0000-00-00 00:00:00.000000';");
-        return $query->execute()->as_array();
-    }
+        if( $validation->check() ) {
 
-    public function checkTodo($id, $done) {
-        $query = null;
-        if( $done ) {
-            $query = DB::update('todo')->set(array('last_check' => DB::expr('NOW()')))->where('id_todo', '=', $id);
+            $query = DB::update('todo')->set(array(
+                'title' => $data['title'],
+                'time_unit' => $data['time_unit'],
+                'interval_value' => $data['interval_value']
+            ))->where('id', '=', $data['id']);
+            $query->execute();
+
+            $return['success'] = true;
+            $return['entities'] = $this->getTodo($data['id']);
         } else {
-            $query = DB::update('todo')->set(array('last_check' => '0000-00-00 00:00:00'))->where('id_todo', '=', $id);
+            $return['success'] = false;
+            $return['errors'] = $validation->errors('todo');
         }
-        $query->execute();
+        return $return;
     }
 
-    public function updateTodo($id, $title, $time_unit, $interval_value) {
-        $query = DB::update('todo')->set(array(
-            'title' => $title,
-            'time_unit' => $time_unit,
-            'interval_value' => $interval_value
-        ))->where('id_todo', '=', $id);
-        $query->execute();
+    public function checkTodo($data) {
+        $return = array();
+        $validation = Validation::factory($data);
+        $validation->rule('id', 'not_empty')->rule('id', 'digit');
+        $validation->rule('done', 'not_empty')->rule('done', 'digit');
 
-        return $this->getTodo($id);
+        if( $validation->check() ) {
+            $query = null;
+            if( $data['done'] ) {
+                $query = DB::update('todo')->set(array('last_check' => DB::expr('NOW()')))->where('id', '=', $data['id']);
+            } else {
+                $query = DB::update('todo')->set(array('last_check' => '0000-00-00 00:00:00'))->where('id', '=', $data['id']);
+            }
+            $query->execute();
+
+            $return['success'] = true;
+            $return['entities'] = $this->getTodo($data['id']);
+        } else {
+            $return['success'] = false;
+            $return['errors'] = $validation->errors('todo');
+        }
+        return $return;
     }
 
     public function deleteTodo($id) {
-        $query = DB::delete('todo')->where('id_todo', '=', $id);
+        $query = DB::delete('todo')->where('id', '=', $id);
         $query->execute();
 
         return array('success' => true);

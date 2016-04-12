@@ -13,7 +13,7 @@ class Helper_WidgetTodos {
 //            'api-url' => 'todos',
             'fields' => array(
                 array(
-                    'name' => 'id_todo',
+                    'name' => 'id',
                     'type' => 'hidden'
                 ),
                 array(
@@ -42,14 +42,45 @@ class Helper_WidgetTodos {
         if( $id_instance ) {
             $todos = $mTodo->getTodosByIdInstance($id_instance);
         } else {
-            $todos = $mTodo->getTodosWithState();
+            $todos = $mTodo->getTodos();
+        }
+
+        $checkedTodos = array();
+        $uncheckedTodos = array();
+        if( count($todos) ) {
+            foreach( $todos as $toDo ) {
+                if( $toDo['checked'] ) {
+                    $checkedTodos[] = $toDo;
+                } else {
+                    $uncheckedTodos[] = $toDo;
+                }
+            }
         }
 
         $vTodos = View::factory("widgets/todos")->set(array(
-            'toDos' => $todos,
-            'form' => $form
+            'uncheckedTodos' => $uncheckedTodos,
+            'checkedTodos' => $checkedTodos,
+            'form' => $form,
+            'todoLi' => $this->getTodoLi(),
+            'todoLiChecked' => $this->getTodoLi(true)
         ));
 
         return $vTodos->render();
+    }
+
+    function getTodoLi($checked = false) {
+        $icon = 'fa-square-o';
+        if($checked) {
+            $icon = 'fa-check-square-o';
+        }
+        $dropdown ='<div class="dropdown">'.
+            '<button class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></button>'.
+            '<ul class="dropdown-menu js-status-update pull-right">'.
+                '<li><a href="#" class="action-edit"><i class="fa fa-pencil"></i>&nbsp;'. __('Edit') .'</a></li>'.
+                '<li><a href="#" class="action-delete"><i class="fa fa-trash-o"></i>&nbsp;'. __('Delete') .'</a></li>'.
+            '</ul></div>';
+        $edit = '<span class="actions">'. $dropdown .'</span>';
+        $title = '<span class="todo"><i class="fa '. $icon .' check-icon"></i><span class="todo-title">{{title}}</span></span>';
+        return '<li class="todo" data-id="{{id}}" data-id-instance="{{id_instance}}">'.$title.$edit.'<span class="clearfix"></span></li>';
     }
 }

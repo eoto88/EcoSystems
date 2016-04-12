@@ -44,9 +44,9 @@ class Controller_Instance extends Controller_AuthenticatedPage {
 //            'url' => URL::base(TRUE, TRUE) . 'instances',
             'fields' => array(
                 array(
-                    'name' => 'id_instance',
+                    'name' => 'id',
                     'type' => 'hidden',
-                    'value' => $instance ? $instance['id_instance'] : ''
+                    'value' => $instance ? $instance['id'] : ''
                 ),
                 array(
                     'name' => 'title',
@@ -98,7 +98,7 @@ class Controller_Instance extends Controller_AuthenticatedPage {
         // If the instance exists
         if( isset($instance) ) {
             $hWidgetTodos = new Helper_WidgetTodos();
-            $vTodos = $hWidgetTodos->getView($instance['id_instance']);
+            $vTodos = $hWidgetTodos->getView($instance['id']);
             $instancesData['widget_todos'] = $vTodos;
         }
 

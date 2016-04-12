@@ -39,14 +39,14 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
 
         $instances = array();
         foreach($this->instances as $instance) {
-            $liveData = $mInstance->getLiveData($instance['id_instance']);
+            $liveData = $mInstance->getLiveData($instance['id']);
             $instance['communication_status'] = $hStatus->getCommunicationStatus($liveData);
             $instance['pump_status'] = $hStatus->getStatus('pump', 'Pump', $instance['pump_on']);
             $instance['light_status'] = $hStatus->getStatus('light', 'Light', $instance['light_on']);
             $instance['fan_status'] = $hStatus->getStatus('fan', 'Fan', $instance['fan_on']);
             $instance['heater_status'] = $hStatus->getStatus('heater', 'Heater', $instance['heater_on']);
-            $currentDay = $mDay->getCurrentDay($instance['id_instance']);
-            $temperatureData = $mHour->getLastTemperatureData($instance['id_instance']);
+            $currentDay = $mDay->getCurrentDay($instance['id']);
+            $temperatureData = $mHour->getLastTemperatureData($instance['id']);
             $instance['temperature_status'] = $hStatus->getTemperatureStatus($temperatureData);
 
             $instances[] = $instance;
@@ -165,7 +165,7 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $mTodo = new Model_Todo();
 
         $instancesData = array(
-            'toDos' => $mTodo->getTodos(),
+            'toDos' => array(), //$mTodo->getTodos(),
             'instance_types' => $config['instance_types']
         );
 

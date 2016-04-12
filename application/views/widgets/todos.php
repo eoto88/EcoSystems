@@ -5,19 +5,6 @@
         <span class="widget-expand"><i class="fa fa-chevron-down"></i></span>
     </header>
     <div class="widget-body">
-        <?php
-        $checkedTodos = array();
-        $uncheckedTodos = array();
-        if( count($toDos) ) {
-            foreach( $toDos as $toDo ) {
-                if( $toDo['checked'] ) {
-                    $checkedTodos[] = $toDo;
-                } else {
-                    $uncheckedTodos[] = $toDo;
-                }
-            }
-        }
-        ?>
         <h4>
             <i class="fa fa-exclamation fa-fw "></i>&nbsp;
             <?php echo __('Uncompleted tasks') ?>&nbsp;
@@ -31,9 +18,12 @@
                     if( isset($toDo['instance_title']) ) {
                         $title .= ' ('.$toDo['instance_title'].')';
                     }
-                    $edit = '<span class="actions"><i class="fa fa-pencil edit"></i><i class="fa fa-trash-o delete"></i></span>';
-                    $title = '<span class="todo"><i class="fa fa-square-o check-icon"></i><span class="todo-title">'.$title.'</span></span>';
-                    echo '<li data-id="'.$toDo['id_todo'].'">'.$title.$edit.'<span class="clearfix"></span></li>';
+
+                    echo Str::format($todoLi, array(
+                        'id' => $toDo['id'],
+                        'id_instance' => $toDo['id_instance'],
+                        'title' => $title
+                    ));
                 }
             } else {
                 echo '<li id="no-todo"><span>'. __('No task in the to do list') .'</span></li>';
@@ -52,9 +42,16 @@
                     if( isset($toDo['instance_title']) ) {
                         $title .= ' ('.$toDo['instance_title'].')';
                     }
-                    $edit = '<span class="actions"><i class="fa fa-pencil edit"></i><i class="fa fa-trash-o delete"></i></span>';
-                    $title = '<span class="todo"><i class="fa fa-check-square-o check-icon"></i><span class="todo-title">'.$title.'</span></span>';
-                    echo '<li data-id="'.$toDo['id_todo'].'">'.$title.$edit.'<span class="clearfix"></span></li>';
+
+                    echo Str::format($todoLiChecked, array(
+                        'id' => $toDo['id'],
+                        'id_instance' => $toDo['id_instance'],
+                        'title' => $title
+                    ));
+
+//                    $edit = '<span class="actions"><i class="fa fa-pencil edit"></i><i class="fa fa-trash-o delete"></i></span>';
+//                    $title = '<span class="todo"><i class="fa fa-check-square-o check-icon"></i><span class="todo-title">'.$title.'</span></span>';
+//                    echo '<li data-id="'.$toDo['id'].'">'.$title.$edit.'<span class="clearfix"></span></li>';
                 }
             }
             ?>
@@ -76,10 +73,6 @@
         <li id="no-todo" style="opacity: 0; height: 0;"><span><?php echo __('No task in the to do list') ?></span></li>
     </script>
     <script type="text/x-handlebars-template" id="new-todo-tmpl">
-        <li data-id="{{id_todo}}">
-            <span class="todo"><i class="fa fa-square-o check-icon"></i><span class="todo-title">{{title}}</span></span>
-            <span class="actions"><i class="fa fa-pencil edit"></i><i class="fa fa-trash-o delete"></i></span>
-            <span class="clearfix"></span>
-        </li>
+        <?php echo $todoLi; ?>
     </script>
 </div>

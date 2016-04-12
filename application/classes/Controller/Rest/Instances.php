@@ -3,22 +3,22 @@
 class Controller_Rest_Instances extends Controller_REST {
 
     public function action_index() {
-        $id_instance = $this->request->param('id');
+        $id = $this->request->param('id');
         $mInstance = new Model_Instance();
 
-        if( isset($id_instance) ) {
-            echo json_encode( $mInstance->getInstance($id_instance, $this->_user['id_user']) );
+        if( isset($id) ) {
+            echo json_encode( $mInstance->getInstance($id, $this->_user['id_user']) );
         } else {
             echo json_encode( $mInstance->getInstances($this->_user['id_user']) );
         }
     }
 
     public function action_update() {
-        $id_instance = $this->request->param('id');
+        $id = $this->request->param('id');
         $mInstance = new Model_Instance();
 
-        if( isset($id_instance) ) {
-            echo json_encode( $mInstance->getInstance($id_instance, $this->_user['id_user']) );
+        if( isset($id) ) {
+            echo json_encode( $mInstance->getInstance($id, $this->_user['id_user']) );
         } else {
             echo json_encode( $mInstance->getInstances($this->_user['id_user']) );
         }

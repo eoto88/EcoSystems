@@ -9,12 +9,12 @@
             <div class="widget-body">
                 <ul>
                     <?php foreach($instances as $instance) { ?>
-                        <li class="instance" data-id="<?php echo $instance['id_instance'] ?>">
+                        <li class="instance" data-id="<?php echo $instance['id'] ?>">
                             <div class="row">
                                 <div class="col-sm-12 col-md-12 col-lg-6">
                                     <div class="row">
                                         <div class="col-sm-6 col-md-6 col-lg-12">
-                                            <h3><a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id_instance'] ?>">
+                                            <h3><a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id'] ?>">
                                                 <?php echo $instance['title'] ?>
                                             </a></h3>
                                         </div>
