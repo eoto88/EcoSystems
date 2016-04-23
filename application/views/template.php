@@ -97,12 +97,12 @@
                     <span class="menu-title"><?php echo __('Live'); ?></span>
                 </a>
             </li>
-            <li <?php echo ($current_route_name == 'history') ? 'class="active"' : ''; ?>>
-                <a href="<?php echo URL::base(TRUE, TRUE) .'history'; ?>" class="require-instance-id">
-                    <i class="fa fa-lg fa-fw fa-history"></i>&nbsp;
-                    <span class="menu-title"><?php echo __('History'); ?></span>
-                </a>
-            </li>
+<!--            <li --><?php //echo ($current_route_name == 'history') ? 'class="active"' : ''; ?><!-->-->
+<!--                <a href="--><?php //echo URL::base(TRUE, TRUE) .'history'; ?><!--" class="require-instance-id">-->
+<!--                    <i class="fa fa-lg fa-fw fa-history"></i>&nbsp;-->
+<!--                    <span class="menu-title">--><?php //echo __('History'); ?><!--</span>-->
+<!--                </a>-->
+<!--            </li>-->
             <li <?php echo ($current_route_name == 'todos') ? 'class="active"' : ''; ?>>
                 <a href="<?php echo URL::base(TRUE, TRUE) .'todos'; ?>" class="require-instance-id">
                     <i class="fa fa-lg fa-fw fa-check"></i>&nbsp;

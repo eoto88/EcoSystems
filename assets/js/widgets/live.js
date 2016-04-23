@@ -28,9 +28,13 @@ var Live = Class.extend({
             legend: {
                 verticalAlign: 'top'
             },
+            scrollbar: {
+                enabled: roomTemperatureData.length > 10
+            },
             xAxis: {
                 type: 'datetime',
-                maxZoom: 20 * 1000
+                min: roomTemperatureData.length > 10 ? roomTemperatureData[roomTemperatureData.length - 11].x : null,
+                max: roomTemperatureData.length > 10 ? roomTemperatureData[roomTemperatureData.length -1].x : null
             },
             yAxis: {
                 minPadding: 0.2,
@@ -94,9 +98,13 @@ var Live = Class.extend({
             legend: {
                 verticalAlign: 'top'
             },
+            scrollbar: {
+                enabled: humidityData.length > 10
+            },
             xAxis: {
                 type: 'datetime',
-                maxZoom: 20 * 1000
+                min: humidityData.length > 10 ? humidityData[humidityData.length - 11].x : null,
+                max: humidityData.length > 10 ? humidityData[humidityData.length -1].x : null
             },
             yAxis: {
                 minPadding: 0.5,
@@ -137,69 +145,6 @@ var Live = Class.extend({
                 data: humidityData
             }]
         });
-
-        this.sunlightChart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'sunlightChart',
-                marginTop: 50,
-                height: 320,
-                defaultSeriesType: 'spline'
-            },
-            credits: {
-                enabled: false
-            },
-            title: {
-                text: ''
-            },
-            exporting: {
-                enabled: false
-            },
-            legend: {
-                verticalAlign: 'top'
-            },
-            xAxis: {
-                type: 'datetime',
-                maxZoom: 20 * 1000
-            },
-            yAxis: {
-                minPadding: 0.5,
-                maxPadding: 0.5,
-                minRange: 5,
-                max: 100,
-                min: 0,
-                title: {
-                    text: I18n.valueInPercent,
-                    margin: 25
-                },
-                plotBands: [{ // Night
-                    from: 0,
-                    to: 40,
-                    color: 'rgba(0, 0, 0, 0.1)',
-                    label: {
-                        text: I18n.night,
-                        style: {
-                            color: '#606060'
-                        }
-                    }
-                }, { // Day
-                    from: 40,
-                    to: 100,
-                    color: 'rgba(255, 255, 0, 0.1)',
-                    label: {
-                        text: I18n.day,
-                        style: {
-                            color: '#606060'
-                        }
-                    }
-                }]
-            },
-            series: [{
-                name: I18n.sunlightPercent,
-                color: '#FFFF00',
-                dashStyle: 'ShortDash',
-                data: sunlightData
-            }]
-        });
     },
     requestChartData: function() {
         var me = this;
@@ -229,17 +174,6 @@ var Live = Class.extend({
                 }*/
 
                 me.addChartData(point.tankTemperature, me.temperatureChart.series[1]);
-
-                /*if(point.sunlight.length > 0 &&
-                    sunlightChart.series[0].data.length > 0 &&
-                    sunlightChart.series[0].data[sunlightChart.series[0].data.length-1].x != point.sunlight[0]) {
-                    var series = sunlightChart.series[0],
-                        shift = series.data.length > 80;
-
-                    sunlightChart.series[0].addPoint(eval(point.sunlight), true, shift);
-                }*/
-
-                me.addChartData(point.sunlight, me.sunlightChart.series[0]);
             }
         });
     },
@@ -256,7 +190,7 @@ var Live = Class.extend({
 
 
 $(document).ready(function() {
-    if( $("#temperatureChart").length == 1 && $("#sunlightChart").length == 1 ) {
+    if( $("#temperatureChart").length == 1 ) {
         var live = new Live();
         setInterval(function() {
             live.requestChartData()

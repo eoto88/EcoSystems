@@ -10,24 +10,12 @@ class Controller_Task extends Controller_AuthenticatedPage {
         if ( ! Auth::instance()->logged_in()) {
             HTTP::redirect(URL::base(TRUE, TRUE) . 'login');
         }
-        
-        $user = Auth::instance()->get_user();
-        
-        //var_dump($user);
-        $idInstance = 1;
+
+        $idInstance = 1; // FIXME Why?
 
         $this->template->title = "Garduinoponics";
 
         $hStatus = new Helper_Status();
-
-        $mDay = new Model_Day();
-        $day = $mDay->getCurrentDay($idInstance);
-        if( ! $day ) {
-            $date = new DateTime();
-            $date->sub(new DateInterval('P1D'));
-
-            $day = $mDay->getDayByDate($idInstance, $date->format('Y-m-d'));
-        }
 
         $mInstance = new Model_Instance();
         $liveData = $mInstance->getLiveData($idInstance);

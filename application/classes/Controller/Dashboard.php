@@ -30,27 +30,8 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $this->template->title = __('Dashboard');
         $this->template->icon = 'fa-tachometer';
 
-        $mHour = new Model_Hour();
-        $mToDo = new Model_Todo();
-        //$mQuarterHour = new Model_QuarterHour();
-        $mDay = new Model_Day();
-        $hStatus = new Helper_Status();
-        $mInstance = new Model_Instance();
-
-        $instances = array();
-        foreach($this->instances as $instance) {
-            $liveData = $mInstance->getLiveData($instance['id']);
-            $instance['communication_status'] = $hStatus->getCommunicationStatus($liveData);
-            $instance['pump_status'] = $hStatus->getStatus('pump', 'Pump', $instance['pump_on']);
-            $instance['light_status'] = $hStatus->getStatus('light', 'Light', $instance['light_on']);
-            $instance['fan_status'] = $hStatus->getStatus('fan', 'Fan', $instance['fan_on']);
-            $instance['heater_status'] = $hStatus->getStatus('heater', 'Heater', $instance['heater_on']);
-            $currentDay = $mDay->getCurrentDay($instance['id']);
-            $temperatureData = $mHour->getLastTemperatureData($instance['id']);
-            $instance['temperature_status'] = $hStatus->getTemperatureStatus($temperatureData);
-
-            $instances[] = $instance;
-        }
+        $hWidgetInstances = new Helper_WidgetInstances();
+        $vInstances = $hWidgetInstances->getViewInstances($this->instances);
 
         $hWidgetTodos = new Helper_WidgetTodos();
         $vTodos = $hWidgetTodos->getView();
@@ -58,9 +39,9 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $mLog = new Model_Log();
 
         $dashboardData = array(
-            'instances'     => $instances,
-            'logs'          => $mLog->getLastLogs(),
-            'widget_todos'  => $vTodos
+            'widget_instances'  => $vInstances,
+            'widget_todos'      => $vTodos,
+            'logs'              => $mLog->getLastLogs()
         );
 
         $view = View::factory( "dashboard" )->set($dashboardData);
@@ -74,32 +55,10 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $view = View::factory( "live" )->set( $this->getLiveData() );
         $this->template->content = $view->render();
     }
-
-    private function getLiveStatus($idInstance) {
-        $mDay = new Model_Day();
-        $day = $mDay->getCurrentDay( $idInstance );
-
-        $hStatus = new Helper_Status();
-
-        $mInstance = new Model_Instance();
-        $liveData = $mInstance->getLiveData( $idInstance );
-
-        $mHour = new Model_Hour();
-        $temperatureData = $mHour->getLastTemperatureData( $idInstance );
-
-        return array(
-            'communication_status' => $hStatus->getCommunicationStatus($liveData),
-            'pump_status' => $hStatus->getStatus('pump', 'Pump', $liveData['pump_on']),
-            'light_status' => $hStatus->getStatus('light', 'Light', $liveData['light_on']),
-            'fan_status' => $hStatus->getStatus('fan', 'Fan', $liveData['fan_on']),
-            'heater_status' => $hStatus->getStatus('heater', 'Heater', $liveData['heater_on']),
-            'temperature_status' => $hStatus->getTemperatureStatus($temperatureData)
-        );
-    }
     
     private function getLiveData() {
-        $mHour = new Model_Hour();
-        $hourData = $mHour->getHourData( $this->currentInstanceId );
+        $mData = new Model_Data();
+        $data = $mData->getData( $this->currentInstanceId );
 
         $mInstance = new Model_Instance();
         $instance = $mInstance->getInstance( $this->currentInstanceId, $this->user['id_user'] );
@@ -107,19 +66,31 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $humidity = array();
         $roomTemperature = array();
         $tankTemperature = array();
-        foreach($hourData as $hour) {
+        foreach($data as $hour) {
             $datetime = strtotime($hour['datetime']) * 1000;
-            $humidity[] = array( $datetime, floatval($hour['humidity']) );
-            $roomTemperature[] = array( $datetime, floatval($hour['room_temperature']) );
-            $tankTemperature[] = array( $datetime, floatval($hour['tank_temperature']) );
+            $humidity[] = array(
+                'x' => $datetime,
+                'y' => floatval($hour['humidity'])
+            );
+            $roomTemperature[] = array(
+                'x' => $datetime,
+                'y' => floatval($hour['room_temperature'])
+            );
+            $tankTemperature[] = array(
+                'x' => $datetime,
+                'y' => floatval($hour['tank_temperature'])
+            );
         }
+
+        $hWidgetInstances = new Helper_WidgetInstances();
+        $vInstances = $hWidgetInstances->getViewSingleInstance($this->currentInstanceId, $this->user['id_user']);
         
         return array(
+            'widget_instances'      => $vInstances,
             'instance'              => $instance,
             'humidityData'          => $humidity,
             'roomTemperatureData'   => $roomTemperature,
             'tankTemperatureData'   => $tankTemperature,
-            'liveStatus'            => $this->getLiveStatus( $this->currentInstanceId )
         );
     }
     
@@ -128,13 +99,13 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $this->template->icon = 'fa-history';
 
         $this->template->translations = array();
-        $mDay = new Model_Day();
-        $lastDaysData = $mDay->getLastDays( $this->currentInstanceId );
+//        $mDay = new Model_Day();
+//        $lastDaysData = $mDay->getLastDays( $this->currentInstanceId );
 
-        $historyData = $this->prepareHistoryData($lastDaysData);
-        
-        $view = View::factory( "history" )->set($historyData);
-        $this->template->content = $view->render();
+//        $historyData = $this->prepareHistoryData($lastDaysData);
+
+//        $view = View::factory( "history" )->set($historyData);
+//        $this->template->content = $view->render();
     }
     
     private function prepareHistoryData($temperatureData) {

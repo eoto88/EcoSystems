@@ -6,13 +6,54 @@ class Task_Cron extends Minion_Task {
         'action' => ''
     );
 
-    /*public function build_validation(Validation $validation) {
-        return parent::build_validation($validation)
-            ->rule('foo', 'not_empty') // Require this param
-            ->rule('bar', 'numeric'); // This param should be numeric
-    }*/
+    /**
+     * This is a demo task
+     *
+     * @return null
+     */
+    protected function _execute(array $params) {
+        if( $params['action'] == 'backupLastDays' ) {
+            $this->backupLastDays();
+        } else if( $params['action'] == 'stillAlive' ) {
+            $this->stillAlive();
+        } else if( $params['action'] == 'checkTodos' ) {
+            $this->checkTodos();
+        } else if( $params['action'] == 'createData' ) {
+            $this->createData();
+        }
+    }
+
+    private function stillAlive() {
+        $mInstance = new Model_Instance();
+        $mInstance->updateStillAlive(1);
+        $mInstance->updateStillAlive(2);
+    }
+
+    private function createData() {
+        $mData = new Model_Data();
+        // FIXME code
+        $mData->insertData(1, array(
+            'datetime' => null,
+            'humidity' => $this->f_rand(20, 40, 10),
+            'roomTemperature' => $this->f_rand(18, 25, 10),
+            'tankTemperature' => $this->f_rand(18, 25, 10)
+        ));
+
+        $mData = new Model_Data();
+        $mData->insertData(2, array(
+            'datetime' => null,
+            'humidity' => $this->f_rand(20, 40, 10),
+            'roomTemperature' => $this->f_rand(18, 25, 10),
+            'tankTemperature' => $this->f_rand(18, 25, 10)
+        ));
+    }
+
+    private function f_rand($min=0,$max=1,$mul=1000000){
+        if ($min>$max) return false;
+        return mt_rand($min*$mul,$max*$mul)/$mul;
+    }
     
-    public function checkTodos() {
+    private function checkTodos() {
         $config = Kohana::$config->load('app');
         $mTodo = new Model_Todo();
         $todos = $mTodo->getUncheckedTodos();
@@ -40,37 +81,22 @@ class Task_Cron extends Minion_Task {
         }
     }
     
-    private function backupLastDays() {
-        // TODO loop on users for backup
-        $mInstance = new Model_Instance();
-        // TODO get user for getInstances
-        $instances = $mInstance->getInstances();
-        $mHour = new Model_Hour();
-        $mQuarterHour = new Model_QuarterHour();
-        $mDay = new Model_Day();
-
-        foreach($instances as $instance) {
-            $lastDaysAvg = $mHour->getLastDaysTempAverage($instance['id_instance']);
-            foreach ($lastDaysAvg as $dayAvg) {
-                $mDay->updateDayAvg($instance['id_instance'], $dayAvg['date'], $dayAvg['avg_room_temp'], $dayAvg['avg_tank_temp']);
-                $mHour->deleteHours($dayAvg['date']);
-                $mQuarterHour->deleteQuarterHours($dayAvg['date']);
-            }
-        }
-        $mLog = new Model_Log();
-        $mLog->log( "info", __("Update last days average and delete old data") );
-    }
- 
-    /**
-     * This is a demo task
-     *
-     * @return null
-     */
-    protected function _execute(array $params) {
-        if( $params['action'] == 'backupLastDays' ) {
-            $this->backupLastDays();
-        } else if( $params['action'] == 'checkTodos' ) {
-            $this->checkTodos();
-        }
-    }
+//    private function backupLastDays() {
+//        // TODO loop on users for backup
+//        $mInstance = new Model_Instance();
+//        // TODO get user for getInstances
+//        $instances = $mInstance->getInstances();
+//        $mHour = new Model_Hour();
+//        $mDay = new Model_Day();
+//
+//        foreach($instances as $instance) {
+//            $lastDaysAvg = $mHour->getLastDaysTempAverage($instance['id_instance']);
+//            foreach ($lastDaysAvg as $dayAvg) {
+//                $mDay->updateDayAvg($instance['id_instance'], $dayAvg['date'], $dayAvg['avg_room_temp'], $dayAvg['avg_tank_temp']);
+//                $mHour->deleteHours($dayAvg['date']);
+//            }
+//        }
+//        $mLog = new Model_Log();
+//        $mLog->log( "info", __("Update last days average and delete old data") );
+//    }
 }

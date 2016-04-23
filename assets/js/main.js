@@ -34,6 +34,7 @@ $(document).ready(function() {
 
     Highcharts.setOptions(highchartsOptions);
 
+    // FIXME Not at the right place
     $("#instance_list li").click(function() {
         var $instance = $(this);
         var id_instance = $instance.attr('id');
@@ -46,8 +47,13 @@ $(document).ready(function() {
         $('#select-instance span').text($(this).text());
         $('#dropdown-instances .active').toggleClass('active');
         $(this).parent().toggleClass('active');
-        var url = $('#left-panel .active a').attr('href');
-        document.location = url +'/'+ getCurrentInstanceId();
+
+        if(isDashboard()) {
+            document.location = BASE_URL + 'live/'+ getCurrentInstanceId();
+        } else {
+            var url = $('#left-panel .active a').attr('href');
+            document.location = url +'/'+ getCurrentInstanceId();
+        }
     });
 
     /*$('#left-panel .menu-item-parent').click(function(e) {

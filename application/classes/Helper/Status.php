@@ -2,7 +2,24 @@
 
 class Helper_Status {
 
-    public function getTemperatureStatus($data) {
+//    public function getTemperatureStatus($data) {
+//        $data['datetime'];
+//        $data['room_temperature'];
+//
+//        $title = "Time: ". $data['datetime'];
+//        $tempIcon = 'wi wi-thermometer';
+//        $roomTemperature = (isset($data['room_temperature']) ? $data['room_temperature'] : '--') .' °C';
+//        $tankTemperature = (isset($data['tank_temperature']) ? $data['tank_temperature'] : '--') .' °C';
+//        $humidity = (isset($data['humidity']) ? $data['humidity'] : '--') .' %';
+//
+//        $humidity = $this->formatLiveStatus($title, __('Humidity'), 'humidity', 'wi wi-sprinkles', $humidity);
+//        $roomTemperature = $this->formatLiveStatus($title, __('Room temperature'), 'room-temperature', $tempIcon, $roomTemperature);
+//        $tankTemperature = $this->formatLiveStatus($title, __('Tank temperature'), 'tank-temperature', $tempIcon, $tankTemperature);
+//
+//        return $humidity . $roomTemperature . $tankTemperature;
+//    }
+
+    public function getDataStatus($data) {
         $data['datetime'];
         $data['room_temperature'];
 

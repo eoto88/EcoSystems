@@ -22,9 +22,11 @@ class Controller_AuthenticatedPage extends Controller_Template {
 
         $mInstance = new Model_Instance();
         $this->instances = $mInstance->getInstances($this->user['id_user']);
+    }
 
-        //$mToDo = new Model_Todo();
-        //View::set_global('uncheckedToDos', $mToDo->checkToDos());
+    private function f_rand($min=0,$max=1,$mul=1000000){
+        if ($min>$max) return false;
+        return mt_rand($min*$mul,$max*$mul)/$mul;
     }
 
     private function getAndSetCurrentInstanceId() {
@@ -107,7 +109,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
             "assets/js/vendor/bootstrap.min.js",
             "assets/js/vendor/jquery.populate.js",
             "http://code.highcharts.com/modules/exporting.js",
-            "http://code.highcharts.com/highcharts.js"
+            "http://code.highcharts.com/stock/highstock.js", //"http://code.highcharts.com/highcharts.js"
         );
     }
 
