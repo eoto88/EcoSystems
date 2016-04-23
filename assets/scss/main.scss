@@ -98,13 +98,17 @@ $warning: #aa6708;
 $success: #5cb85c;
 $light-success: #dff0d8;
 
+$header-height-mobile: 82px;
+
+$menu-transition: 250ms cubic-bezier(0.1,.57,.1,1);
+
 body {
   font-family: "Open Sans",Arial,Helvetica,Sans-Serif;
   font-size: 13px;
   line-height: 1.42857143;
   color: #333;
   background-color: $light-grey;
-  padding-top: 82px;
+  padding-top: $header-height-mobile;
 }
 
 h1, h2, h3, h4 {
@@ -147,7 +151,7 @@ form {
   top: 0;
   z-index: 905;
   display: block;
-  height: 82px;
+  height: $header-height-mobile;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -166,6 +170,17 @@ form {
 #logo {
   color: white;
   margin: 5px 0;
+  width: 75%;
+  float: left;
+}
+#mobile-menu-icon {
+  color: #CCC;
+  float: right;
+  font-size: 18px;
+
+  &.active {
+    color: white;
+  }
 }
 .header-block {
   display: inline-block;
@@ -224,15 +239,13 @@ form {
   float: right;
 }
 
-/* **** Left nav - START **** */
 #left-panel {
-  position: fixed;
-  top: 49px;
+  position: absolute;
+  top: $header-height-mobile;
   left: 0;
   z-index: 904;
-  width: 200px;
+  width: 50px;
   min-height: 100%;
-  overflow: hidden;
   border-top: 1px solid #525151;
   background: $dark-grey;
   background: -moz-linear-gradient(left,$dark-grey 93%,#2a2725 100%);
@@ -242,9 +255,17 @@ form {
   background: -ms-linear-gradient(left,$dark-grey 93%,#2a2725 100%);
   background: linear-gradient(to right,$dark-grey 93%,#2a2725 100%);
 
-  -webkit-transition: 250ms cubic-bezier(0.1,.57,.1,1);
-  transition: 250ms cubic-bezier(0.1,.57,.1,1);
+  -webkit-transition: $menu-transition;
+  transition: $menu-transition;
   -webkit-transform: translate(0px,0) translateZ(0px);
+
+  &.mobile-closed {
+    left: -50px;
+  }
+
+  #minify-menu {
+    display: none;
+  }
 
   ul {
     width: 100%;
@@ -269,6 +290,10 @@ form {
         font-weight: 400;
         text-decoration: none!important;
         position: relative;
+
+        .menu-title {
+          display: none;
+        }
       }
       >a>i {
         margin-right: 5px;
@@ -295,93 +320,6 @@ form {
     }
   }
 }
-
-/*#left-panel ul li a b {
-  position: absolute!important;
-  right: 10px;
-  top: 10px;
-}
-#left-panel ul ul {
-  margin: 0;
-  display: none;
-  background: rgba(69,69,69,.6);
-  padding: 7px 0;
-}
-#left-panel ul ul::before {
-  content: "";
-  display: block;
-  position: absolute;
-  z-index: 1;
-  left: 23px;
-  top: 0;
-  bottom: 0;
-  border-left: 1px solid #7A7A7A;
-}
-#left-panel ul ul li {
-  border-bottom: none;
-  position: relative;
-}
-#left-panel ul ul li::before {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 8px;
-  left: 23px;
-  top: 16px;
-  border-top: 1px solid #7A7A7A;
-  z-index: 1;
-}
-#left-panel ul ul li>a {
-  padding: 7px 0 7px 42px;
-  font-size: 14px;
-  font-weight: 400;
-  outline: 0;
-}*/
-
-/*.hidden-menu #left-panel {
-  left: -210px;
-}*/
-
-.minified-menu {
-  #left-panel {
-    width: 45px;
-
-    span.menu-title {
-      display: none;
-    }
-  }
-}
-
-#minify-menu {
-  border-bottom: 1px solid #302F2F;
-  background: #454545;
-  color: #A8A8A8;
-  text-align: center;
-  padding: 0;
-  width: 36px;
-  height: 28px;
-  display: block;
-  position: absolute;
-  right: -3px;
-  border-radius: 5px 0 0 5px;
-  cursor: pointer;
-  margin-top: 5px;
-  font-size: 19px;
-  transition: all .1s linear 0s;
-
-  &:hover {
-    background: #646464;
-    color: #E4E4E4;
-    right: 0;
-  }
-}
-
-@media (max-width: 979px) {
-  #left-panel {
-    left: -220px;
-  }
-}
-/* **** Left nav - END **** */
 
 #main {
   margin-left: 200px;
@@ -870,9 +808,62 @@ form {
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
+  #mobile-menu-icon {
+    display: none;
+  }
 
+  #left-panel {
+    position: fixed;
+    top: 49px;
+    left: 0;
+    width: 200px;
+
+    &.mobile-closed {
+      left: 0;
+    }
+
+    ul li a .menu-title {
+      display: inline-block;
+    }
+
+    #minify-menu {
+      border-bottom: 1px solid #302F2F;
+      background: #454545;
+      color: #A8A8A8;
+      text-align: center;
+      padding: 0;
+      width: 36px;
+      height: 28px;
+      display: block;
+      position: absolute;
+      left: 170px;
+      border-radius: 5px 0 0 5px;
+      cursor: pointer;
+      margin-top: 5px;
+      font-size: 19px;
+      transition: $menu-transition;
+
+      &:hover {
+        background: #646464;
+        color: #E4E4E4;
+        right: 0;
+      }
+    }
+  }
+
+  .minified-menu {
+    #left-panel {
+      width: 45px;
+
+      span.menu-title {
+        display: none;
+      }
+      #minify-menu {
+        left: 16px;
+      }
+    }
+  }
 }
-
 /* **** Responsive - END **** */
 
 
