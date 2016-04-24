@@ -1,4 +1,4 @@
-App.WidgetInstances = App.Widget.extend({
+App.WidgetLive = App.Widget.extend({
     init: function() {
         var me = this;
         me._super( 'widget-live' );
