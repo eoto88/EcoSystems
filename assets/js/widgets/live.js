@@ -1,10 +1,7 @@
-/**
- * Created by eoto on 17/10/14.
- */
-
-var Live = Class.extend({
+App.WidgetInstances = App.Widget.extend({
     init: function() {
         var me = this;
+        me._super( 'widget-live' );
 
         setInterval(function() {
             me.requestChartData()
@@ -154,24 +151,24 @@ var Live = Class.extend({
             dataType: "json",
             success: function(point) {
                 /*if(point.roomTemperature.length > 0 &&
-                    temperatureChart.series[0].data.length > 0 &&
-                    temperatureChart.series[0].data[temperatureChart.series[0].data.length-1].x != point.roomTemperature[0]) {
-                    var series = temperatureChart.series[0],
-                        shift = series.data.length > 40;
+                 temperatureChart.series[0].data.length > 0 &&
+                 temperatureChart.series[0].data[temperatureChart.series[0].data.length-1].x != point.roomTemperature[0]) {
+                 var series = temperatureChart.series[0],
+                 shift = series.data.length > 40;
 
-                    temperatureChart.series[0].addPoint(eval(point.roomTemperature), true, shift);
-                }*/
+                 temperatureChart.series[0].addPoint(eval(point.roomTemperature), true, shift);
+                 }*/
 
                 me.addChartData(point.roomTemperature, me.temperatureChart.series[0]);
 
                 /*if(point.tankTemperature.length > 0 &&
-                    temperatureChart.series[1].data.length > 0 &&
-                    temperatureChart.series[1].data[temperatureChart.series[1].data.length-1].x != point.tankTemperature[0]) {
-                    var series = temperatureChart.series[1],
-                        shift = series.data.length > 40;
+                 temperatureChart.series[1].data.length > 0 &&
+                 temperatureChart.series[1].data[temperatureChart.series[1].data.length-1].x != point.tankTemperature[0]) {
+                 var series = temperatureChart.series[1],
+                 shift = series.data.length > 40;
 
-                    temperatureChart.series[1].addPoint(eval(point.tankTemperature), true, shift);
-                }*/
+                 temperatureChart.series[1].addPoint(eval(point.tankTemperature), true, shift);
+                 }*/
 
                 me.addChartData(point.tankTemperature, me.temperatureChart.series[1]);
             }
@@ -185,15 +182,5 @@ var Live = Class.extend({
 
             chartSerie.addPoint(eval(data), true, shift);
         }
-    }
-});
-
-
-$(document).ready(function() {
-    if( $("#temperatureChart").length == 1 ) {
-        var live = new Live();
-        setInterval(function() {
-            live.requestChartData()
-        }, 120000);
     }
 });

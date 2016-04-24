@@ -98,12 +98,12 @@
                     <span class="menu-title"><?php echo __('Live'); ?></span>
                 </a>
             </li>
-<!--            <li --><?php //echo ($current_route_name == 'history') ? 'class="active"' : ''; ?><!-->-->
-<!--                <a href="--><?php //echo URL::base(TRUE, TRUE) .'history'; ?><!--" class="require-instance-id">-->
-<!--                    <i class="fa fa-lg fa-fw fa-history"></i>&nbsp;-->
-<!--                    <span class="menu-title">--><?php //echo __('History'); ?><!--</span>-->
-<!--                </a>-->
-<!--            </li>-->
+            <li <?php echo ($current_route_name == 'history') ? 'class="active"' : ''; ?>>
+                <a href="<?php echo URL::base(TRUE, TRUE) .'history'; ?>" class="require-instance-id">
+                    <i class="fa fa-lg fa-fw fa-history"></i>&nbsp;
+                    <span class="menu-title"><?php echo __('History'); ?></span>
+                </a>
+            </li>
             <li <?php echo ($current_route_name == 'todos') ? 'class="active"' : ''; ?>>
                 <a href="<?php echo URL::base(TRUE, TRUE) .'todos'; ?>" class="require-instance-id">
                     <i class="fa fa-lg fa-fw fa-check"></i>&nbsp;
@@ -148,52 +148,6 @@
 </div>
 <footer id="footer"></footer>
 
-
-<div id="wrapper">
-    <!-- Navigation -->
-    <div id="page-wrapper">
-        <!--nav id="headerWrapper" class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <header id="header" class="container">
-                <div class="row">
-                    <div class="col-md-4">
-                        <h1><?php echo $title; ?></h1>
-                    </div>
-                    <div class="col-md-4">
-                        <div id="tasks_wrapper">
-                            <span><?php echo __('Task list'); ?> <i class="fa fa-list"></i></span>
-                            <ul id="tasks_list">
-                                <?php /*
-                                if(count($uncheckedToDos)) {
-                                    foreach($uncheckedToDos as $toDo) {
-                                        echo '<li id="todo-'. $toDo['id'] .'"><i class="fa fa-square-o check"></i>'. $toDo['title'] .'</li>';
-                                    }
-                                } else {
-                                    echo '<li id="no-todo">'. __('No task in the to do list') .'</li>';
-                                }*/
-                                ?>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div id="liveStatus">
-                            <?php /*echo $communication_status; ?>
-                            <?php echo $pump_status; ?>
-                            <?php echo $light_status; ?>
-                            <?php echo $fan_status; ?>
-                            <?php echo $heater_status;*/ ?>
-                        </div>
-                        <ul id="menu" class="nav navbar-nav">
-                            <li><a href="<?php echo URL::base(TRUE, TRUE); ?>"><i class="fa fa-tachometer"></i><br /><?php echo __('Dashboard'); ?></a></li>
-                            <li><a href="<?php echo URL::base(TRUE, TRUE) .'history'; ?>"><i class="fa fa-history"></i><br /><?php echo __('History'); ?></a></li>
-                            <li><a id="logout" href="<?php echo URL::base(TRUE, TRUE) .'logout'; ?>"><i class="fa fa-sign-out"></i><br /><?php echo __('Logout'); ?></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </header>
-        </nav-->
-    </div>
-</div>
-
 <script type="text/x-handlebars-template" id="dialog-tmpl">
     <div class="modal fade" id="dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -221,24 +175,24 @@
 
 <?php foreach($scripts as $file) { echo HTML::script($file), "\n"; }?>
 
-<?php if( $translations && count($translations) ) { ?>
     <script  type="text/javascript">
-    var I18n = {
-    <?php foreach($translations as $code => $text) { ?>
-        <?php echo $code ?> : "<?php echo $text ?>",
-    <?php } ?>
-    };
+        <?php if( $translations && count($translations) ) { ?>
+        var I18n = {
+        <?php foreach($translations as $code => $text) { ?>
+            <?php echo $code ?> : "<?php echo $text ?>",
+        <?php } ?>
+        };
+        <?php } ?>
 
-    var WidgetList = {
-        'widget-form': App.WidgetForm,
-        'widget-todos': App.WidgetTodos,
-        'widget-instances': App.WidgetInstances,
-        //'widget-logs': App.WidgetLogs,
-        'widget-live': App.WidgetLive //,
-        //'widget-logs': 'WidgetLogs'
-    };
+        var WidgetList = {
+            'widget-form': App.WidgetForm,
+            'widget-todos': App.WidgetTodos,
+            'widget-instances': App.WidgetInstances,
+            'widget-history': App.WidgetHistory,
+            'widget-live': App.WidgetLive //,
+            //'widget-logs': 'WidgetLogs'
+        };
     </script>
-<?php } ?>
 
 </body>
 </html>

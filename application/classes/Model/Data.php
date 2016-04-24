@@ -3,7 +3,7 @@
 class Model_Data {
     public function getLastData($idInstance) {
         $query = DB::select(
-            DB::expr($this->getExprDatetime()),
+            DB::expr($this->getExprDatetime().'  AS datetime'),
             'humidity',
             'room_temperature',
             'tank_temperature'
@@ -13,7 +13,7 @@ class Model_Data {
 
     public function getData($idInstance) {
         $query = DB::query(Database::SELECT,
-            "SELECT " . $this->getExprDatetime() .
+            "SELECT " . $this->getExprDatetime() .'  AS datetime'.
             ", humidity, room_temperature, tank_temperature FROM ( SELECT * FROM data WHERE id_instance = ". $idInstance ." ORDER BY timestamp DESC LIMIT 40 ) sub ORDER BY datetime ASC"
         );
 
@@ -23,10 +23,11 @@ class Model_Data {
     // TODO Use this to get data average (Never used yet...)
     public function getDataAverageByDay($idInstance) {
         $query = DB::query(Database::SELECT,
-            "SELECT DATE(datetime) AS `date`, AVG(room_temperature) AS avg_room_temp, AVG(tank_temperature) AS avg_tank_temp"
-            . " FROM data"
-            . " WHERE DATE(datetime) <= DATE(SUBDATE(current_date, 2)) AND id_instance = ". $idInstance
-            . " GROUP BY DATE(datetime)");
+            "SELECT DATE(". $this->getExprDatetime() .") AS `date`, ROUND(AVG(room_temperature), 1) AS avg_room_temp, ROUND(AVG(tank_temperature), 1) AS avg_tank_temp, ROUND(AVG(humidity), 1) AS avg_humidity ".
+            "FROM data ".
+            "WHERE DATE(". $this->getExprDatetime() .") <= DATE(SUBDATE(current_date, 2)) AND id_instance = ". $idInstance ." ".
+            "GROUP BY `date`"
+        );
         return $query->execute()->as_array();
     }
 
@@ -74,7 +75,7 @@ class Model_Data {
     }
 
     private function getExprDatetime() {
-        return "IF(datetime IS NOT NULL, CONVERT_TZ(datetime, '+00:00', '". $this->getOffset() ."'), timestamp) AS datetime";
+        return "IF(datetime IS NOT NULL, CONVERT_TZ(datetime, '+00:00', '". $this->getOffset() ."'), timestamp)";
     }
 
     private function getOffset() {

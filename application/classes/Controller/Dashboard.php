@@ -66,19 +66,19 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $humidity = array();
         $roomTemperature = array();
         $tankTemperature = array();
-        foreach($data as $hour) {
-            $datetime = strtotime($hour['datetime']) * 1000;
+        foreach($data as $row) {
+            $datetime = strtotime($row['datetime']) * 1000;
             $humidity[] = array(
                 'x' => $datetime,
-                'y' => floatval($hour['humidity'])
+                'y' => floatval($row['humidity'])
             );
             $roomTemperature[] = array(
                 'x' => $datetime,
-                'y' => floatval($hour['room_temperature'])
+                'y' => floatval($row['room_temperature'])
             );
             $tankTemperature[] = array(
                 'x' => $datetime,
-                'y' => floatval($hour['tank_temperature'])
+                'y' => floatval($row['tank_temperature'])
             );
         }
 
@@ -99,31 +99,44 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $this->template->icon = 'fa-history';
 
         $this->template->translations = array();
-//        $mDay = new Model_Day();
-//        $lastDaysData = $mDay->getLastDays( $this->currentInstanceId );
+        $mData = new Model_Data();
+        $data =$mData->getDataAverageByDay($this->currentInstanceId);
 
-//        $historyData = $this->prepareHistoryData($lastDaysData);
+        $historyData = $this->prepareHistoryData($data);
 
-//        $view = View::factory( "history" )->set($historyData);
-//        $this->template->content = $view->render();
+        $view = View::factory( "history" )->set($historyData);
+        $this->template->content = $view->render();
     }
     
     private function prepareHistoryData($temperatureData) {
         $roomTemperatureHistory = array();
         $tankTemperatureHistory = array();
-        $sunlightHistory = array();
-        foreach($temperatureData as $day) {
-            $datetime = strtotime($day['date']) * 1000;
-            $roomTemperatureHistory[] = array($datetime, floatval($day['room_tmp_avg']));
-            $tankTemperatureHistory[] = array($datetime, floatval($day['tank_tmp_avg']));
-            
-            $sunlightHistory[] = array($datetime, intval($day['light_hour']));
+        $humidityHistory = array();
+        foreach($temperatureData as $row) {
+            $datetime = strtotime($row['date']) * 1000;
+            $humidityHistory[] = array(
+                'x' => $datetime,
+                'y' => floatval($row['avg_room_temp'])
+            );
+            $roomTemperatureHistory[] = array(
+                'x' => $datetime,
+                'y' => floatval($row['avg_tank_temp'])
+            );
+            $tankTemperatureHistory[] = array(
+                'x' => $datetime,
+                'y' => floatval($row['avg_humidity'])
+            );
+
+//            $datetime = strtotime($row['date']) * 1000;
+//            $roomTemperatureHistory[] = array($datetime, floatval($row['avg_room_temp']));
+//            $tankTemperatureHistory[] = array($datetime, floatval($row['avg_tank_temp']));
+//            $humidityHistory[] = array($datetime, floatval($row['avg_humidity']));
         }
         
         return array(
             'roomTemperatureHistory' => $roomTemperatureHistory,
             'tankTemperatureHistory' => $tankTemperatureHistory,
-            'sunlightHistory' => $sunlightHistory
+            'humidityHistory' => $humidityHistory
         );
     }
 
