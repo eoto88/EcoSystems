@@ -1,7 +1,7 @@
 App.WidgetLive = App.Widget.extend({
     init: function() {
         var me = this;
-        me._super( 'widget-live' );
+        me._super('widget-live');
 
         setInterval(function() {
             me.requestChartData()

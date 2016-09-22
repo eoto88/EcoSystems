@@ -16,6 +16,9 @@ class Helper_Form {
         if( isset($data['api-url']) ) {
             $attr .= ' data-api-url="'. $data['api-url'] .'"';
         }
+        if( isset($data['requires-id-instance']) ) {
+            $attr .= ' data-requires-id-instance="'. $data['requires-id-instance'] .'"';
+        }
 
         $form = '<form '. $attr .' name="'.$data['name'].'" role="form">';
 
@@ -74,7 +77,35 @@ class Helper_Form {
                 </div>';
                 break;
             // TODO Textarea
-            // TODO Numberfield
+            // TODO Numberfield avec spinner
+            case 'datepicker':
+                $attr = '';
+                if( isset($data['format']) ) {
+                    $attr .= ' data-format="'. $data['format'] .'"';
+                }
+                $input = '<input type="text" name="'.$data['name'].'" '.$value.' class="form-control form-datepicker"'. $attr .' />';
+
+                break;
+            case 'spinner':
+                $attr = '';
+                if( isset($data['initval']) ) {
+                    $attr .= ' data-initval="'. $data['initval'] .'"';
+                }
+                if( isset($data['min']) ) {
+                    $attr .= ' data-min="'. $data['min'] .'"';
+                }
+                if( isset($data['max']) ) {
+                    $attr .= ' data-max="'. $data['max'] .'"';
+                }
+                if( isset($data['step']) ) {
+                    $attr .= ' data-step="'. $data['step'] .'"';
+                }
+                if( isset($data['decimals']) ) {
+                    $attr .= ' data-decimals="'. $data['decimals'] .'"';
+                }
+                $input = '<input type="text" name="'.$data['name'].'" '.$value.' class="form-control form-spinner"'. $attr .' />';
+
+                break;
             case 'text';
             default;
                 $attr = '';

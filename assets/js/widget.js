@@ -109,7 +109,7 @@ App.Widget = Class.extend({
             $form = (form instanceof jQuery) ? form : $(form);
 
         $form.find('.message-success').remove();
-        $.each($form.find('input'), function() {
+        $.each($form.find('input'), function() { // TODO Add textareas and others...
             $(this).val('');
         });
         me.clearErrors($form);

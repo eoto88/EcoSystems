@@ -104,6 +104,12 @@
                     <span class="menu-title"><?php echo __('History'); ?></span>
                 </a>
             </li>
+            <li <?php echo ($current_route_name == 'water-tests') ? 'class="active"' : ''; ?>>
+                <a href="<?php echo URL::base(TRUE, TRUE) .'water-tests'; ?>" class="require-instance-id">
+                    <i class="fa fa-lg fa-fw fa-tint"></i>&nbsp;
+                    <span class="menu-title"><?php echo __('Water tests'); ?></span>
+                </a>
+            </li>
             <li <?php echo ($current_route_name == 'todos') ? 'class="active"' : ''; ?>>
                 <a href="<?php echo URL::base(TRUE, TRUE) .'todos'; ?>" class="require-instance-id">
                     <i class="fa fa-lg fa-fw fa-check"></i>&nbsp;
@@ -187,6 +193,7 @@
         var WidgetList = {
             'widget-form': App.WidgetForm,
             'widget-todos': App.WidgetTodos,
+            'widget-waterTests': App.WidgetWaterTests,
             'widget-instances': App.WidgetInstances,
             'widget-history': App.WidgetHistory,
             'widget-live': App.WidgetLive //,
