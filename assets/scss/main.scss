@@ -240,11 +240,11 @@ form {
 }
 
 #left-panel {
-  position: absolute;
+  position: fixed;
   top: $header-height-mobile;
   left: 0;
   z-index: 904;
-  width: 50px;
+  width: 125px;
   min-height: 100%;
   border-top: 1px solid #525151;
   background: $dark-grey;
@@ -260,7 +260,7 @@ form {
   -webkit-transform: translate(0px,0) translateZ(0px);
 
   &.mobile-closed {
-    left: -50px;
+    left: -125px;
   }
 
   #minify-menu {
@@ -291,9 +291,9 @@ form {
         text-decoration: none!important;
         position: relative;
 
-        .menu-title {
-          display: none;
-        }
+//        .menu-title {
+//          display: none;
+//        }
       }
       >a>i {
         margin-right: 5px;
