@@ -329,7 +329,7 @@ App.WidgetWaterTests = App.Widget.extend({
                     label: {
                         text: "High",
                         style: {
-                            color: '#606060'
+                            color: '#BF0B23'
                         }
                     }
                 }]

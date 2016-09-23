@@ -10,7 +10,7 @@ class Controller_WaterTests extends Controller_AuthenticatedPage {
 
     public function action_index() {
         $this->template->title = __('Water tests');
-        $this->template->icon = 'fa-tint';
+        $this->template->icon = 'fa-flask';
 
         $hForm = new Helper_Form();
 

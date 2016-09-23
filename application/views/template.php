@@ -106,7 +106,7 @@
             </li>
             <li <?php echo ($current_route_name == 'water-tests') ? 'class="active"' : ''; ?>>
                 <a href="<?php echo URL::base(TRUE, TRUE) .'water-tests'; ?>" class="require-instance-id">
-                    <i class="fa fa-lg fa-fw fa-tint"></i>&nbsp;
+                    <i class="fa fa-lg fa-fw fa-flask"></i>&nbsp;
                     <span class="menu-title"><?php echo __('Water tests'); ?></span>
                 </a>
             </li>

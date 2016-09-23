@@ -25,19 +25,19 @@ class Task_Cron extends Minion_Task {
 
     private function stillAlive() {
         $mInstance = new Model_Instance();
-        $mInstance->updateStillAlive(1);
+//        $mInstance->updateStillAlive(1);
         $mInstance->updateStillAlive(2);
     }
 
     private function createData() {
-        $mData = new Model_Data();
-        // FIXME code
-        $mData->insertData(1, array(
-            'datetime' => null,
-            'humidity' => $this->f_rand(20, 40, 10),
-            'roomTemperature' => $this->f_rand(18, 25, 10),
-            'tankTemperature' => $this->f_rand(18, 25, 10)
-        ));
+//        $mData = new Model_Data();
+//        // FIXME code
+//        $mData->insertData(1, array(
+//            'datetime' => null,
+//            'humidity' => $this->f_rand(20, 40, 10),
+//            'roomTemperature' => $this->f_rand(18, 25, 10),
+//            'tankTemperature' => $this->f_rand(18, 25, 10)
+//        ));
 
         $mData = new Model_Data();
         $mData->insertData(2, array(
@@ -45,6 +45,15 @@ class Task_Cron extends Minion_Task {
             'humidity' => $this->f_rand(20, 40, 10),
             'roomTemperature' => $this->f_rand(18, 25, 10),
             'tankTemperature' => $this->f_rand(18, 25, 10)
+        ));
+
+        $mWater = new Model_WaterTest();
+        $mWater->insertWaterTest(2, array(
+            'date' => date('Y-m-d'),
+            'ph' => $this->f_rand(5, 8, 10),
+            'ammonia' => $this->f_rand(0, 7.3, 10),
+            'nitrite' => $this->f_rand(0, 3.3, 10),
+            'nitrate' => $this->f_rand(0, 110, 10)
         ));
     }
 

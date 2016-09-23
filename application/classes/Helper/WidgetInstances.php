@@ -3,6 +3,7 @@
 class Helper_WidgetInstances {
 
     public function getViewInstances($instances) {
+        $mWater = new Model_WaterTest();
         $mData = new Model_Data();
         $hStatus = new Helper_Status();
         $mInstance = new Model_Instance();
@@ -17,6 +18,7 @@ class Helper_WidgetInstances {
             $instance['heater_status'] = $hStatus->getStatus('heater', 'Heater', $instance['heater_on']);
             $lastData = $mData->getLastData($instance['id']);
             $instance['data_status'] = $hStatus->getDataStatus($lastData);
+            $instance['water_test_status'] = $hStatus->getWaterTestStatus($mWater->getLastWaterTest( $instance['id'] ));
 
             $instancesView[] = $instance;
         }
@@ -35,6 +37,7 @@ class Helper_WidgetInstances {
         $instance = $mInstance->getInstance($id_instance, $id_user);
         $liveData = $mInstance->getLiveData( $id_instance );
 
+        $mWater = new Model_WaterTest();
         $mData = new Model_Data();
         $lastData = $mData->getLastData( $id_instance );
 
@@ -44,6 +47,7 @@ class Helper_WidgetInstances {
         $instance['fan_status'] = $hStatus->getStatus('fan', 'Fan', $liveData['fan_on']);
         $instance['heater_status'] = $hStatus->getStatus('heater', 'Heater', $liveData['heater_on']);
         $instance['data_status'] = $hStatus->getDataStatus($lastData);
+        $instance['water_test_status'] = $hStatus->getWaterTestStatus($mWater->getLastWaterTest( $id_instance ));
 
         $vInstances = View::factory("widgets/instances")->set(array(
             'instances' => array($instance)

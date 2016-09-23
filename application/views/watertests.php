@@ -2,7 +2,7 @@
     <article class="col-sm-12 col-md-12 col-lg-6">
         <div class="widget-form widget" id="widget-waterTests">
             <header role="heading">
-                <span class="widget-icon"><i class="fa fa-tint fa-fw "></i></span>
+                <span class="widget-icon"><i class="fa fa-bar-chart-o fa-fw "></i></span>
                 <h2><?php echo __('Water tests') ?></h2>
             </header>
             <div class="widget-body">

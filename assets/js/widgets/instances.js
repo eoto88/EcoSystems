@@ -6,6 +6,12 @@ App.WidgetInstances = App.Widget.extend({
         //setInterval(function() {
         //    me.refreshStatuses();
         //}, 10000);
+
+        $('#'+ me.cssId +' .instance-expand').click(function() {
+            $(this).closest('li.instance').find('.instance-body').slideToggle();
+
+            $(this).find('i').toggleClass('fa-chevron-circle-down').toggleClass('fa-chevron-circle-up');
+        });
     },
     refreshStatuses: function() {
         var me = this;

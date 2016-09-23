@@ -98,6 +98,16 @@ $warning: #aa6708;
 $success: #5cb85c;
 $light-success: #dff0d8;
 
+$very-acidic: #bf2408;
+$acidic: #e2e414;
+$neutral: #039C4A;
+$alkaline: #19a29f;
+$very-alkaline: #093b60;
+
+$low-danger: #039C4A;
+$medium-danger: #E47F25;
+$high-danger: #BF0B23;
+
 $header-height-mobile: 82px;
 
 $menu-transition: 250ms cubic-bezier(0.1,.57,.1,1);
@@ -492,10 +502,6 @@ form {
 
 /* **** Widget instances - START **** */
 #widget-instances {
-  .widget-body {
-    max-height: 400px;
-    overflow-y: scroll;
-  }
   ul {
     list-style: none;
     padding: 0;
@@ -512,6 +518,22 @@ form {
     font-size: 28px;
   }
 
+  h3 {
+    padding-right: 25px;
+    position: relative;
+    margin-bottom: 10px;
+  }
+
+  h3 .instance-expand {
+    position: absolute;
+    right: 0;
+  }
+
+  .instance-body {
+    margin-top: 10px;
+    display: none;
+  }
+
   .live-status {
     text-align: right;
   }
@@ -520,11 +542,41 @@ form {
   }
   .live-value {
     display: block;
-    font-size: 24px;
+    font-size: 22px;
+
+    i {
+      font-size: 32px;
+      padding-right: 10px;
+
+      &.fa-flask {
+        font-size: 28px;
+      }
+    }
   }
-  .live-value i {
-    font-size: 32px;
-    padding-right: 10px;
+  .very-acidic {
+    color: $very-acidic;
+  }
+  .acidic i {
+    color: $acidic;
+  }
+  .neutral i {
+    color: $neutral;
+  }
+  .alkaline i {
+    color: $alkaline;
+  }
+  .very-alkaline i {
+    color: $very-alkaline;
+  }
+
+  .low-danger i {
+    color: $low-danger;
+  }
+  .medium-danger i {
+    color: $medium-danger;
+  }
+  .high-danger i {
+    color: $high-danger;
   }
 }
 /* **** Widget instances - END **** */

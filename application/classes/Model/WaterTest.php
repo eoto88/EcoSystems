@@ -14,6 +14,19 @@ class Model_WaterTest {
         return $query->execute()->current();
     }
 
+    public function getLastWaterTest($idInstance) {
+        $query = DB::select(
+            'id',
+            'id_instance',
+            'date',
+            'ph',
+            'ammonia',
+            'nitrite',
+            'nitrate'
+        )->from('water_test')->where('id_instance', '=', $idInstance)->order_by('date', 'DESC')->limit(1)->offset(0);
+        return $query->execute()->current();
+    }
+
     public function getWaterTests($idInstance) {
         $query = DB::select(
             'id',
