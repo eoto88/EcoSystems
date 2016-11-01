@@ -2,7 +2,7 @@
 
 defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Ajax extends Controller {
+class Controller_ApiInstance extends Controller {
 
     public function before() {
         //if(!$this->request->is_ajax()) // && Request::$client_ip != '255.255.255.255'
@@ -70,11 +70,24 @@ class Controller_Ajax extends Controller {
                 case 'still-alive':
                     // Do nothing here!
                     break;
-                case 'heaterAndFanStatus':
-                    $this->saveHeaterAndFanStatus($idInstance);
+                case 'data':
+                    $mData = new Model_Data();
+                    $mData->insertData($idInstance, array(
+                        'roomTemperature' => filter_input(INPUT_POST, 'roomTemperature', FILTER_SANITIZE_SPECIAL_CHARS),
+                        'tankTemperature' => filter_input(INPUT_POST, 'tankTemperature', FILTER_SANITIZE_SPECIAL_CHARS),
+                        'humidity' => filter_input(INPUT_POST, 'humidity', FILTER_SANITIZE_SPECIAL_CHARS)
+                    ));
+                    break;
+                case 'log':
+                    $mLog = new Model_Log();
+                    $mLog->log(filter_input(INPUT_POST, 'type', FILTER_SANITIZE_SPECIAL_CHARS), filter_input(INPUT_POST, 'message', FILTER_SANITIZE_SPECIAL_CHARS));
+
                     break;
                 case 'pumpState':
                     $this->savePumpState($idInstance);
+                    break;
+                case 'lightState':
+                    $this->saveLightState($idInstance);
                     break;
             }
             $this->stillAlive($idInstance);
@@ -104,13 +117,12 @@ class Controller_Ajax extends Controller {
         }
     }
 
-    private function saveHeaterAndFanStatus($idInstance) {
-        if (isset($_POST['fanStatus']) && isset($_POST['heaterStatus'])) {
+    private function saveLightState($idInstance) {
+        if (isset($_POST['lightState'])) {
             $mInstance = new Model_Instance();
 
-            $fanStatus = filter_input(INPUT_POST, 'fanStatus', FILTER_SANITIZE_SPECIAL_CHARS);
-            $heaterStatus = filter_input(INPUT_POST, 'heaterStatus', FILTER_SANITIZE_SPECIAL_CHARS);
-            $mInstance->updateFanAndHeaterStatus($fanStatus, $heaterStatus);
+            $lightState = filter_input(INPUT_POST, 'lightState', FILTER_SANITIZE_SPECIAL_CHARS);
+            $mInstance->updateLightState($lightState, $idInstance);
         } else {
             throw new HTTP_Exception_403;
         }

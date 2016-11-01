@@ -157,14 +157,14 @@ Route::set('rest-api-instances', 'api/instances/<id_instance>/<controller>(/<id>
         'directory' => 'rest',
         'action' => 'index',
     ));
+Route::set('post-api-instance', 'api/instance')
+    ->defaults(array(
+        'controller' => 'ApiInstance',
+        'action' => 'postData',
+    ));
 Route::set('rest-api', 'api/<controller>(/<id>)', array('id' => '[0-9]+'))
     ->defaults(array(
         'directory' => 'rest',
-        'action' => 'index',
-    ));
-Route::set('ajax', 'ajax/action(/<id>)') // FIXME Will disappear
-    ->defaults(array(
-        'controller' => 'ajax',
         'action' => 'index',
     ));
 Route::set('water-tests', 'water-tests/<id>')

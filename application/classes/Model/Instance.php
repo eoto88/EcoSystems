@@ -56,9 +56,4 @@ class Model_Instance {
         $query = DB::update('instance')->set(array('pump_on' => $pumpStatus))->where('id', '=', $idInstance);
         $query->execute();
     }
-
-    public function updateFanAndHeaterStatus($fanStatus, $heaterStatus) {
-        $query = DB::update('instance')->set(array('fan_on' => $fanStatus, 'heater_on' => $heaterStatus))->where('id', '=', '1');
-        $query->execute();
-    }
 }

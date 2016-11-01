@@ -43,4 +43,7 @@
             <?php } ?>
         </ul>
     </div>
+    <script type="text/x-handlebars-template" id="new-todo-tmpl">
+        <?php echo $instanceLi; ?>
+    </script>
 </div>
