@@ -3,8 +3,8 @@
 class Helper_Status {
 
     public function getDataStatus($data) {
-        $data['datetime'];
-        $data['room_temperature'];
+//        $data['datetime'];
+//        $data['room_temperature'];
 
         $title = "Time: ". $data['datetime'];
         $tempIcon = 'wi wi-thermometer';
@@ -106,14 +106,15 @@ class Helper_Status {
         $icon = "fa-exclamation-triangle error";
         if(isset($liveData)) {
             $title = __('Last communication') .": ". $liveData['last_communication'];
-            if($liveData['still_alive']) {
+            if($liveData['heartbeat']) {
                 $icon = "fa-check success";
             }
         }
-        return '<span id="still_alive" title="'. $title .'"><i class="status-icon fa '. $icon .'"></i></span>';
+        return '<span class="heartbeat" title="'. $title .'"><i class="status-icon fa '. $icon .'"></i></span>';
     }
     
     public function getStatus($relayId, $relayName, $status) {
+        $icon = '';
         switch ($relayId) {
             case 'pump':
                 $icon = 'fa-tint';

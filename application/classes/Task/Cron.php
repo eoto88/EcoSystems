@@ -26,7 +26,7 @@ class Task_Cron extends Minion_Task {
     private function stillAlive() {
         $mInstance = new Model_Instance();
 //        $mInstance->updateStillAlive(1);
-        $mInstance->updateStillAlive(2);
+        $mInstance->updateHeartbeat(2);
     }
 
     private function createData() {
@@ -63,6 +63,7 @@ class Task_Cron extends Minion_Task {
     }
     
     private function checkTodos() {
+        // TODO For every instances
         $config = Kohana::$config->load('app');
         $mTodo = new Model_Todo();
         $todos = $mTodo->getUncheckedTodos();
@@ -83,10 +84,9 @@ class Task_Cron extends Minion_Task {
         );
         $code = Email::send('default', $message['subject'], $message['body'], $message['from'], $message['to'], $mime_type = 'text/html');
         if( ! $code ) {
-            $mLog->log( "error", __("Error while sending tasks list.") );
+//            $mLog->log($idInstance, "error", __("Error while sending tasks list.") );
         } else {
-            $mLog->log( "info", __("Send tasks list by email") );
-
+//            $mLog->log($idInstance, "info", __("Send tasks list by email") );
         }
     }
     

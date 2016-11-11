@@ -83,8 +83,6 @@ App.WidgetTodos = App.Widget.extend({
             done = 1;
         }
 
-        //$todo.find('.check').addClass('done');
-
         var id = $todo.data('id'),
             id_instance = $todo.data('id-instance'),
             data = { 'id': id, 'done': done };

@@ -2,14 +2,20 @@
  * Created by eoto on 31/10/14.
  */
 App.Widget = Class.extend({
+    config: {
+        collapsible: true
+    },
+
     init: function(cssId) {
         this.cssId = cssId;
 
-        var $component = $('#' + this.cssId);
-        $component.find('.widget-expand').click(function() {
-            $component.find('.widget-body').slideToggle();
-            $(this).find('i').toggleClass('fa-chevron-down').toggleClass('fa-chevron-up');
-        });
+        if(this.config.collapsible) {
+            var $component = $('#' + this.cssId);
+            $component.find('.widget-expand').click(function() {
+                $component.find('.widget-body').slideToggle();
+                $(this).find('i').toggleClass('fa-chevron-down').toggleClass('fa-chevron-up');
+            });
+        }
     },
 
     onClick: function(selector, fn) {
@@ -24,6 +30,58 @@ App.Widget = Class.extend({
         });
     },
 
+    startLoading: function() {
+        var $component = $('#' + this.cssId);
+        $component.find('.widget-body').append('<div class="overlay"></div><div class="spinner"><div class="double-bounce1"></div><div class="double-bounce2"></div></div>');
+    },
+
+    stopLoading: function() {
+        var $component = $('#' + this.cssId);
+        $component.find('.overlay').remove();
+        $component.find('.spinner').remove();
+    },
+
+    compileTpl: function(params) {
+        var me = this,
+            tpl = null,
+            $appendTo = null,
+            data = (params.data ? params.data : {});
+
+        if(params.tplId) {
+            tpl = Handlebars.compile($("#"+ params.tplId).html());
+        } else {
+            console.error("tplId is necessary");
+        }
+
+        if(params.appendTo) {
+            $appendTo = ES.getJQueryObject(params.appendTo);
+        } else {
+            console.error("appendTo is necessary");
+        }
+
+        if(params.empty) {
+            $appendTo.empty();
+        }
+
+        $appendTo.append(tpl(data));
+    },
+
+    asyncCalls: function(params) {
+        var me = this;
+
+        if( ! params.calls instanceof Array) {
+            console.error("calls must be an Array");
+        }
+
+        $.when.apply($, params.calls).then(function() {
+            if(ES.isFunction(params.callback)) {
+                params.callback.apply(this, arguments);
+            } else {
+                console.error("callback must be an function");
+            }
+        });
+    },
+
     /**
      *
      * @param {Object} params
@@ -35,10 +93,10 @@ App.Widget = Class.extend({
      */
     ajax: function(params) {
         if( ! params.method ) {
-            params.method = 'POST';
+            params.method = 'GET';
         }
         // TODO Default values for success and fail methods
-        $.ajax({
+        return $.ajax({
             url: params.url,
             type: params.method,
             contentType: 'application/json',
@@ -132,27 +190,3 @@ App.Widget = Class.extend({
         });
     }
 });
-
-$(document).ready(function() {
-    $(".widget").each(function() {
-        var widget = WidgetList[$(this).attr('id')];
-        if( widget ) {
-            App.factory(WidgetList[$(this).attr('id')]);
-        }
-    });
-});
-
-
-
-
-/*App.WidgetLogs = App.Widget.extend({
-    init: function() {
-        this._super( 'widget-logs' );
-    }
-});
-
-App.WidgetLive = App.Widget.extend({
-    init: function() {
-        this._super( 'widget-live' );
-    }
-});*/

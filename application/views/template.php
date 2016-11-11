@@ -190,15 +190,25 @@
         };
         <?php } ?>
 
+        // TODO Find a better place to put this code
         var WidgetList = {
             'widget-form': App.WidgetForm,
             'widget-todos': App.WidgetTodos,
             'widget-waterTests': App.WidgetWaterTests,
             'widget-instances': App.WidgetInstances,
             'widget-history': App.WidgetHistory,
-            'widget-live': App.WidgetLive //,
-            //'widget-logs': 'WidgetLogs'
+            'widget-live': App.WidgetLive,
+            'widget-logs': App.WidgetLogs
         };
+
+        $(document).ready(function() {
+            $(".widget").each(function() {
+                var widget = WidgetList[$(this).attr('id')];
+                if( widget ) {
+                    App.factory(WidgetList[$(this).attr('id')]);
+                }
+            });
+        });
     </script>
 
 </body>

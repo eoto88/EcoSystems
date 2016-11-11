@@ -21,8 +21,6 @@ var highchartsOptions ={},
 };
 
 $(document).ready(function() {
-    //resizeMainSection();
-
     highchartsOptions.global =  {
         timezoneOffset: -4,
         useUTC: false
@@ -71,10 +69,6 @@ $(document).ready(function() {
         $(this).toggleClass('active');
         $('#left-panel').toggleClass('mobile-closed');
     });
-
-    //$( window ).resize(function() {
-    //    resizeMainSection();
-    //});
 });
 
 function getCurrentInstanceId() {
@@ -85,34 +79,11 @@ function isDashboard() {
     return window.location.pathname == '/';
 }
 
-//function resizeMainSection() {
-//    var winHeight = $( window ).height(),
-//        mainMinHeight = winHeight - 49,
-//        contentHeight = $('#content').height() + 80; /* Padding */
-//    if( mainMinHeight > contentHeight ) {
-//        $('#main').height( mainMinHeight );
-//    } else {
-//        $('#main').height( contentHeight );
-//    }
-//}
-
-function changeStatus(relayId, relayName, status) {
-    $("#"+ relayId +"_status").attr('title', relayName +' is '+ status);
-    if(status === "on") {
-        $("#"+ relayId +"_status").find('.status-icon').addClass(relayId +'-on');
-    } else {
-        $("#"+ relayId +"_status").find('.status-icon').removeClass(relayId +'-on');
-    }
-}
-
 var App = {
     factory: function (class_) {
         return new class_();
     }
 };
-
-
-
 
 
 /*  http://ejohn.org/blog/simple-javascript-inheritance/  */

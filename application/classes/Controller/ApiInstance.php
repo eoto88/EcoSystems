@@ -44,7 +44,7 @@ class Controller_ApiInstance extends Controller {
     }
 
     private function prepareLiveData($idInstance, $instance) {
-        $stillAliveStatus = $instance['still_alive'] ? "still-alive" : "dead";
+        $heartbeatStatus = $instance['heartbeat'] ? "heartbeat" : "dead"; // FIXME
         $pumpStatus = $instance['pump_on'] ? "on" : "off";
         $lightStatus = $instance['light_on'] ? "on" : "off";
         $fanStatus = $instance['fan_on'] ? "on" : "off";
@@ -52,7 +52,7 @@ class Controller_ApiInstance extends Controller {
 
         return array(
             'idInstance' => $idInstance,
-            'stillAliveStatus' => $stillAliveStatus,
+            'heartbeatStatus' => $heartbeatStatus,
             'lastCommunication' => $instance['last_communication'],
             'pumpStatus' => $pumpStatus,
             'lightStatus' => $lightStatus,
@@ -67,7 +67,7 @@ class Controller_ApiInstance extends Controller {
             $datetime = null;
 
             switch ($_POST['action']) {
-                case 'still-alive':
+                case 'heartbeat':
                     // Do nothing here!
                     break;
                 case 'data':
@@ -80,7 +80,7 @@ class Controller_ApiInstance extends Controller {
                     break;
                 case 'log':
                     $mLog = new Model_Log();
-                    $mLog->log(filter_input(INPUT_POST, 'type', FILTER_SANITIZE_SPECIAL_CHARS), filter_input(INPUT_POST, 'message', FILTER_SANITIZE_SPECIAL_CHARS));
+                    $mLog->log($idInstance, filter_input(INPUT_POST, 'type', FILTER_SANITIZE_SPECIAL_CHARS), filter_input(INPUT_POST, 'message', FILTER_SANITIZE_SPECIAL_CHARS));
 
                     break;
                 case 'pumpState':
@@ -90,7 +90,7 @@ class Controller_ApiInstance extends Controller {
                     $this->saveLightState($idInstance);
                     break;
             }
-            $this->stillAlive($idInstance);
+            $this->updateHeartbeat($idInstance);
         } else {
             throw new HTTP_Exception_403;
         }
@@ -101,9 +101,9 @@ class Controller_ApiInstance extends Controller {
         return $mInstance->getInstanceId($code);
     }
 
-    private function stillAlive($idInstance) {
+    private function updateHeartbeat($idInstance) {
         $mInstance = new Model_Instance();
-        $mInstance->updateStillAlive($idInstance);
+        $mInstance->updateHeartbeat($idInstance);
     }
 
     private function savePumpState($idInstance) {

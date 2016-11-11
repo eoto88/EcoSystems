@@ -7,7 +7,7 @@ class Controller_Rest_Instances extends Controller_REST {
         $mInstance = new Model_Instance();
 
         if( isset($id) ) {
-            echo json_encode( $mInstance->getInstance($id, $this->_user['id_user']) );
+            echo json_encode( array($mInstance->getInstance($id, $this->_user['id_user'])) );
         } else {
             echo json_encode( $mInstance->getInstances($this->_user['id_user']) );
         }

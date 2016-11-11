@@ -2,6 +2,8 @@
 
 class Controller_Rest_WaterTests extends Controller_REST {
 
+    protected $entityName = 'waterTest';
+
     public function action_index() {
         $id_instance = $this->request->param('id_instance');
         $id = $this->request->param('id');
@@ -10,8 +12,9 @@ class Controller_Rest_WaterTests extends Controller_REST {
         if( isset($id) ) {
             echo json_encode( $mWater->getWaterTest($id) );
         } else if( isset($id_instance) ) {
-            echo json_encode( $mWater->getWaterTests($id_instance) );
+            $this->respond( $mWater->getLastWaterTest($id_instance) );
         }
+        // TODO getWaterTests
     }
 
     public function action_update() {

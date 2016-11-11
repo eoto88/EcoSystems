@@ -48,10 +48,6 @@
                         'id_instance' => $toDo['id_instance'],
                         'title' => $title
                     ));
-
-//                    $edit = '<span class="actions"><i class="fa fa-pencil edit"></i><i class="fa fa-trash-o delete"></i></span>';
-//                    $title = '<span class="todo"><i class="fa fa-check-square-o check-icon"></i><span class="todo-title">'.$title.'</span></span>';
-//                    echo '<li data-id="'.$toDo['id'].'">'.$title.$edit.'<span class="clearfix"></span></li>';
                 }
             }
             ?>

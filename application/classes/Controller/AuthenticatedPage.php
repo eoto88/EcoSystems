@@ -24,11 +24,6 @@ class Controller_AuthenticatedPage extends Controller_Template {
         $this->instances = $mInstance->getInstances($this->user['id_user']);
     }
 
-    private function f_rand($min=0,$max=1,$mul=1000000){
-        if ($min>$max) return false;
-        return mt_rand($min*$mul,$max*$mul)/$mul;
-    }
-
     private function getAndSetCurrentInstanceId() {
         if( $this->request->param('id') ) {
             $id = $this->request->param('id');
@@ -98,15 +93,18 @@ class Controller_AuthenticatedPage extends Controller_Template {
 
     private function getScripts() {
         return array(
-            //"assets/js/plugins.js",
+            "assets/js/ES.js",
             "assets/js/widgets/form.js",
             "assets/js/widgets/history.js",
             "assets/js/widgets/waterTests.js",
             "assets/js/widgets/live.js",
+            "assets/js/widgets/logs.js",
             "assets/js/widgets/todos.js",
             "assets/js/widgets/instances.js",
             "assets/js/widget.js",
             "assets/js/main.js",
+            "assets/js/vendor/justgage.js",
+            "assets/js/vendor/raphael-2.1.4.min.js",
             "assets/js/vendor/handlebars-v2.0.0.js",
             "assets/js/vendor/bootstrap-dialog.js",
             "assets/js/vendor/bootstrap-datetimepicker.js",
@@ -116,6 +114,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
             "assets/js/vendor/jquery.populate.js",
             "http://code.highcharts.com/modules/exporting.js",
             "http://code.highcharts.com/stock/highstock.js", //"http://code.highcharts.com/highcharts.js"
+            "assets/js/vendor/salvattore.min.js"
         );
     }
 

@@ -152,7 +152,7 @@ Route::set('logout', 'logout')
         'controller' => 'login',
         'action' => 'logout',
     ));
-Route::set('rest-api-instances', 'api/instances/<id_instance>/<controller>(/<id>)', array('id_instance' => '[0-9]+', 'id' => '[0-9]+'))
+Route::set('rest-api-instances', 'api/instances(/<id_instance>)/<controller>(/<id>)', array('id_instance' => '[0-9]+', 'id' => '[0-9]+'))
     ->defaults(array(
         'directory' => 'rest',
         'action' => 'index',

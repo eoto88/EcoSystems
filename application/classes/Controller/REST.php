@@ -48,6 +48,8 @@ abstract class Controller_REST extends Controller {
 
     protected $_user;
 
+    protected $entityName = 'entity';
+
     /**
      * Checks the user authentication and the requested method against the available methods.
      * If the method is supported, sets the request action from the map. If not supported,
@@ -99,6 +101,13 @@ abstract class Controller_REST extends Controller {
     public function action_unauthorized() {
         // Send the "Method Not Allowed" response
         $this->response->status(401);
+    }
+
+    protected function respond($entities) {
+        echo json_encode(array(
+            'entityName' => $this->entityName,
+            'entities' => $entities
+        ));
     }
 
 } // End REST

@@ -31,17 +31,18 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $this->template->icon = 'fa-tachometer';
 
         $hWidgetInstances = new Helper_WidgetInstances();
-        $vInstances = $hWidgetInstances->getViewInstances($this->instances);
+        $vInstances = $hWidgetInstances->getViewInstances();
 
         $hWidgetTodos = new Helper_WidgetTodos();
         $vTodos = $hWidgetTodos->getView();
 
-        $mLog = new Model_Log();
+        $hWidgetLogs = new Helper_WidgetLogs();
+        $vLogs = $hWidgetLogs->getViewLogs();
 
         $dashboardData = array(
             'widget_instances'  => $vInstances,
             'widget_todos'      => $vTodos,
-            'logs'              => $mLog->getLastLogs()
+            'widget_logs'       => $vLogs
         );
 
         $view = View::factory( "dashboard" )->set($dashboardData);
@@ -83,11 +84,11 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         }
 
         $hWidgetInstances = new Helper_WidgetInstances();
-        $vInstances = $hWidgetInstances->getViewSingleInstance($this->currentInstanceId, $this->user['id_user']);
+        $vInstances = $hWidgetInstances->getViewSingleInstance($this->currentInstanceId);
         
         return array(
             'widget_instances'      => $vInstances,
-            'instance'              => $instance,
+//            'instance'              => $instance,
             'humidityData'          => $humidity,
             'roomTemperatureData'   => $roomTemperature,
             'tankTemperatureData'   => $tankTemperature,

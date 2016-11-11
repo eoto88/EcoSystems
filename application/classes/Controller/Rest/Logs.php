@@ -1,19 +1,21 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Rest_Data extends Controller_REST {
+class Controller_Rest_logs extends Controller_REST {
 
-    protected $entityName = 'data';
+    protected $entityName = 'log';
 
     public function action_index() {
         $id_instance = $this->request->param('id_instance');
         $id = $this->request->param('id');
-        $mData = new Model_Data();
+        $mLog = new Model_Log();
 
-        if( isset($id) ) {
+        if( ! empty($id_instance) && ! empty($id)) {
             // TODO
             //echo json_encode( $mData->getTodo($id) );
-        } else if( isset($id_instance) ) {
-            $this->respond( $mData->getLastData($id_instance) );
+        } else if( ! empty($id_instance)) {
+            $this->respond( $mLog->getInstanceLastLogs($id_instance) );
+        } else {
+            $this->respond( $mLog->getLastLogs($this->_user['id_user']) );
         }
     }
 
