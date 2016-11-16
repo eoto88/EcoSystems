@@ -115,7 +115,7 @@ App.WidgetInstances = App.Widget.extend({
                             }
 
                             if(instanceBodyData.data.tank_temperature) {
-                                me.createTankTemperatureGage();
+                                me.createTankTemperatureGage(instanceBodyData.data.tank_temperature);
                             } else {
                                 // TODO N/A
                             }
@@ -266,12 +266,12 @@ App.WidgetInstances = App.Widget.extend({
         });
     },
 
-    createTankTemperatureGage: function() {
+    createTankTemperatureGage: function(value) {
         var me = this;
 
         return me.createGage({
             id: "tankTemperatureGage",
-            value: instanceBodyData.data.tank_temperature,
+            value: value,
             minVal: 0,
             maxVal: 50,
             decimals: 1,
@@ -296,6 +296,8 @@ App.WidgetInstances = App.Widget.extend({
     },
 
     createPhGage: function(value) {
+        var me = this;
+
         me.createGage({
             id: "phGage",
             value: value,

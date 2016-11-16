@@ -13,7 +13,13 @@
         <ul id="unchecked-todos">
             <?php
             if( count($uncheckedTodos) ) {
+                $lastIdInstance = 0;
                 foreach( $uncheckedTodos as $toDo ) {
+                    if($lastIdInstance != $toDo['id_instance']) {
+                        $lastIdInstance = $toDo['id_instance'];
+                        echo '<li class="instance-group-title">'. $toDo['instance_title'] .'</li>';
+                    }
+
                     $title = $toDo['title'];
                     if( isset($toDo['instance_title']) ) {
                         $title .= ' ('.$toDo['instance_title'].')';
@@ -35,9 +41,16 @@
             (<span id="checked-todos-count"><?php echo count($checkedTodos) ?></span>)
         </h4>
         <ul id="checked-todos">
+            <li class="instance-group-title"></li>
             <?php
             if( count($checkedTodos) ) {
+                $lastIdInstance = 0;
                 foreach( $checkedTodos as $toDo ) {
+                    if($lastIdInstance != $toDo['id_instance']) {
+                        $lastIdInstance = $toDo['id_instance'];
+                        echo '<li class="instance-group-title">'. $toDo['instance_title'] .'</li>';
+                    }
+
                     $title = $toDo['title'];
                     if( isset($toDo['instance_title']) ) {
                         $title .= ' ('.$toDo['instance_title'].')';
