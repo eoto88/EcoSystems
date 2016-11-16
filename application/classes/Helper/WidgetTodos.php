@@ -2,11 +2,17 @@
 
 class Helper_WidgetTodos {
 
-    public function getView($id_instance = null) {
+    public function getView($id_user, $id_instance = null) {
         $hForm = new Helper_Form();
         $mTodo = new Model_Todo();
+        $mInstance = new Model_Instance();
         $config = Kohana::$config->load('app');
         $vTodos = null;
+
+        $selectInstanceValues = [];
+        foreach($mInstance->getInstances($id_user) as $key => $instance) {
+            $selectInstanceValues[$instance['id']] = $instance['title'];
+        }
 
         $form = $hForm->createForm(array(
             'name' => 'form-todo',
@@ -15,6 +21,12 @@ class Helper_WidgetTodos {
                 array(
                     'name' => 'id',
                     'type' => 'hidden'
+                ),
+                array(
+                    'type' => 'select',
+                    'values' => $selectInstanceValues,
+                    'name' => 'id_instance',
+                    'label' => __('Instance')
                 ),
                 array(
                     'name' => 'title',

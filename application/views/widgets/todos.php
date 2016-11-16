@@ -17,18 +17,13 @@
                 foreach( $uncheckedTodos as $toDo ) {
                     if($lastIdInstance != $toDo['id_instance']) {
                         $lastIdInstance = $toDo['id_instance'];
-                        echo '<li class="instance-group-title">'. $toDo['instance_title'] .'</li>';
-                    }
-
-                    $title = $toDo['title'];
-                    if( isset($toDo['instance_title']) ) {
-                        $title .= ' ('.$toDo['instance_title'].')';
+                        echo '<li class="instance-group-title" data-id="'. $toDo['id_instance'] .'">'. $toDo['instance_title'] .'</li>';
                     }
 
                     echo Str::format($todoLi, array(
                         'id' => $toDo['id'],
                         'id_instance' => $toDo['id_instance'],
-                        'title' => $title
+                        'title' => $toDo['title']
                     ));
                 }
             } else {
@@ -41,25 +36,19 @@
             (<span id="checked-todos-count"><?php echo count($checkedTodos) ?></span>)
         </h4>
         <ul id="checked-todos">
-            <li class="instance-group-title"></li>
             <?php
             if( count($checkedTodos) ) {
                 $lastIdInstance = 0;
                 foreach( $checkedTodos as $toDo ) {
                     if($lastIdInstance != $toDo['id_instance']) {
                         $lastIdInstance = $toDo['id_instance'];
-                        echo '<li class="instance-group-title">'. $toDo['instance_title'] .'</li>';
-                    }
-
-                    $title = $toDo['title'];
-                    if( isset($toDo['instance_title']) ) {
-                        $title .= ' ('.$toDo['instance_title'].')';
+                        echo '<li class="instance-group-title" data-id="'. $toDo['id_instance'] .'">'. $toDo['instance_title'] .'</li>';
                     }
 
                     echo Str::format($todoLiChecked, array(
                         'id' => $toDo['id'],
                         'id_instance' => $toDo['id_instance'],
-                        'title' => $title
+                        'title' => $toDo['title']
                     ));
                 }
             }

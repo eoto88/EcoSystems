@@ -21,7 +21,7 @@ App.WidgetTodos = App.Widget.extend({
             e.preventDefault();
 
             var $form = $(this),
-                id_instance = getCurrentInstanceId(),
+                id_instance = $form.find('[name="id_instance"]').val(),
                 url = BASE_URL + "api/instances/" + id_instance + "/todos/",
                 method = 'POST',
                 jsonTodo = $form.serializeFormJSON(),
@@ -42,13 +42,27 @@ App.WidgetTodos = App.Widget.extend({
                 success: function(data) {
                     var todoData = data.entities[0];
 
-                    if( isDashboard() ) {
-                        todoData.title += ' ('+ todoData.instance_title +')';
-                    }
-
                     if( newEntity ) {
                         var tmplNewTodo = Handlebars.compile( $("#new-todo-tmpl").html() );
-                        $("#unchecked-todos").append( tmplNewTodo(todoData) );
+
+                        if( isDashboard() ) {
+                            var $instanceGroup = $("#unchecked-todos").find('.instance-group-title[data-id="'+ todoData.id_instance +'"]');
+                            if($instanceGroup.length > 0) {
+                                var instanceTodos = $("#unchecked-todos").find('[data-id-instance="'+ todoData.id_instance +'"]');
+                                if(instanceTodos.length > 0) {
+                                    // If instance group is empty
+                                    instanceTodos.last().after( tmplNewTodo(todoData) );
+                                } else {
+                                    $instanceGroup.after( tmplNewTodo(todoData) );
+                                }
+                            } else {
+                                // If instance group doesn't exist
+                                $("#unchecked-todos").append('<li class="instance-group-title" data-id="'+ todoData.id_instance +'">'+ todoData.instance_title +'</li>');
+                                $("#unchecked-todos").append( tmplNewTodo(todoData) );
+                            }
+                        } else {
+                            $("#unchecked-todos").append( tmplNewTodo(todoData) );
+                        }
 
                         var $todo = $('#'+ me.cssId +' li[data-id='+ todoData.id +']');
 

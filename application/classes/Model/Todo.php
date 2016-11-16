@@ -17,7 +17,8 @@ class Model_Todo {
                 WHEN \"MONTH\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` MONTH)
                 END, 1, 0) AS checked
             FROM todo AS t
-            JOIN instance AS i ON i.id = t.id_instance;");
+            JOIN instance AS i ON i.id = t.id_instance
+            ORDER BY t.id_instance ASC;");
         return $query->execute()->as_array();
     }
 
@@ -50,6 +51,9 @@ class Model_Todo {
         $validation->rule('id_instance', 'not_empty')->rule('id_instance', 'digit');
         $validation->rule('title', 'not_empty')->rule('title', 'max_length', array(':value', '50'));
         $validation->rule('interval_value', 'not_empty')->rule('interval_value', 'digit');
+        $validation->rule('time_unit', 'not_empty')->rule('time_unit', 'max_length', array(':value', '25'));
+
+        // TODO Change time_unit id to String Ex: DAY
 
         if( $validation->check() ) {
 

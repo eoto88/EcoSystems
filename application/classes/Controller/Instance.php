@@ -98,7 +98,7 @@ class Controller_Instance extends Controller_AuthenticatedPage {
         // If the instance exists
         if( isset($instance) ) {
             $hWidgetTodos = new Helper_WidgetTodos();
-            $vTodos = $hWidgetTodos->getView($instance['id']);
+            $vTodos = $hWidgetTodos->getView($this->user['id_user'], $instance['id']);
             $instancesData['widget_todos'] = $vTodos;
         }
 

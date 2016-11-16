@@ -34,7 +34,7 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $vInstances = $hWidgetInstances->getViewInstances();
 
         $hWidgetTodos = new Helper_WidgetTodos();
-        $vTodos = $hWidgetTodos->getView();
+        $vTodos = $hWidgetTodos->getView($this->user['id_user']);
 
         $hWidgetLogs = new Helper_WidgetLogs();
         $vLogs = $hWidgetLogs->getViewLogs();

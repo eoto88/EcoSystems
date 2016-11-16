@@ -9,7 +9,12 @@ return array(
     'instance_types' => array(
         1 => 'Aquaponic',
         2 => 'Hydroponic',
-        3 => 'In pot'
+        3 => 'In pot',
+        4 => 'Aquarium'
+    ),
+    'time_units' => array(
+        1 => 'DAY',
+        2 => 'MONTH'
     )
 );
 
