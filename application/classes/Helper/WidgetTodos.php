@@ -80,7 +80,7 @@ class Helper_WidgetTodos {
                 '<li><a href="#" class="action-delete"><i class="fa fa-trash-o"></i>&nbsp;'. __('Delete') .'</a></li>'.
             '</ul></div>';
         $edit = '<span class="actions">'. $dropdown .'</span>';
-        $title = '<span class="todo"><i class="fa '. $icon .' check-icon"></i><span class="todo-title">{{title}}</span></span>';
-        return '<li class="todo" data-id="{{id}}" data-id-instance="{{id_instance}}">'.$title.$edit.'<span class="clearfix"></span></li>';
+        $title = '<span class="todo"><i class="fa '. $icon .' check-icon"></i><span class="todo-title">{{title}}</span>'.$edit.'</span>';
+        return '<li class="todo" data-id="{{id}}" data-id-instance="{{id_instance}}">'.$title.'<span class="clearfix"></span></li>';
     }
 }

@@ -461,22 +461,22 @@ form {
 /* **** Spinner - END **** */
 
 /* **** Switch - START **** */
-.icon-swicth .swicth {
+.icon-switch .switch {
   border-radius: 4px;
   -webkit-mask-box-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP…00VjRjMC0yLjIsMS44LTQsNC00aDcyYzIuMiwwLDQsMS44LDQsNFYyNXoiLz4NCjwvc3ZnPg0K) 0 0 stretch;
 }
 
-.icon-swicth .swicth>div {
+.icon-switch .switch>div {
   border-radius: 4px;
 }
 
-.icon-swicth-on>div {
+.icon-switch-on>div {
   margin-left: 0;
   -webkit-transition: margin-left .25s ease-out;
   transition: margin-left .25s ease-out;
 }
 
-.swicth {
+.switch {
   position: relative;
   display: inline-block;
   width: 50px;
@@ -495,7 +495,7 @@ form {
   -webkit-mask-box-image: url(data:image/svg+xml;b50pxase64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP…wxNC41LDBoNTFDNzMuNSwwLDgwLDYuNSw4MCwxNC41TDgwLDE0LjV6Ii8+DQo8L3N2Zz4NCg==) 0 0 stretch;
 }
 
-.swicth>div>span {
+.switch>div>span {
   z-index: 1;
   display: inline-block;
   width: 38px;
@@ -510,12 +510,12 @@ form {
   transition: box-shadow .25s ease-out;
 }
 
-.swicth>div>span>i {
+.switch>div>span>i {
   font-size: 22px;
   color: red;
 }
 
-.swicth>div {
+.switch>div {
   display: inline-block;
   width: 104px;
   border-radius: 30px;
@@ -523,17 +523,17 @@ form {
   transform: translate3d(0,0,0);
 }
 
-.icon-swicth .swicth .swicth-handle-on {
+.icon-switch .switch .switch-handle-on {
   text-indent: -5px;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
 
-.swicth-primary {
+.switch-primary {
   background-color: black;
 }
 
-.swicth-handle-on {
+.switch-handle-on {
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
 }
@@ -544,7 +544,7 @@ label {
   line-height: 2.3;
 }
 
-.swicth>div>label {
+.switch>div>label {
   position: absolute;
   top: 0;
   left: 0;
@@ -560,26 +560,26 @@ label {
   opacity: 0;
 }
 
-.icon-swicth .swicth .swicth-handle-off {
+.icon-switch .switch .switch-handle-off {
   text-indent: 5px;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
 
-.icon-swicth-on .swicth-primary~.swicth-handle-off {
+.icon-switch-on .switch-primary~.switch-handle-off {
   box-shadow: inset 16px 0 0 #34495e;
 }
 
-.swicth-default {
+.switch-default {
   color: #fff;
   background-color: #bdc3c7;
 }
 
-.icon-swicth .swicth .swicth-handle-off i {
+.icon-switch .switch .switch-handle-off i {
   color: white;
 }
 
-.icon-swicth .swicth .swicth-handle-off:before {
+.icon-switch .switch .switch-handle-off:before {
   border: none;
   border-top-left-radius: 0;
   border-top-right-radius: 2px;
@@ -587,19 +587,19 @@ label {
   border-bottom-left-radius: 0;
 }
 
-.swicth-primary~.swicth-handle-off:before {
+.switch-primary~.switch-handle-off:before {
   background-color: $brightYellow;
   border-color: #34495e;
 }
 
-.swicth-handle-off:before {
+.switch-handle-off:before {
   position: absolute;
   top: 0;
-  left: 28px;
+  left: 29px;
   z-index: 100;
   display: inline-block;
   width: 22px;
-  height: 29px;
+  height: 30px;
   padding: 0;
   text-align: center;
   vertical-align: top;
@@ -611,7 +611,7 @@ label {
   transition: border-color .25s ease-out,background-color .25s ease-out;
 }
 
-.swicth input[type=radio], .swicth input[type=checkbox] {
+.switch input[type=radio], .switch input[type=checkbox] {
   position: absolute!important;
   top: 0;
   left: 0;
@@ -621,20 +621,20 @@ label {
   opacity: 0;
 }
 
-.icon-swicth-off .swicth-handle-on~.swicth-handle-off.swicth-default {
+.icon-switch-off .switch-handle-on~.switch-handle-off.switch-default {
   box-shadow: inset 0 0 transparent,-16px 0 0 #bdc3c7;
 }
 
-.icon-swicth-off .swicth-handle-on~.swicth-handle-off.swicth-default:before {
+.icon-switch-off .switch-handle-on~.switch-handle-off.switch-default:before {
   background-color: #7f8c9a !important;
   border-color: #bdc3c7 !important;
 }
 
-.icon-swicth-off>div {
+.icon-switch-off>div {
   margin-left: -28px;
 }
 
-.icon-swicth .icon-swicth-off .swicth-handle-off:before {
+.icon-switch .icon-switch-off .switch-handle-off:before {
   border-top-left-radius: 2px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -738,90 +738,106 @@ label {
   .instance-body {
     margin-top: 10px;
     display: none;
+
+    .statusGage {
+
+      h5 {
+        text-align: center;
+
+        i {
+          font-size: 18px;
+        }
+      }
+
+      .gage {
+        height: 60px;
+        width: 100%;
+      }
+    }
   }
 
-  .icon-swicth.heartbeat-status {
-    .swicth-primary {
+  .icon-switch.heartbeat-status {
+    .switch-primary {
       background-color: $darkGreen;
     }
 
-    .swicth-primary~.swicth-handle-off:before {
+    .switch-primary~.switch-handle-off:before {
       background-color: $brightGreen;
     }
 
-    .swicth>div>span>i {
+    .switch>div>span>i {
       font-size: 22px;
       color: $brightGreen;
     }
 
-    .icon-swicth-off .swicth-default {
+    .icon-switch-off .switch-default {
       background-color: $brightRed;
     }
 
-    .icon-swicth-off .swicth-primary~.swicth-handle-off:before {
+    .icon-switch-off .switch-primary~.switch-handle-off:before {
       background-color: $darkRed !important;
     }
 
-    .swicth.icon-swicth-off>div>span>i {
+    .switch.icon-switch-off>div>span>i {
       font-size: 22px;
       color: $darkRed !important;
     }
 
-    .swicth .swicth-handle-off {
+    .switch .switch-handle-off {
       text-indent: 3px;
     }
   }
 
-  .icon-swicth.light-status {
-    .swicth-primary {
+  .icon-switch.light-status {
+    .switch-primary {
       background-color: $darkYellow;
     }
 
-    .swicth-primary~.swicth-handle-off:before {
+    .switch-primary~.switch-handle-off:before {
       background-color: $brightYellow;
     }
 
-    .swicth>div>span>i {
+    .switch>div>span>i {
       font-size: 22px;
       color: $brightYellow;
     }
   }
 
-  .icon-swicth.pump-status {
-    .swicth-primary {
+  .icon-switch.pump-status {
+    .switch-primary {
       background-color: $darkBlue;
     }
 
-    .swicth-primary~.swicth-handle-off:before {
+    .switch-primary~.switch-handle-off:before {
       background-color: $brightBlue;
     }
 
-    .swicth>div>span>i {
+    .switch>div>span>i {
       font-size: 22px;
       color: $brightBlue;
     }
   }
 
-  .icon-swicth.fan-status {
-    .swicth-primary {
+  .icon-switch.fan-status {
+    .switch-primary {
       background-color: $darkBlue;
     }
 
-    .swicth-primary~.swicth-handle-off:before {
+    .switch-primary~.switch-handle-off:before {
       background-color: $brightBlue;
     }
 
-    .swicth>div>span>i {
+    .switch>div>span>i {
       font-size: 20px;
       color: $brightBlue;
     }
 
-    .swicth .swicth-handle-off {
+    .switch .switch-handle-off {
       text-indent: 3px;
     }
   }
 
-  .icon-swicth .swicth.icon-swicth-off > div > span > i {
+  .icon-switch .switch.icon-switch-off > div > span > i {
     color: white;
   }
 
@@ -901,30 +917,25 @@ label {
         left: 12px;
         font-size: 20px;
       }
-      //    &:hover .check:before,
-      //    .check.done:before {
-      //      content: "\f046"!important;
-      //    }
       span {
         display: block;
       }
-      span.todo {
-        width: 90%;
-        float: left;
-      }
+      span.todo { }
       span span.todo-title {
         display: block;
         padding: 10px;
         margin-left: 40px;
+        margin-right: 40px;
         border-left: 3px double #FFE1EB;
+        border-right: 1px solid #e7e7e7;
       }
       span.actions {
+        position: absolute;
+        top: 0;
+        right: 5px;
         display: block;
         text-align: right;
-        width: 10%;
-        float: left;
         padding: 5px;
-        border-left: 1px solid #e7e7e7;
       }
       span.actions i {
         font-size: 18px;
@@ -944,6 +955,18 @@ label {
   #todo-form {
     display: none;
     margin: 5px 15px 15px 15px;
+
+    .close-form {
+      display: block;
+      width: 30px;
+      height: 32px;
+      position: relative;
+      float: right;
+      font-size: 111%;
+      line-height: 32px;
+      text-align: center;
+      margin-left: -10px;
+    }
 
     .widget-body {
       padding: 15px;

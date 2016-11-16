@@ -36,22 +36,51 @@
     <script type="text/x-handlebars-template" id="instance-body-tmpl">
         <div class="row">
             <div class="data-status col-xs-6 col-md-6 col-lg-6">
+                <div class="statusGage">
+                    <h5><i class="wi wi-humidity"></i> Humidity</h5>
+                    <div id="humidityGage" class="gage"></div>
+                </div>
+                <div class="statusGage">
+                    <h5><i class="wi wi-thermometer"></i> Room temperature</h5>
+                    <div id="roomTemperatureGage" class="gage"></div>
+                </div>
+                <div class="statusGage">
+                    <h5><i class="wi wi-thermometer"></i> Tank temperature</h5>
+                    <div id="tankTemperatureGage" class="gage"></div>
+                </div>
                 {{{dataStatus}}}
             </div>
             <div class="water-test-status col-xs-6 col-md-6 col-lg-6">
+                <div class="statusGage">
+                    <h5><i class="wi wi-thermometer"></i> pH</h5>
+                    <div id="phGage" class="gage"></div>
+                </div>
+                <div class="statusGage">
+                    <h5><i class="wi wi-thermometer"></i> Ammonia (NH<sub>3</sub>)</h5>
+                    <div id="ammoniaGage" class="gage"></div>
+                </div>
+                <div class="statusGage">
+                    <h5><i class="wi wi-thermometer"></i> Nitrite (NO<sub>2</sub>)</h5>
+                    <div id="nitriteGage" class="gage"></div>
+                </div>
+                <div class="statusGage">
+                    <h5><i class="wi wi-thermometer"></i> Nitrate (NO<sub>3</sub>)</h5>
+                    <div id="nitrateGage" class="gage"></div>
+                </div>
+
                 {{{waterTestStatus}}}
             </div>
         </div>
     </script>
     <script type="text/x-handlebars-template" id="icon-switch">
-        <span class="icon-swicth {{iconCls}}">
-            <div class="swicth swicth-wrapper icon-swicth-{{onOffStatus}}">
-                <div class="swicth-container">
-                    <span class="swicth-handle-on swicth-primary">
+        <span class="icon-switch {{iconCls}}">
+            <div class="switch switch-wrapper icon-switch-{{onOffStatus}}">
+                <div class="switch-container">
+                    <span class="switch-handle-on switch-primary">
                         <i class="{{onIconCls}}"></i>
                     </span>
-                    <label class="swicth-label">&nbsp;</label>
-                    <span class="swicth-handle-off swicth-default">
+                    <label class="switch-label">&nbsp;</label>
+                    <span class="switch-handle-off switch-default">
                         <i class="{{offIconCls}}"></i>
                     </span>
                     <input type="checkbox" checked="">

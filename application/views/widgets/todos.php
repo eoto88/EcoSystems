@@ -58,6 +58,7 @@
             <header role="heading">
                 <span class="widget-icon"><i class="fa fa-pencil fa-fw"></i></span>
                 <h2><?php echo __('Form ToDo') ?></h2>
+                <span class="close-form"><i class="fa fa-times"></i></span>
             </header>
             <div class="widget-body">
                 <?php echo $form; ?>

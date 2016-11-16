@@ -9,6 +9,8 @@ App.WidgetTodos = App.Widget.extend({
         me.onClick('#'+ me.cssId +' .action-delete', me.onDeleteTodoClick);
         me.onClick('#'+ me.cssId +' .btn-new-todo', me.onAddTodoClick);
 
+        me.onClick('#'+ me.cssId +' .close-form', me.onCloseFormClick);
+
         me.initFormSubmit();
     },
 
@@ -145,6 +147,12 @@ App.WidgetTodos = App.Widget.extend({
         me.emptyForm($form);
 
         $form.slideDown();
+    },
+
+    onCloseFormClick: function(event, element) {
+        var $form = $('#todo-form');
+
+        $form.slideUp();
     },
 
     /**

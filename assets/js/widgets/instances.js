@@ -36,92 +36,296 @@ App.WidgetInstances = App.Widget.extend({
                         data: instanceData
                     });
 
-                    var $instance = $component.find('li[data-id='+ instanceData.id +']');
-                    $instance.find('.instance-expand').click(function() {
-                        var deferredCalls = [],
-                            instanceBodyData = {},
-                            $instanceBody = $instance.find('.instance-body');
+                    var $instance = $('#'+ me.cssId).find('li[data-id='+ instanceData.id +']');
 
-                        $instanceBody.slideToggle();
-                        $(this).find('i').toggleClass('fa-chevron-circle-down').toggleClass('fa-chevron-circle-up');
-
-                        if($instanceBody.html() == "") {
-                            // TODO instance.type
-
-                            if(instanceData.monitored == "1") {
-
-                                //var gg1 = new JustGage({
-                                //    id: "gg1",
-                                //    value : 72.15,
-                                //    min: 0,
-                                //    max: 100,
-                                //    decimals: 2,
-                                //    gaugeWidthScale: 0.6,
-                                //    customSectors: [{
-                                //        color : "#00ff00",
-                                //        lo : 0,
-                                //        hi : 50
-                                //    },{
-                                //        color : "#ff0000",
-                                //        lo : 50,
-                                //        hi : 100
-                                //    }],
-                                //    counter: true
-                                //});
-
-                                deferredCalls.push(
-                                    me.ajax({
-                                        url: BASE_URL + "api/instances/"+ instanceData.id +"/data/"
-                                    })
-                                );
-                            }
-
-                            if(instanceData.water_tests == "1") {
-                                deferredCalls.push(
-                                    me.ajax({
-                                        url: BASE_URL + "api/instances/" + instanceData.id + "/WaterTests/"
-                                    })
-                                );
-                            }
-
-                            if(deferredCalls.length) {
-                                me.asyncCalls({
-                                    calls: deferredCalls,
-                                    callback: function() {
-                                        if (arguments.length) {
-                                            for (var i = 0; i < arguments.length; i++) {
-                                                var entityName = arguments[i][0].entityName;
-
-                                                if (entityName == 'data') {
-                                                    instanceBodyData.data = arguments[i][0].entities;
-                                                }
-
-                                                if (entityName == 'waterTest') {
-                                                    instanceBodyData.waterTest = arguments[i][0].entities;
-                                                }
-                                            }
-
-                                            me.compileTpl({
-                                                tplId: 'instance-body-tmpl',
-                                                appendTo: $instance.find('.instance-body'),
-                                                empty: true,
-                                                data: instanceBodyData
-                                            });
-                                        } else {
-                                            console.warn('no arguments...')
-                                        }
-                                    }
-                                });
-                            } else {
-                                // TODO No monitoring or water tests
-                            }
-                        } else {
-                            $instanceBody.empty();
-                        }
-                    });
+                    me.onClick($instance.find('.instance-expand'), me.onInstanceExpandClick, instanceData);
                 });
 
                 me.stopLoading();
+            }
+        });
+    },
+
+    onInstanceExpandClick: function(event, element) {
+        var me = event.data.context,
+            deferredCalls = [],
+            instanceData = event.data.entityData,
+            instanceBodyData = {},
+            $instance = $('#'+ me.cssId).find('li[data-id='+ instanceData.id +']'),
+            $instanceBody = $instance.find('.instance-body');
+
+        $instanceBody.slideToggle();
+        $(this).find('i').toggleClass('fa-chevron-circle-down').toggleClass('fa-chevron-circle-up');
+
+        if($instanceBody.html() == "") {
+            // TODO instance.type
+
+            if(instanceData.monitored == "1") {
+                deferredCalls.push(
+                    me.ajax({
+                        url: BASE_URL + "api/instances/"+ instanceData.id +"/data/"
+                    })
+                );
+            }
+
+            if(instanceData.water_tests == "1") {
+                deferredCalls.push(
+                    me.ajax({
+                        url: BASE_URL + "api/instances/" + instanceData.id + "/WaterTests/"
+                    })
+                );
+            }
+
+            if(deferredCalls.length) {
+                me.asyncCalls({
+                    calls: deferredCalls,
+                    callback: function() {
+                        if (arguments.length) {
+                            for (var i = 0; i < arguments.length; i++) {
+                                var entityName = arguments[i][0].entityName;
+
+                                if (entityName == 'data') {
+                                    instanceBodyData.data = arguments[i][0].entities;
+                                }
+
+                                if (entityName == 'waterTest') {
+                                    instanceBodyData.waterTest = arguments[i][0].entities;
+                                }
+                            }
+
+                            me.compileTpl({
+                                tplId: 'instance-body-tmpl',
+                                appendTo: $instance.find('.instance-body'),
+                                empty: true,
+                                data: instanceBodyData
+                            });
+
+                            // TODO datetime
+
+                            if(instanceBodyData.data.humidity) {
+                                me.createHumidityGage(instanceBodyData.data.humidity);
+                            } else {
+                                // TODO N/A
+                            }
+
+                            if(instanceBodyData.data.room_temperature) {
+                                me.createRoomTemperatureGage(instanceBodyData.data.room_temperature);
+                            } else {
+                                // TODO N/A
+                            }
+
+                            if(instanceBodyData.data.tank_temperature) {
+                                me.createTankTemperatureGage();
+                            } else {
+                                // TODO N/A
+                            }
+
+                            instanceBodyData.waterTest = {};
+                            instanceBodyData.waterTest.ph = 9.0;
+                            if(instanceBodyData.waterTest.ph) {
+                                me.createPhGage(instanceBodyData.waterTest.ph);
+                            } else {
+                                // TODO N/A
+                            }
+
+                            instanceBodyData.waterTest.ammonia = 9.0;
+                            if(instanceBodyData.waterTest.ammonia) {
+                                me.createGage({
+                                    id: "ammoniaGage",
+                                    value: instanceBodyData.waterTest.ammonia,
+                                    minVal: 0,
+                                    maxVal: 14,
+                                    decimals: 1,
+                                    symbol: '',
+                                    levelColors : [  "#e74c3c", "#e74c3c", "#2ecc71", "#e74c3c", "#e74c3c" ],
+                                    customSectors: {
+                                        ranges: [{
+                                            color : "#e74c3c",
+                                            lo : 0,
+                                            hi : 4.9
+                                        },{
+                                            color : "#e74c3c",
+                                            lo : 5,
+                                            hi : 6.4
+                                        },{
+                                            color : "#2ecc71",
+                                            lo : 6.5,
+                                            hi : 7.4
+                                        },{
+                                            color : "#e74c3c",
+                                            lo : 7.5,
+                                            hi : 8.5
+                                        },{
+                                            color : "#e74c3c",
+                                            lo : 8.6,
+                                            hi : 14
+                                        }]
+                                    }
+                                });
+                            }
+
+                        } else {
+                            // TODO What to do here?
+                            console.warn('no arguments...')
+                        }
+                    }
+                });
+            } else {
+                // TODO No monitoring or water tests
+            }
+        } else {
+            $instanceBody.empty();
+        }
+    },
+
+    createGage: function(params) {
+        return new JustGage({
+            id: params.id,
+            //title: params.title,
+            value: params.value,
+            min: params.minVal,
+            max: params.maxVal,
+            decimals: params.decimals,
+            symbol: params.symbol,
+            valueMinFontSize: 32,
+            valueFontColor: '#333',
+            valueFontFamily: "Open Sans",
+            minLabelMinFontSize: 14,
+            maxLabelMinFontSize: 14,
+            gaugeWidthScale: 0.2,
+            relativeGaugeSize: true,
+            pointer: true,
+            pointerOptions: {
+                toplength: -5,
+                bottomlength: 8,
+                bottomwidth: 4,
+                color: '#8e8e93'
+            },
+            levelColors: params.levelColors,
+            customSectors: params.customSectors,
+            counter: true
+        });
+    },
+
+    createHumidityGage: function(value) {
+        var me = this;
+
+        return me.createGage({
+            id: "humidityGage",
+            value: value,
+            minVal: 0,
+            maxVal: 100,
+            decimals: 1,
+            symbol: ' %',
+            levelColors : [  "#e74c3c", "#2ecc71", "#e74c3c" ],
+            customSectors: {
+                percents: true,
+                ranges: [{
+                    color : "#e74c3c",
+                    lo : 0,
+                    hi : 50
+                },{
+                    color : "#2ecc71",
+                    lo : 51,
+                    hi : 60
+                },{
+                    color : "#e74c3c",
+                    lo : 61,
+                    hi : 50
+                }]
+            }
+        });
+    },
+
+    createRoomTemperatureGage: function(value) {
+        var me = this;
+
+        return me.createGage({
+            id: "roomTemperatureGage",
+            value: value,
+            minVal: 0,
+            maxVal: 50,
+            decimals: 1,
+            symbol: ' °C',
+            levelColors : [  "#e74c3c", "#2ecc71", "#e74c3c" ],
+            customSectors: {
+                ranges: [{
+                    color : "#e74c3c",
+                    lo : 0,
+                    hi : 13
+                },{
+                    color : "#2ecc71",
+                    lo : 24,
+                    hi : 26
+                },{
+                    color : "#e74c3c",
+                    lo : 27,
+                    hi : 50
+                }]
+            }
+        });
+    },
+
+    createTankTemperatureGage: function() {
+        var me = this;
+
+        return me.createGage({
+            id: "tankTemperatureGage",
+            value: instanceBodyData.data.tank_temperature,
+            minVal: 0,
+            maxVal: 50,
+            decimals: 1,
+            symbol: ' °C',
+            levelColors : [  "#e74c3c", "#2ecc71", "#e74c3c" ],
+            customSectors: {
+                ranges: [{
+                    color : "#e74c3c",
+                    lo : 0,
+                    hi : 14
+                },{
+                    color : "#2ecc71",
+                    lo : 25,
+                    hi : 27
+                },{
+                    color : "#e74c3c",
+                    lo : 28,
+                    hi : 50
+                }]
+            }
+        });
+    },
+
+    createPhGage: function(value) {
+        me.createGage({
+            id: "phGage",
+            value: value,
+            minVal: 0,
+            maxVal: 14,
+            decimals: 1,
+            symbol: '',
+            levelColors : [  "#e74c3c", "#e74c3c", "#2ecc71", "#e74c3c", "#e74c3c" ],
+            customSectors: {
+                ranges: [{
+                    color : "#e74c3c",
+                    lo : 0,
+                    hi : 4.9
+                },{
+                    color : "#e74c3c",
+                    lo : 5,
+                    hi : 6.4
+                },{
+                    color : "#2ecc71",
+                    lo : 6.5,
+                    hi : 7.4
+                },{
+                    color : "#e74c3c",
+                    lo : 7.5,
+                    hi : 8.5
+                },{
+                    color : "#e74c3c",
+                    lo : 8.6,
+                    hi : 14
+                }]
             }
         });
     },
@@ -133,64 +337,30 @@ App.WidgetInstances = App.Widget.extend({
             success: function(data) {
                 $.each(data, function(key, instanceData) {
                     var $instance = $('#'+ me.cssId +' li[data-id='+ instanceData.id +']'),
-                        $heartbeat = $instance.find('.heartbeat'),
-                        $heartbeat_icon = $heartbeat.find('.status-icon'),
-                        $pump_status = $instance.find('.pump-status'),
-                        $pump_icon = $pump_status.find('.status-icon'),
-                        $light_status = $instance.find('.light-status'),
-                        $light_icon = $light_status.find('.status-icon');
+                        $heartbeatSwitch = $instance.find('.heartbeat'),
+                        $lightSwitch = $instance.find('.light-status'),
+                        $pumpSwitch = $instance.find('.pump-status'),
+                        $fanSwitch = $instance.find('.fan-status');
 
-                    if(instanceData.heartbeat == "1") {
-                        if($heartbeat_icon.hasClass('error')) {
-                            $heartbeat_icon.removeClass('error fa-exclamation-triangle').addClass('success fa-check');
-                        }
-                    } else {
-                        if($heartbeat_icon.hasClass('success')) {
-                            $heartbeat_icon.removeClass('success fa-check').addClass('error fa-exclamation-triangle');
-                        }
-                    }
-                    $heartbeat.attr('title', "Last communication: " + instanceData.last_communication);
-                    if(instanceData.pump_on == "1") {
-                        $pump_status.attr('title', "Pump is on");
-                        $pump_icon.addClass('pump-on');
-                    } else {
-                        $pump_icon.removeClass('pump-on');
-                        $pump_status.attr('title', "Pump is off");
-                    }
-                    if(instanceData.light_on == "1") {
-                        $light_status.attr('title', "Light is on");
-                        $light_icon.addClass('light-on');
-                    } else {
-                        $light_icon.removeClass('light-on');
-                        $light_status.attr('title', "Light is off");
-                    }
+                    me.updateSwitch($heartbeatSwitch, instanceData.heartbeat);
 
+                    me.updateSwitch($lightSwitch, instanceData.light_on);
+                    me.updateSwitch($pumpSwitch, instanceData.pump_on);
+                    me.updateSwitch($fanSwitch, instanceData.fan_on);
                 });
             }
-        //}).done(function(data) {
-        //    $.each(data, function(key, instance) {
-        //        var $instanceRow = $("#widget-instances li[data-id='" + instance.idInstance + "']");
-        //
-        //        var status;
-        //        if(instance.stillAliveStatus == "still-alive")
-        //            status = '<i class="fa fa-check success"></i>';
-        //        else
-        //            status = '<i class="fa fa-exclamation-triangle error"></i>';
-        //        $instanceRow.find("#still_alive").html(status).attr("title", I18n.lastCommunication + ": " + instance.lastCommunication);
-        //
-        //        me.changeStatus($instanceRow, 'pump', 'Pump', instance.pumpStatus);
-        //        me.changeStatus($instanceRow, 'light', 'Light', instance.lightStatus);
-        //        me.changeStatus($instanceRow, 'fan', 'Fan', instance.fanStatus);
-        //        me.changeStatus($instanceRow, 'heater', 'Heater', instance.heaterStatus);
-        //    });
         });
     },
-    changeStatus: function($instanceRow, relayId, relayName, status) {
-        $("#"+ relayId +"_status").attr('title', relayName +' is '+ status);
-        if(status === "on") {
-            $instanceRow.find("#"+ relayId +"_status .status-icon").addClass(relayId +'-on');
+
+    updateSwitch: function($switch, onOffStatus) {
+        if(onOffStatus == "1") {
+            if($switch.find('.switch-wrapper').hasClass('icon-switch-off')) {
+                $switch.find('.switch-wrapper').toggleClass('icon-switch-on').toggleClass('icon-switch-off');
+            }
         } else {
-            $instanceRow.find("#"+ relayId +"_status .status-icon").removeClass(relayId +'-on');
+            if($switch.find('.switch-wrapper').hasClass('icon-switch-on')) {
+                $switch.find('.switch-wrapper').toggleClass('icon-switch-on').toggleClass('icon-switch-off');
+            }
         }
     },
 
@@ -222,26 +392,6 @@ App.WidgetInstances = App.Widget.extend({
                 offIconCls: offIconCls
             });
         });
-
-        //Handlebars.registerHelper('relayStatus', function(relayId, relayName, status) {
-        //    var icon = '',
-        //        title = status == "1" ? relayName +" is on" : relayName +" is off",
-        //        cls = status == "1" ? relayId +"-on" : "";
-        //
-        //    switch (relayId) {
-        //        case 'pump':
-        //            icon = 'fa fa-tint';
-        //            break;
-        //        case 'light':
-        //            icon = 'fa fa-lightbulb-o';
-        //            break;
-        //        case 'fan':
-        //            icon = 'wi wi-cloudy-gusts';
-        //            break;
-        //    }
-        //
-        //    return '<span class="'+ relayId +'-status" title="'+ title +'"><i class="status-icon '+ icon +' '+ cls +'"></i></span>';
-        //});
 
         Handlebars.registerHelper('dataStatus', function() {
             var title = "Time: "+ this.data.datetime,

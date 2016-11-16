@@ -18,13 +18,16 @@ App.Widget = Class.extend({
         }
     },
 
-    onClick: function(selector, fn) {
+    onClick: function(selector, fn, data) {
         var me = this,
-            $element = (selector instanceof jQuery) ? selector : $(selector);
+            $element = (selector instanceof jQuery) ? selector : $(selector),
+            eventData = { context: me };
 
-        $element.on( "click", {
-            context: me
-        }, function(event) {
+        if(data) {
+            eventData.entityData = data;
+        }
+
+        $element.on( "click", eventData, function(event) {
             event.preventDefault();
             fn(event, this);
         });
