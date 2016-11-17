@@ -47,15 +47,16 @@ class Model_Todo {
     
     public function insertTodo($data) {
         $return = array();
+        $config = Kohana::$config->load('app');
         $validation = Validation::factory($data);
         $validation->rule('id_instance', 'not_empty')->rule('id_instance', 'digit');
         $validation->rule('title', 'not_empty')->rule('title', 'max_length', array(':value', '50'));
         $validation->rule('interval_value', 'not_empty')->rule('interval_value', 'digit');
-        $validation->rule('time_unit', 'not_empty')->rule('time_unit', 'max_length', array(':value', '25'));
-
-        // TODO Change time_unit id to String Ex: DAY
+        $validation->rule('time_unit', 'not_empty')->rule('time_unit', 'digit');
 
         if( $validation->check() ) {
+            // TODO Validate if time unit exist
+            $data['time_unit'] = $config['time_units'][$data['time_unit']];
 
             $query = DB::insert('todo', array(
                 'id_instance', 'title', 'time_unit', 'interval_value'
