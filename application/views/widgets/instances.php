@@ -73,7 +73,7 @@
         </div>
     </script>
     <script type="text/x-handlebars-template" id="icon-switch">
-        <span class="icon-switch {{iconCls}}">
+        <span class="icon-switch {{iconCls}}" data-toggle="popover" title="{{title}}" data-content="{{content}}">
             <div class="switch switch-wrapper icon-switch-{{onOffStatus}}">
                 <div class="switch-container">
                     <span class="switch-handle-on switch-primary">

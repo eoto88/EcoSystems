@@ -38,6 +38,12 @@ App.WidgetInstances = App.Widget.extend({
 
                     var $instance = $('#'+ me.cssId).find('li[data-id='+ instanceData.id +']');
 
+                    $instance.popover({
+                        selector: '[data-toggle=popover]',
+                        container: 'body',
+                        placement: 'top'
+                    });
+
                     me.onClick($instance.find('.instance-expand'), me.onInstanceExpandClick, instanceData);
                 });
 
@@ -370,25 +376,32 @@ App.WidgetInstances = App.Widget.extend({
         var me = this;
 
         Handlebars.registerHelper('iconSwitch', function(onOffStatus, cls) {
-            // TODO timestamp + tooltip
             var onIconCls,
-                offIconCls;
+                offIconCls,
+                title,
+                content = 'Last communication: ' + this.last_communication;
 
             if(cls == 'heartbeat-status') {
                 onIconCls = 'fa fa-check success';
                 offIconCls = 'fa fa-exclamation-triangle error';
+                title = 'Heartbeat status';
             } else if(cls == 'light-status') {
                 onIconCls = offIconCls = 'fa fa-lightbulb-o';
+                title = 'Light status';
             } else if(cls == 'pump-status') {
                 onIconCls = offIconCls = 'fa fa-tint';
+                title = 'Pump status';
             } else if(cls == 'fan-status') {
                 onIconCls = offIconCls = 'wi wi-cloudy-gusts';
+                title = 'Fan status';
             }
 
             var tpl = Handlebars.compile($("#icon-switch").html());
 
             return tpl({
                 iconCls: cls,
+                title: title,
+                content: content,
                 onOffStatus: (onOffStatus == "1" ? 'on' : 'off'),
                 onIconCls: onIconCls,
                 offIconCls: offIconCls
