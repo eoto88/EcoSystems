@@ -2,7 +2,6 @@
     <header role="heading">
         <span class="widget-icon"><i class="fa fa-check fa-fw "></i></span>
         <h2><?php echo __('ToDo\'s') ?></h2>
-        <span class="widget-expand"><i class="fa fa-chevron-down"></i></span>
     </header>
     <div class="widget-body">
         <h4>

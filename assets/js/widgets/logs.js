@@ -2,6 +2,12 @@
  * Created by eoto on 09/11/16.
  */
 App.WidgetLogs = App.Widget.extend({
+    // TODO Improve this
+    config: {
+        collapsible: true,
+        refreshable: true
+    },
+
     init: function() {
         var me = this;
         me._super('widget-logs');
@@ -11,6 +17,15 @@ App.WidgetLogs = App.Widget.extend({
         me.createLogs();
     },
 
+    refresh: function() {
+        var me = this,
+            $component = $('#'+ me.cssId);
+
+        $component.find('.widget-body').empty();
+
+        // TODO Improve this...
+        this.createLogs();
+    },
     createLogs: function() {
         var me = this,
             $component = $('#'+ me.cssId),

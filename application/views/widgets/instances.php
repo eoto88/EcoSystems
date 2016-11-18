@@ -2,7 +2,6 @@
     <header role="heading">
         <span class="widget-icon"><i class="fa fa-list-alt fa-fw "></i></span>
         <h2><?php echo __('Instances'); ?></h2>
-        <span class="widget-expand"><i class="fa fa-chevron-down"></i></span>
     </header>
     <div class="widget-body">
     </div>

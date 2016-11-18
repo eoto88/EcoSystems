@@ -3,17 +3,33 @@
  */
 App.Widget = Class.extend({
     config: {
-        collapsible: true
+        collapsible: true,
+        refreshable: false
     },
 
     init: function(cssId) {
         this.cssId = cssId;
+        var me = this,
+            $component = $('#' + this.cssId);
 
         if(this.config.collapsible) {
-            var $component = $('#' + this.cssId);
+            $component.find('header').append('<span class="widget-expand"><i class="fa fa-chevron-down"></i></span>');
+
             $component.find('.widget-expand').click(function() {
                 $component.find('.widget-body').slideToggle();
                 $(this).find('i').toggleClass('fa-chevron-down').toggleClass('fa-chevron-up');
+            });
+        }
+
+        if(this.config.refreshable) {
+            $component.find('header').append('<span class="widget-refresh"><i class="fa fa-refresh"></i></span>');
+
+            $component.find('.widget-refresh').click(function() {
+                if(ES.isFunction(me.refresh)) {
+                    me.refresh();
+                } else {
+                    console.warn('No refresh function found.');
+                }
             });
         }
     },

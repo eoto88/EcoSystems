@@ -1,4 +1,9 @@
 App.WidgetInstances = App.Widget.extend({
+    // TODO Improve this
+    config: {
+        collapsible: true,
+        refreshable: true
+    },
 
     init: function() {
         var me = this;
@@ -50,6 +55,11 @@ App.WidgetInstances = App.Widget.extend({
                 me.stopLoading();
             }
         });
+    },
+
+    refresh: function() {
+        // TODO Improve this...
+        this.refreshInstances();
     },
 
     onInstanceExpandClick: function(event, element) {
@@ -136,43 +146,30 @@ App.WidgetInstances = App.Widget.extend({
 
                             instanceBodyData.waterTest.ammonia = 9.0;
                             if(instanceBodyData.waterTest.ammonia) {
-                                me.createGage({
-                                    id: "ammoniaGage",
-                                    value: instanceBodyData.waterTest.ammonia,
-                                    minVal: 0,
-                                    maxVal: 14,
-                                    decimals: 1,
-                                    symbol: '',
-                                    levelColors : [  "#e74c3c", "#e74c3c", "#2ecc71", "#e74c3c", "#e74c3c" ],
-                                    customSectors: {
-                                        ranges: [{
-                                            color : "#e74c3c",
-                                            lo : 0,
-                                            hi : 4.9
-                                        },{
-                                            color : "#e74c3c",
-                                            lo : 5,
-                                            hi : 6.4
-                                        },{
-                                            color : "#2ecc71",
-                                            lo : 6.5,
-                                            hi : 7.4
-                                        },{
-                                            color : "#e74c3c",
-                                            lo : 7.5,
-                                            hi : 8.5
-                                        },{
-                                            color : "#e74c3c",
-                                            lo : 8.6,
-                                            hi : 14
-                                        }]
-                                    }
-                                });
+                                me.createAmmoniaGage(instanceBodyData.waterTest.ammonia);
+                            } else {
+                                // TODO N/A
+                            }
+
+                            instanceBodyData.waterTest.nitrite = 9.0;
+                            if(instanceBodyData.waterTest.nitrite) {
+                                me.createNitriteGage(instanceBodyData.waterTest.nitrite);
+                            } else {
+                                // TODO N/A
+                            }
+
+                            instanceBodyData.waterTest.nitrate = 9.0;
+                            if(instanceBodyData.waterTest.nitrate) {
+                                me.createNitrateGage(instanceBodyData.waterTest.nitrate);
+                            } else {
+                                // TODO N/A
                             }
 
                         } else {
                             // TODO What to do here?
+                            // <debug>
                             console.warn('no arguments...')
+                            // </debug>
                         }
                     }
                 });
@@ -306,6 +303,117 @@ App.WidgetInstances = App.Widget.extend({
 
         me.createGage({
             id: "phGage",
+            value: value,
+            minVal: 0,
+            maxVal: 14,
+            decimals: 1,
+            symbol: '',
+            levelColors : [  "#e74c3c", "#e74c3c", "#2ecc71", "#e74c3c", "#e74c3c" ],
+            customSectors: {
+                ranges: [{
+                    color : "#e74c3c",
+                    lo : 0,
+                    hi : 4.9
+                },{
+                    color : "#e74c3c",
+                    lo : 5,
+                    hi : 6.4
+                },{
+                    color : "#2ecc71",
+                    lo : 6.5,
+                    hi : 7.4
+                },{
+                    color : "#e74c3c",
+                    lo : 7.5,
+                    hi : 8.5
+                },{
+                    color : "#e74c3c",
+                    lo : 8.6,
+                    hi : 14
+                }]
+            }
+        });
+    },
+
+    createAmmoniaGage: function(value) {
+        var me = this;
+
+        return me.createGage({
+            id: "ammoniaGage",
+            value: value,
+            minVal: 0,
+            maxVal: 14,
+            decimals: 1,
+            symbol: '',
+            levelColors : [  "#e74c3c", "#e74c3c", "#2ecc71", "#e74c3c", "#e74c3c" ],
+            customSectors: {
+                ranges: [{
+                    color : "#e74c3c",
+                    lo : 0,
+                    hi : 4.9
+                },{
+                    color : "#e74c3c",
+                    lo : 5,
+                    hi : 6.4
+                },{
+                    color : "#2ecc71",
+                    lo : 6.5,
+                    hi : 7.4
+                },{
+                    color : "#e74c3c",
+                    lo : 7.5,
+                    hi : 8.5
+                },{
+                    color : "#e74c3c",
+                    lo : 8.6,
+                    hi : 14
+                }]
+            }
+        });
+    },
+
+    createNitriteGage: function(value) {
+        var me = this;
+
+        return me.createGage({
+            id: "nitriteGage",
+            value: value,
+            minVal: 0,
+            maxVal: 14,
+            decimals: 1,
+            symbol: '',
+            levelColors : [  "#e74c3c", "#e74c3c", "#2ecc71", "#e74c3c", "#e74c3c" ],
+            customSectors: {
+                ranges: [{
+                    color : "#e74c3c",
+                    lo : 0,
+                    hi : 4.9
+                },{
+                    color : "#e74c3c",
+                    lo : 5,
+                    hi : 6.4
+                },{
+                    color : "#2ecc71",
+                    lo : 6.5,
+                    hi : 7.4
+                },{
+                    color : "#e74c3c",
+                    lo : 7.5,
+                    hi : 8.5
+                },{
+                    color : "#e74c3c",
+                    lo : 8.6,
+                    hi : 14
+                }]
+            }
+        });
+    },
+
+    createNitrateGage: function(value) {
+        var me = this;
+
+        return me.createGage({
+            id: "nitrateGage",
             value: value,
             minVal: 0,
             maxVal: 14,

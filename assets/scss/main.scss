@@ -666,7 +666,9 @@ label {
       text-align: center;
       margin-right: -10px;
     }
-    .widget-expand {
+    .widget-expand,
+    .widget-refresh {
+      cursor: pointer;
       display: block;
       width: 30px;
       height: 32px;
@@ -676,6 +678,10 @@ label {
       line-height: 32px;
       text-align: center;
       margin-left: -10px;
+
+      &:hover {
+        color: #e7e7e7;
+      }
     }
 
     h2 {
@@ -717,9 +723,9 @@ label {
     border-bottom: 1px solid $light-grey;
     padding: 15px;
   }
-  li:hover {
-    background: $light-blue;
-  }
+  //li:hover {
+  //  background: $light-blue;
+  //}
 //  li i {
 //    font-size: 28px;
 //  }
@@ -728,11 +734,16 @@ label {
     padding-right: 25px;
     position: relative;
     margin-bottom: 10px;
-  }
 
-  h3 .instance-expand {
-    position: absolute;
-    right: 0;
+    a {
+      //color: #333;
+    }
+
+    .instance-expand {
+      position: absolute;
+      right: 0;
+      //color: #60747C;
+    }
   }
 
   .instance-body {
