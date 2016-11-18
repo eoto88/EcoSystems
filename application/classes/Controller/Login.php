@@ -35,6 +35,10 @@ class Controller_Login extends Controller_Template {
     }
 
     public function action_index() {
+        if ( Auth::instance()->logged_in()) {
+            HTTP::redirect(URL::base(TRUE, TRUE));
+        }
+
         $post = $this->request->post();
         $messages = null;
         if ($post && $post['action']) {
@@ -49,8 +53,13 @@ class Controller_Login extends Controller_Template {
                 }
             }
 
+            $remember = false;
+            if(isset($post['remember'])) {
+                $remember = true;
+            }
+
             if( !$messages ) {
-                $success = Auth::instance()->login($post['username'], $post['password']);
+                $success = Auth::instance()->login($post['username'], $post['password'], $remember);
 
                 if ($success) {
                     HTTP::redirect(URL::base(TRUE, TRUE));

@@ -50,6 +50,9 @@
                 <label for="show-password" title="Show Password">Show</label>
             </div>
         </div>
+        <div class="form-field">
+            <input type="checkbox" id="remember-me" name="remember" role="checkbox" aria-checked="false" value="true" />&nbsp;Remember me<br />
+        </div>
         <input type="submit" value="Sign in" />&nbsp;or <a href="javascript:void(0)" id="link-create-account">Create an account</a>
     </form>
 </div>
