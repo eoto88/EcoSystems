@@ -18,7 +18,7 @@ class Model_Todo {
                 END, 1, 0) AS checked
             FROM todo AS t
             JOIN instance AS i ON i.id = t.id_instance
-            ORDER BY t.id_instance ASC;");
+            ORDER BY t.id_instance ASC, i.title ASC;");
         return $query->execute()->as_array();
     }
 
@@ -83,11 +83,16 @@ class Model_Todo {
 
         if( $validation->check() ) {
 
-            $query = DB::update('todo')->set(array(
+            $updateData = array(
                 'title' => $data['title'],
-                'time_unit' => $data['time_unit'],
                 'interval_value' => $data['interval_value']
-            ))->where('id', '=', $data['id']);
+            );
+
+            if(isset($data['time_unit'])) {
+                $updateData['time_unit'] = $data['time_unit'];
+            }
+
+            $query = DB::update('todo')->set($updateData)->where('id', '=', $data['id']);
             $query->execute();
 
             $return['success'] = true;

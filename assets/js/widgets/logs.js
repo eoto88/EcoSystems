@@ -33,7 +33,12 @@ App.WidgetLogs = App.Widget.extend({
                 if(data.entities.length == 0) {
                     $component.find('.widget-body ul').append('<li id="no-logs">No logs</li>');
                 } else {
+                    var lastIdInstance = 0;
                     $.each(data.entities, function(key, logData) {
+                        if(logData.id_instance != lastIdInstance) {
+                            lastIdInstance = logData.id_instance;
+                            $component.find('.widget-body ul').append('<li><h4>'+ logData.instance_title +'</h4></li>');
+                        }
                         me.compileTpl({
                             tplId: 'log-tmpl',
                             appendTo: $component.find('.widget-body ul'),

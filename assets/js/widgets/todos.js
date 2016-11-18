@@ -45,24 +45,12 @@ App.WidgetTodos = App.Widget.extend({
                     if( newEntity ) {
                         var tmplNewTodo = Handlebars.compile( $("#new-todo-tmpl").html() );
 
-                        if( isDashboard() ) {
-                            var $instanceGroup = $("#unchecked-todos").find('.instance-group-title[data-id="'+ todoData.id_instance +'"]');
-                            if($instanceGroup.length > 0) {
-                                var instanceTodos = $("#unchecked-todos").find('[data-id-instance="'+ todoData.id_instance +'"]');
-                                if(instanceTodos.length > 0) {
-                                    // If instance group is empty
-                                    instanceTodos.last().after( tmplNewTodo(todoData) );
-                                } else {
-                                    $instanceGroup.after( tmplNewTodo(todoData) );
-                                }
-                            } else {
-                                // If instance group doesn't exist
-                                $("#unchecked-todos").append('<li class="instance-group-title" data-id="'+ todoData.id_instance +'">'+ todoData.instance_title +'</li>');
-                                $("#unchecked-todos").append( tmplNewTodo(todoData) );
-                            }
-                        } else {
-                            $("#unchecked-todos").append( tmplNewTodo(todoData) );
-                        }
+                        me.addTodoInList({
+                            checked: false,
+                            id_instance: todoData.id_instance,
+                            instance_title: todoData.instance_title,
+                            todo: tmplNewTodo(todoData)
+                        });
 
                         var $todo = $('#'+ me.cssId +' li[data-id='+ todoData.id +']');
 
@@ -92,6 +80,7 @@ App.WidgetTodos = App.Widget.extend({
      */
     onCheckTodoClick: function(event, element) {
         var me = event.data.context,
+            $component = $('#'+ me.cssId),
             $todo = $(element).closest('li.todo'),
             done = 0;
 
@@ -110,22 +99,14 @@ App.WidgetTodos = App.Widget.extend({
             success: function(data) {
                 $todo.animate({'height': 0, 'opacity': 0}, 500, function() {
                     $todo = $(this).detach();
+                    var id_instance = $todo.data('id-instance');
                     $todo.find('.check-icon').toggleClass('fa-square-o').toggleClass('fa-check-square-o');
-                    var $listTo = null;
-                    if( done == 1 ) {
-                        $listTo = $("#checked-todos");
-                    } else {
-                        if( $('#no-todo') ) {
-                            $('#no-todo').animate({'height': 0, 'opacity': 0}, 500, function() {
-                                $(this).remove();
-                            });
-                        }
-                        $listTo = $("#unchecked-todos");
-                    }
 
-                    $listTo.append($todo);
-                    $todo.animate({'height': '100%', 'opacity': 1}, 500, function() {
-                        me.updateTodoCounts();
+                    me.addTodoInList({
+                        checked: (done == 1),
+                        id_instance: id_instance,
+                        instance_title: 'Test bla bla bla', // TODO Comment trouver instance_title ?
+                        todo: $todo
                     });
                 });
             }
@@ -231,6 +212,60 @@ App.WidgetTodos = App.Widget.extend({
                     dialog.close();
                 }
             }]
+        });
+    },
+
+    /**
+     * Function to add a todo in a list
+     *
+     * @param params    Parameters object
+     * @param params.checked    true is checked list or false for unchecked list
+     * @param params.id_instance    Todo instance id
+     * @param params.instance_title Todo instance title
+     * @param params.todo   Todo element
+     */
+    addTodoInList: function(params) {
+        var me = this,
+            $list,
+            $todo = ES.getJQueryObject(params.todo);
+
+        $todo.css({
+            height: 0,
+            opacity: 0
+        });
+
+        if(params.checked) {
+            $list = $("#checked-todos");
+        } else {
+            $list = $("#unchecked-todos");
+        }
+
+        if( isDashboard() ) {
+            var $instanceGroup = $list.find('.instance-group-title[data-id="'+ params.id_instance +'"]');
+            if($instanceGroup.length > 0) {
+                // Get all todos in the group
+                var instanceTodos = $list.find('[data-id-instance="'+ params.id_instance +'"]');
+                if(instanceTodos.length > 0) {
+                    // If instance group is empty
+                    instanceTodos.last().after( params.todo );
+                } else {
+                    $instanceGroup.after( params.todo );
+                }
+            } else {
+                // If instance group doesn't exist
+                $list.append('<li class="instance-group-title" data-id="'+ params.id_instance +'">'+ params.instance_title +'</li>');
+                $list.append( $todo );
+            }
+            if( $list.find('#no-todo') ) {
+                $list.find('#no-todo').animate({'height': 0, 'opacity': 0}, 500, function() {
+                    $(this).remove();
+                });
+            }
+        } else {
+            $list.append( params.todo );
+        }
+        $todo.animate({'height': '100%', 'opacity': 1}, 500, function() {
+            me.updateTodoCounts();
         });
     }
 });

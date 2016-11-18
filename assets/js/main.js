@@ -71,10 +71,12 @@ $(document).ready(function() {
     });
 });
 
+// TODO ES.getCurrentInstanceId
 function getCurrentInstanceId() {
     return $('#dropdown-instances .active').data('id');
 }
 
+// TODO ES.isDashboard
 function isDashboard() {
     return window.location.pathname == '/';
 }
