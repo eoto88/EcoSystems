@@ -31,7 +31,7 @@
     <script type="text/x-handlebars-template" id="gage-tmpl">
         <div class="statusGage">
             <h5><i class="{{iconCls}}"></i> {{{title}}}</h5>
-            <div id="{{gageId}}" class="gage"></div>
+            <div id="{{gageId}}" class="gage {{gageCls}}"></div>
         </div>
     </script>
     <script type="text/x-handlebars-template" id="icon-switch-tmpl">

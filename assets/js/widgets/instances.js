@@ -11,6 +11,7 @@ App.WidgetInstances = App.Widget.extend({
         me._super( 'widget-instances' );
 
         me.gagesCount = 0;
+        me.gages = [];
 
         me.registerHelpers();
 
@@ -73,6 +74,7 @@ App.WidgetInstances = App.Widget.extend({
             success: function(data) {
                 $.each(data, function(key, instanceData) {
                     var $instance = $('#'+ me.cssId +' li[data-id='+ instanceData.id +']'),
+                        $instanceBody = $instance.find('.instance-body'),
                         $heartbeatSwitch = $instance.find('.heartbeat-status'),
                         $lightSwitch = $instance.find('.light-status'),
                         $pumpSwitch = $instance.find('.pump-status'),
@@ -83,8 +85,123 @@ App.WidgetInstances = App.Widget.extend({
                     me.updateSwitch($pumpSwitch, instanceData.pump_on);
                     me.updateSwitch($fanSwitch, instanceData.fan_on);
 
-                    if( ! $instance.find('.instance-body').empty()) {
+                    if($instanceBody.html() != "") {
+                        var deferredCalls = [],
+                            instanceBodyData = {};
+
+                        if(instanceData.monitored == "1") {
+                            deferredCalls.push(
+                                me.ajax({
+                                    url: BASE_URL + "api/instances/"+ instanceData.id +"/data/"
+                                })
+                            );
+                        }
+
+                        if(instanceData.water_tests == "1") {
+                            deferredCalls.push(
+                                me.ajax({
+                                    url: BASE_URL + "api/instances/" + instanceData.id + "/WaterTests/"
+                                })
+                            );
+                        }
+
                         // .statusGage
+
+                        if(deferredCalls.length) {
+                            me.asyncCalls({
+                                calls: deferredCalls,
+                                callback: function() {
+                                    for (var i = 0; i < arguments.length; i++) {
+                                        var entityName = arguments[i][0].entityName;
+
+                                        if (entityName == 'data') {
+                                            instanceBodyData.data = arguments[i][0].entities;
+                                        }
+
+                                        if (entityName == 'waterTest') {
+                                            instanceBodyData.waterTest = arguments[i][0].entities;
+                                        }
+                                    }
+
+                                    // TODO datetime
+
+                                    if(instanceBodyData.data.room_temperature) {
+                                        var gage = me.getGage($instanceBody.find('.statusGage .roomTemperature').attr('id'));
+                                        if(gage.config.value != instanceBodyData.data.room_temperature) {
+                                            gage.refresh(instanceBodyData.data.room_temperature);
+                                        }
+                                    } else {
+                                        // TODO N/A
+                                    }
+
+                                    if(instanceBodyData.data.tank_temperature) {
+                                        var gage = me.getGage($instanceBody.find('.statusGage .tankTemperature').attr('id'));
+                                        if(gage.config.value != instanceBodyData.data.tank_temperature) {
+                                            gage.refresh(instanceBodyData.data.tank_temperature);
+                                        }
+                                    } else {
+                                        // TODO N/A
+                                    }
+
+                                    if(instanceBodyData.data.humidity) {
+                                        var gage = me.getGage($instanceBody.find('.statusGage .humidity').attr('id'));
+                                        if(gage.config.value != instanceBodyData.data.humidity) {
+                                            gage.refresh(instanceBodyData.data.humidity);
+                                        }
+                                    } else {
+                                        // TODO N/A
+                                    }
+
+                                    instanceBodyData.data.water_level = 70;
+                                    if(instanceBodyData.data.water_level) {
+                                        var gage = me.getGage($instanceBody.find('.statusGage .waterLevel').attr('id'));
+                                        if(gage.config.value != instanceBodyData.data.water_level) {
+                                            gage.refresh(instanceBodyData.data.water_level);
+                                        }
+                                    } else {
+                                        // TODO N/A
+                                    }
+
+                                    if(instanceBodyData.waterTest.ph) {
+                                        var gage = me.getGage($instanceBody.find('.statusGage .ph').attr('id'));
+                                        if(gage.config.value != instanceBodyData.waterTest.ph) {
+                                            gage.refresh(instanceBodyData.waterTest.ph);
+                                        }
+                                    } else {
+                                        // TODO N/A
+                                    }
+
+                                    if(instanceBodyData.waterTest.ammonia) {
+                                        var gage = me.getGage($instanceBody.find('.statusGage .ammonia').attr('id'));
+                                        if(gage.config.value != instanceBodyData.waterTest.ammonia) {
+                                            gage.refresh(instanceBodyData.waterTest.ammonia);
+                                        }
+                                    } else {
+                                        // TODO N/A
+                                    }
+
+                                    if(instanceBodyData.waterTest.nitrite) {
+                                        var gage = me.getGage($instanceBody.find('.statusGage .nitrite').attr('id'));
+                                        if(gage.config.value != instanceBodyData.waterTest.nitrite) {
+                                            gage.refresh(instanceBodyData.waterTest.nitrite);
+                                        }
+                                    } else {
+                                        // TODO N/A
+                                    }
+
+                                    if(instanceBodyData.waterTest.nitrate) {
+                                        var gage = me.getGage($instanceBody.find('.statusGage .nitrate').attr('id'));
+                                        if(gage.config.value != instanceBodyData.waterTest.nitrate) {
+                                            gage.refresh(instanceBodyData.waterTest.nitrate);
+                                        }
+                                    } else {
+                                        // TODO N/A
+                                    }
+                                }
+                            });
+                        } else {
+                            // TODO No monitoring or water tests
+                        }
                     }
                 });
 
@@ -214,6 +331,7 @@ App.WidgetInstances = App.Widget.extend({
                 // TODO No monitoring or water tests
             }
         } else {
+            // TODO destroy gages
             $instanceBody.empty();
         }
     },
@@ -227,11 +345,12 @@ App.WidgetInstances = App.Widget.extend({
 
         $appendTo.append(gageTpl({
             gageId: "gage-"+ me.gagesCount,
+            gageCls: params.gageId,
             iconCls: params.iconCls,
             title: params.title
         }));
 
-        return new JustGage({
+        me.gages["gage-"+ me.gagesCount] = new JustGage({
             id: "gage-"+ me.gagesCount, // params.id, //
             //title: params.title,
             value: params.value,
@@ -259,6 +378,11 @@ App.WidgetInstances = App.Widget.extend({
         });
     },
 
+    getGage: function(id) {
+        var me = this;
+        return me.gages[id];
+    },
+
     createRoomTemperatureGage: function($instance, value) {
         var me = this;
 
@@ -266,6 +390,7 @@ App.WidgetInstances = App.Widget.extend({
             appendTo: $instance.find('.data-status'),
             iconCls: 'wi wi-thermometer',
             title: 'Room temperature',
+            gageId: 'roomTemperature',
             value: value,
             minVal: 0,
             maxVal: 50,
@@ -297,6 +422,7 @@ App.WidgetInstances = App.Widget.extend({
             appendTo: $instance.find('.data-status'),
             iconCls: 'wi wi-thermometer',
             title: 'Tank temperature',
+            gageId: 'tankTemperature',
             value: value,
             minVal: 0,
             maxVal: 50,
@@ -328,6 +454,7 @@ App.WidgetInstances = App.Widget.extend({
             appendTo: $instance.find('.data-status'),
             iconCls: 'wi wi-humidity',
             title: 'Humidity',
+            gageId: 'humidity',
             value: value,
             minVal: 0,
             maxVal: 100,
@@ -360,6 +487,7 @@ App.WidgetInstances = App.Widget.extend({
             appendTo: $instance.find('.data-status'),
             iconCls: 'wi wi-humidity',
             title: 'Water level',
+            gageId: 'waterLevel',
             value: value,
             minVal: 0,
             maxVal: 100,
@@ -392,6 +520,7 @@ App.WidgetInstances = App.Widget.extend({
             appendTo: $instance.find('.water-test-status'),
             iconCls: 'fa fa-flask',
             title: 'pH',
+            gageId: 'ph',
             value: value,
             minVal: 0,
             maxVal: 14,
@@ -431,6 +560,7 @@ App.WidgetInstances = App.Widget.extend({
             appendTo: $instance.find('.water-test-status'),
             iconCls: 'fa fa-flask',
             title: 'Ammonia (NH<sub>3</sub>)',
+            gageId: 'ammonia',
             value: value,
             minVal: 0,
             maxVal: 7.5,
@@ -470,6 +600,7 @@ App.WidgetInstances = App.Widget.extend({
             appendTo: $instance.find('.water-test-status'),
             iconCls: 'fa fa-flask',
             title: 'Nitrite (NO<sub>2</sub>)',
+            gageId: 'nitrite',
             value: value,
             minVal: 0,
             maxVal: 3.3,
@@ -509,6 +640,7 @@ App.WidgetInstances = App.Widget.extend({
             appendTo: $instance.find('.water-test-status'),
             iconCls: 'fa fa-flask',
             title: 'Nitrate (NO<sub>3</sub>)',
+            gageId: 'nitrate',
             value: value,
             minVal: 0,
             maxVal: 110,
