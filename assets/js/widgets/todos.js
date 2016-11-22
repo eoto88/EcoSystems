@@ -72,6 +72,12 @@ App.WidgetTodos = App.Widget.extend({
         });
     },
 
+    scrollToForm: function() {
+        $('html, body').animate({
+            scrollTop: ($("#todo-form form").offset().top - 130)
+        }, 1500);
+    },
+
     /**
      * Function called when checkbox icon is clicked
      *
@@ -142,6 +148,8 @@ App.WidgetTodos = App.Widget.extend({
         me.emptyForm($form);
 
         $form.slideDown();
+
+        me.scrollToForm();
     },
 
     onCloseFormClick: function(event, element) {
@@ -164,6 +172,8 @@ App.WidgetTodos = App.Widget.extend({
             url = BASE_URL + "api/instances/" + id_instance + "/todos/" + id;
 
         $('#todo-form').slideDown();
+
+        me.scrollToForm();
 
         $.getJSON(url, function(data) {
             $('#todo-form form').populate(data[0]);

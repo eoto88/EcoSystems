@@ -127,11 +127,6 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
                 'x' => $datetime,
                 'y' => floatval($row['avg_humidity'])
             );
-
-//            $datetime = strtotime($row['date']) * 1000;
-//            $roomTemperatureHistory[] = array($datetime, floatval($row['avg_room_temp']));
-//            $tankTemperatureHistory[] = array($datetime, floatval($row['avg_tank_temp']));
-//            $humidityHistory[] = array($datetime, floatval($row['avg_humidity']));
         }
         
         return array(
@@ -145,13 +140,12 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         $this->template->title = __('ToDo\'s');
         $this->template->icon = 'fa-check';
 
-        $config = Kohana::$config->load('app');
-
+        $mInstanceType = new Model_InstanceType();
         $mTodo = new Model_Todo();
 
         $instancesData = array(
             'toDos' => array(), //$mTodo->getTodos(),
-            'instance_types' => $config['instance_types']
+            'instance_types' => $mInstanceType->getInstanceTypes()
         );
 
         $view = View::factory( "todos" )->set( $instancesData );;

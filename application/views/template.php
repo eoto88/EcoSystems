@@ -30,7 +30,7 @@
     <div id="header-container">
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <h1 id="logo">EcoSystem</h1>
+                <h1 id="logo">EcoSystems</h1>
                 <span id="mobile-menu-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
             </div>
             <div class="col-xs-12 col-sm- col-md-6 col-lg-6">

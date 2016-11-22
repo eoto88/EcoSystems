@@ -9,16 +9,24 @@ class Model_Instance {
     }
 
     public function getInstance($idInstance, $id_user) {
-        $query = DB::select('*')->from('instance')->where('id', '=', $idInstance)->and_where('id_user', '=', $id_user);
+        $query = DB::query(Database::SELECT, "SELECT instance.id, code, instance.title, instance_type.title AS instance_type, type, last_communication, pump_on, light_on, fan_on, monitored, water_tests, DATE_SUB(NOW(),INTERVAL 1 MINUTE) <= last_communication AS heartbeat ".
+            "FROM instance ".
+            "JOIN instance_type ON type = instance_type.id ".
+            "WHERE id_user = :id_user ".
+            "AND instance.id = :id_instance");
+        $query->param(':id_instance', $idInstance);
+        $query->param(':id_user', $id_user);
         return $query->execute()->current();
     }
 
     public function getInstances($id_user) {
         $query = DB::query(Database::SELECT,
-            "SELECT id, title, type, last_communication, pump_on, light_on, fan_on, heater_on, monitored, water_tests, DATE_SUB(NOW(),INTERVAL 1 MINUTE) <= last_communication AS heartbeat ".
+            "SELECT instance.id, instance.title, instance_type.title AS instance_type, type, last_communication, pump_on, light_on, fan_on, monitored, water_tests, DATE_SUB(NOW(),INTERVAL 1 MINUTE) <= last_communication AS heartbeat ".
             "FROM instance ".
-            "WHERE id_user = ". $id_user
+            "JOIN instance_type ON type = instance_type.id ".
+            "WHERE id_user = :id_user"
         );
+        $query->param(':id_user', $id_user);
         return $query->execute()->as_array();
     }
 

@@ -12,7 +12,8 @@ class Controller_Instance extends Controller_AuthenticatedPage {
         $this->template->icon = 'fa-list-alt';
         $mInstance = new Model_Instance();
         $instance = null;
-        $config = Kohana::$config->load('app');
+        $mInstanceType = new Model_InstanceType();
+        $instanceTypes = $mInstanceType->getInstanceTypes();
         $post = $this->request->post();
         $hForm = new Helper_Form();
 
@@ -23,7 +24,6 @@ class Controller_Instance extends Controller_AuthenticatedPage {
         } else {
             throw new HTTP_Exception_404;
         }
-
 
         if($post) {
             if( isset($post['title']) && isset($post['code']) && isset($post['type']) ) {
@@ -63,7 +63,7 @@ class Controller_Instance extends Controller_AuthenticatedPage {
                 ),
                 array(
                     'type' => 'select',
-                    'values' => $config['instance_types'],
+                    'values' => $instanceTypes,
                     'name' => 'type',
                     'label' => __('Instance type'),
                     'value' => $instance ? $instance['type'] : ''
@@ -90,16 +90,20 @@ class Controller_Instance extends Controller_AuthenticatedPage {
 
         $instancesData = array(
             'instances' => $this->instances,
-            'instance_types' => $config['instance_types'],
+            'instance_types' => $instanceTypes,
             'instance' => $instance,
             'form' => $form
         );
 
         // If the instance exists
         if( isset($instance) ) {
+            $hWidgetInstances = new Helper_WidgetInstances();
+            $vInstance = $hWidgetInstances->getViewSingleInstance($instance['id']);
+
             $hWidgetTodos = new Helper_WidgetTodos();
             $vTodos = $hWidgetTodos->getView($this->user['id_user'], $instance['id']);
             $instancesData['widget_todos'] = $vTodos;
+            $instancesData['widget_instances'] = $vInstance;
         }
 
         $view = View::factory( "instance" )->set( $instancesData );;

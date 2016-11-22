@@ -94,7 +94,14 @@ App.Widget = Class.extend({
 
         $.when.apply($, params.calls).then(function() {
             if(ES.isFunction(params.callback)) {
-                params.callback.apply(this, arguments);
+                if (arguments.length) {
+                    params.callback.apply(this, arguments);
+                } else {
+                    // TODO What to do here?
+                    // <debug>
+                    console.warn('no arguments...')
+                    // </debug>
+                }
             } else {
                 console.error("callback must be an function");
             }

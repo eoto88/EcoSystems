@@ -26,6 +26,7 @@ App.WidgetLogs = App.Widget.extend({
         // TODO Improve this...
         this.createLogs();
     },
+
     createLogs: function() {
         var me = this,
             $component = $('#'+ me.cssId),

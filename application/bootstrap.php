@@ -138,7 +138,7 @@ Kohana::modules(array(
     'database' => MODPATH . 'database', // Database access
     // 'image'      => MODPATH.'image',      // Image manipulation
     'minion'     => MODPATH.'minion',     // CLI Tasks
-    'orm'        => MODPATH.'orm',        // Object Relationship Mapping
+//    'orm'        => MODPATH.'orm',        // Object Relationship Mapping
     // 'unittest'   => MODPATH.'unittest',   // Unit testing
     // 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 ));
@@ -152,15 +152,21 @@ Route::set('logout', 'logout')
         'controller' => 'login',
         'action' => 'logout',
     ));
-Route::set('rest-api-instances', 'api/instances(/<id_instance>)/<controller>(/<id>)', array('id_instance' => '[0-9]+', 'id' => '[0-9]+'))
-    ->defaults(array(
-        'directory' => 'rest',
-        'action' => 'index',
-    ));
 Route::set('post-api-instance', 'api/instance')
     ->defaults(array(
         'controller' => 'ApiInstance',
         'action' => 'postData',
+    ));
+Route::set('rest-api-instances', 'api/instances(/<id>)', array('id' => '[0-9]+'))
+    ->defaults(array(
+        'directory' => 'rest',
+        'controller' => 'Instances',
+        'action' => 'index',
+    ));
+Route::set('rest-api-instances-2', 'api/instances(/<id_instance>)/<controller>(/<id>)', array('id_instance' => '[0-9]+', 'id' => '[0-9]+'))
+    ->defaults(array(
+        'directory' => 'rest',
+        'action' => 'index',
     ));
 Route::set('rest-api', 'api/<controller>(/<id>)', array('id' => '[0-9]+'))
     ->defaults(array(

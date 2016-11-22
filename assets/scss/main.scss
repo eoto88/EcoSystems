@@ -723,45 +723,63 @@ label {
     border-bottom: 1px solid $light-grey;
     padding: 15px;
   }
-  //li:hover {
-  //  background: $light-blue;
-  //}
-//  li i {
-//    font-size: 28px;
-//  }
 
   h3 {
     padding-right: 25px;
     position: relative;
     margin-bottom: 10px;
 
-    a {
-      //color: #333;
+    a:hover {
+      text-decoration: none;
+      color: #333;
+    }
+
+    .instance-type {
+      font-size: 16px;
     }
 
     .instance-expand {
       position: absolute;
       right: 0;
-      //color: #60747C;
     }
   }
 
   .instance-body {
     margin-top: 10px;
     display: none;
+    border-top: 1px solid $light-grey!important;
 
     .statusGage {
+      margin-bottom: 15px;
 
       h5 {
+        position: relative;
         text-align: center;
+        padding-left: 15px;
 
         i {
-          font-size: 18px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          font-size: 22px;
+          text-align: left;
+
+          &.wi-humidity {
+            color: $brightBlue;
+          }
+
+          &.wi-thermometer {
+            color: $brightGreen;
+          }
+
+          &.fa-flask {
+            color: $brightYellow;
+          }
         }
       }
 
       .gage {
-        height: 60px;
+        height: 75px;
         width: 100%;
       }
     }
@@ -852,54 +870,54 @@ label {
     color: white;
   }
 
-  .live-status {
-    text-align: right;
-  }
-  .live-label {
-    display: block;
-  }
-  .live-value {
-    display: block;
-    font-size: 24px;
-    line-height: 35px;
-
-    i {
-      font-size: 28px;
-      padding-right: 10px;
-
-      &.fa-flask {
-        font-size: 30px;
-      }
-      &.wi-na {
-        font-size: 32px;
-      }
-    }
-  }
-  .very-acidic {
-    color: $very-acidic;
-  }
-  .acidic i {
-    color: $acidic;
-  }
-  .neutral i {
-    color: $neutral;
-  }
-  .alkaline i {
-    color: $alkaline;
-  }
-  .very-alkaline i {
-    color: $very-alkaline;
-  }
-
-  .low-danger i {
-    color: $low-danger;
-  }
-  .medium-danger i {
-    color: $medium-danger;
-  }
-  .high-danger i {
-    color: $high-danger;
-  }
+//  .live-status {
+//    text-align: right;
+//  }
+//  .live-label {
+//    display: block;
+//  }
+//  .live-value {
+//    display: block;
+//    font-size: 24px;
+//    line-height: 35px;
+//
+//    i {
+//      font-size: 28px;
+//      padding-right: 10px;
+//
+//      &.fa-flask {
+//        font-size: 30px;
+//      }
+//      &.wi-na {
+//        font-size: 32px;
+//      }
+//    }
+//  }
+//  .very-acidic {
+//    color: $very-acidic;
+//  }
+//  .acidic i {
+//    color: $acidic;
+//  }
+//  .neutral i {
+//    color: $neutral;
+//  }
+//  .alkaline i {
+//    color: $alkaline;
+//  }
+//  .very-alkaline i {
+//    color: $very-alkaline;
+//  }
+//
+//  .low-danger i {
+//    color: $low-danger;
+//  }
+//  .medium-danger i {
+//    color: $medium-danger;
+//  }
+//  .high-danger i {
+//    color: $high-danger;
+//  }
 }
 /* **** Widget instances - END **** */
 
@@ -1090,6 +1108,24 @@ label {
   }
   #widgets[data-columns]::before {
     content: '1 .col-xs-12';
+  }
+  #widget-instances .statusGage {
+    width: 45%;
+    float: left;
+    margin: 0 2.5%;
+  }
+
+  #widget-todos {
+
+    #unchecked-todos,
+    #checked-todos {
+      border-top: 1px solid $light-grey;
+      list-style: none;
+      padding: 0;
+      max-height: 400px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
   }
 }
 
