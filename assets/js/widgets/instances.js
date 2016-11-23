@@ -49,6 +49,7 @@ App.WidgetInstances = App.Widget.extend({
 
                     $instance.popover({
                         selector: '[data-toggle=popover]',
+                        html: true,
                         container: 'body',
                         placement: 'top'
                     });
@@ -278,50 +279,82 @@ App.WidgetInstances = App.Widget.extend({
                         // TODO datetime
 
                         if(instanceBodyData.data.room_temperature) {
-                            me.createRoomTemperatureGage($instance, instanceBodyData.data.room_temperature);
+                            me.createRoomTemperatureGage(
+                                $instance,
+                                instanceBodyData.data.room_temperature,
+                                instanceBodyData.data.datetime
+                            );
                         } else {
                             // TODO N/A
                         }
 
                         if(instanceBodyData.data.tank_temperature) {
-                            me.createTankTemperatureGage($instance, instanceBodyData.data.tank_temperature);
+                            me.createTankTemperatureGage(
+                                $instance,
+                                instanceBodyData.data.tank_temperature,
+                                instanceBodyData.data.datetime
+                            );
                         } else {
                             // TODO N/A
                         }
 
                         if(instanceBodyData.data.humidity) {
-                            me.createHumidityGage($instance, instanceBodyData.data.humidity);
+                            me.createHumidityGage(
+                                $instance,
+                                instanceBodyData.data.humidity,
+                                instanceBodyData.data.datetime
+                            );
                         } else {
                             // TODO N/A
                         }
 
                         instanceBodyData.data.water_level = 80;
                         if(instanceBodyData.data.water_level) {
-                            me.createWaterLevelGage($instance, instanceBodyData.data.water_level);
+                            me.createWaterLevelGage(
+                                $instance,
+                                instanceBodyData.data.water_level,
+                                instanceBodyData.data.datetime
+                            );
                         } else {
                             // TODO N/A
                         }
 
                         if(instanceBodyData.waterTest.ph) {
-                            me.createPhGage($instance, instanceBodyData.waterTest.ph);
+                            me.createPhGage(
+                                $instance,
+                                instanceBodyData.waterTest.ph,
+                                instanceBodyData.waterTest.datetime
+                            );
                         } else {
                             // TODO N/A
                         }
 
                         if(instanceBodyData.waterTest.ammonia) {
-                            me.createAmmoniaGage($instance, instanceBodyData.waterTest.ammonia);
+                            me.createAmmoniaGage(
+                                $instance,
+                                instanceBodyData.waterTest.ammonia,
+                                instanceBodyData.waterTest.datetime
+                            );
                         } else {
                             // TODO N/A
                         }
 
                         if(instanceBodyData.waterTest.nitrite) {
-                            me.createNitriteGage($instance, instanceBodyData.waterTest.nitrite);
+                            me.createNitriteGage(
+                                $instance,
+                                instanceBodyData.waterTest.nitrite,
+                                instanceBodyData.waterTest.datetime
+                            );
                         } else {
                             // TODO N/A
                         }
 
                         if(instanceBodyData.waterTest.nitrate) {
-                            me.createNitrateGage($instance, instanceBodyData.waterTest.nitrate);
+                            me.createNitrateGage(
+                                $instance,
+                                instanceBodyData.waterTest.nitrate,
+                                instanceBodyData.waterTest.datetime
+                            );
                         } else {
                             // TODO N/A
                         }
@@ -347,7 +380,8 @@ App.WidgetInstances = App.Widget.extend({
             gageId: "gage-"+ me.gagesCount,
             gageCls: params.gageId,
             iconCls: params.iconCls,
-            title: params.title
+            title: params.title,
+            content: params.content
         }));
 
         me.gages["gage-"+ me.gagesCount] = new JustGage({
@@ -383,13 +417,14 @@ App.WidgetInstances = App.Widget.extend({
         return me.gages[id];
     },
 
-    createRoomTemperatureGage: function($instance, value) {
+    createRoomTemperatureGage: function($instance, value, datetime) {
         var me = this;
 
         return me.createGage({
             appendTo: $instance.find('.data-status'),
             iconCls: 'wi wi-thermometer',
             title: 'Room temperature',
+            content: 'Datetime: '+ datetime,
             gageId: 'roomTemperature',
             value: value,
             minVal: 0,
@@ -415,13 +450,14 @@ App.WidgetInstances = App.Widget.extend({
         });
     },
 
-    createTankTemperatureGage: function($instance, value) {
+    createTankTemperatureGage: function($instance, value, datetime) {
         var me = this;
 
         return me.createGage({
             appendTo: $instance.find('.data-status'),
             iconCls: 'wi wi-thermometer',
             title: 'Tank temperature',
+            content: 'Datetime: '+ datetime,
             gageId: 'tankTemperature',
             value: value,
             minVal: 0,
@@ -447,13 +483,14 @@ App.WidgetInstances = App.Widget.extend({
         });
     },
 
-    createHumidityGage: function($instance, value) {
+    createHumidityGage: function($instance, value, datetime) {
         var me = this;
 
         return me.createGage({
             appendTo: $instance.find('.data-status'),
             iconCls: 'wi wi-humidity',
             title: 'Humidity',
+            content: 'Datetime: '+ datetime,
             gageId: 'humidity',
             value: value,
             minVal: 0,
@@ -480,13 +517,14 @@ App.WidgetInstances = App.Widget.extend({
         });
     },
 
-    createWaterLevelGage: function($instance, value) {
+    createWaterLevelGage: function($instance, value, datetime) {
         var me = this;
 
         return me.createGage({
             appendTo: $instance.find('.data-status'),
             iconCls: 'wi wi-humidity',
             title: 'Water level',
+            content: 'Datetime: '+ datetime,
             gageId: 'waterLevel',
             value: value,
             minVal: 0,
@@ -513,13 +551,14 @@ App.WidgetInstances = App.Widget.extend({
         });
     },
 
-    createPhGage: function($instance, value) {
+    createPhGage: function($instance, value, datetime) {
         var me = this;
 
         me.createGage({
             appendTo: $instance.find('.water-test-status'),
             iconCls: 'fa fa-flask',
             title: 'pH',
+            content: 'Datetime: '+ datetime,
             gageId: 'ph',
             value: value,
             minVal: 0,
@@ -553,13 +592,14 @@ App.WidgetInstances = App.Widget.extend({
         });
     },
 
-    createAmmoniaGage: function($instance, value) {
+    createAmmoniaGage: function($instance, value, datetime) {
         var me = this;
 
         return me.createGage({
             appendTo: $instance.find('.water-test-status'),
             iconCls: 'fa fa-flask',
             title: 'Ammonia (NH<sub>3</sub>)',
+            content: 'Datetime: '+ datetime,
             gageId: 'ammonia',
             value: value,
             minVal: 0,
@@ -593,13 +633,14 @@ App.WidgetInstances = App.Widget.extend({
         });
     },
 
-    createNitriteGage: function($instance, value) {
+    createNitriteGage: function($instance, value, datetime) {
         var me = this;
 
         return me.createGage({
             appendTo: $instance.find('.water-test-status'),
             iconCls: 'fa fa-flask',
             title: 'Nitrite (NO<sub>2</sub>)',
+            content: 'Datetime: '+ datetime,
             gageId: 'nitrite',
             value: value,
             minVal: 0,
@@ -633,13 +674,14 @@ App.WidgetInstances = App.Widget.extend({
         });
     },
 
-    createNitrateGage: function($instance, value) {
+    createNitrateGage: function($instance, value, datetime) {
         var me = this;
 
         return me.createGage({
             appendTo: $instance.find('.water-test-status'),
             iconCls: 'fa fa-flask',
             title: 'Nitrate (NO<sub>3</sub>)',
+            content: 'Datetime: '+ datetime,
             gageId: 'nitrate',
             value: value,
             minVal: 0,
