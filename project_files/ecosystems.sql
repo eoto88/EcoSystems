@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 24, 2016 at 12:39 AM
+-- Generation Time: Nov 22, 2016 at 09:04 PM
 -- Server version: 10.0.21-MariaDB
 -- PHP Version: 5.6.12
 
@@ -19,6 +19,17 @@ SET time_zone = "+00:00";
 --
 -- Database: `ab6dev_ecosystems`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category`
+--
+
+CREATE TABLE IF NOT EXISTS `category` (
+  `id` int(11) NOT NULL,
+  `title` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -60,15 +71,50 @@ CREATE TABLE IF NOT EXISTS `instance` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `instance_param`
+--
+
+CREATE TABLE IF NOT EXISTS `instance_param` (
+  `id_instance` int(11) NOT NULL,
+  `id_param` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `instance_type`
+--
+
+CREATE TABLE IF NOT EXISTS `instance_type` (
+  `id` int(11) NOT NULL,
+  `title` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `log`
 --
 
 CREATE TABLE IF NOT EXISTS `log` (
   `id` int(11) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `id_instance` int(11) NOT NULL,
+  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `type` varchar(100) NOT NULL,
   `message` varchar(350) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `param`
+--
+
+CREATE TABLE IF NOT EXISTS `param` (
+  `id` int(11) NOT NULL,
+  `id_category` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -99,9 +145,31 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(50) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `water_test`
+--
+
+CREATE TABLE IF NOT EXISTS `water_test` (
+  `id` char(36) CHARACTER SET utf8 NOT NULL,
+  `id_instance` int(11) NOT NULL,
+  `datetime` datetime NOT NULL,
+  `ph` float(3,1) DEFAULT NULL,
+  `ammonia` float(3,1) DEFAULT NULL,
+  `nitrite` float(3,1) DEFAULT NULL,
+  `nitrate` float(4,1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `data`
@@ -116,9 +184,21 @@ ALTER TABLE `instance`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `instance_type`
+--
+ALTER TABLE `instance_type`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `log`
 --
 ALTER TABLE `log`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `param`
+--
+ALTER TABLE `param`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -135,18 +215,39 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `username` (`username`);
 
 --
+-- Indexes for table `water_test`
+--
+ALTER TABLE `water_test`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `category`
+--
+ALTER TABLE `category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `instance`
 --
 ALTER TABLE `instance`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `instance_type`
+--
+ALTER TABLE `instance_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `param`
+--
+ALTER TABLE `param`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `todo`
