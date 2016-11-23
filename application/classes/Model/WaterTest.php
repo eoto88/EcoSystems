@@ -5,7 +5,7 @@ class Model_WaterTest {
         $query = DB::select(
             'id',
             'id_instance',
-            'date',
+            'datetime',
             'ph',
             'ammonia',
             'nitrite',
@@ -18,12 +18,12 @@ class Model_WaterTest {
         $query = DB::select(
             'id',
             'id_instance',
-            'date',
+            'datetime',
             'ph',
             'ammonia',
             'nitrite',
             'nitrate'
-        )->from('water_test')->where('id_instance', '=', $idInstance)->order_by('date', 'DESC')->limit(1)->offset(0);
+        )->from('water_test')->where('id_instance', '=', $idInstance)->order_by('datetime', 'DESC')->limit(1)->offset(0);
         return $query->execute()->current();
     }
 
@@ -31,19 +31,19 @@ class Model_WaterTest {
         $query = DB::select(
             'id',
             'id_instance',
-            'date',
+            'datetime',
             'ph',
             'ammonia',
             'nitrite',
             'nitrate'
-        )->from('water_test')->where('id_instance', '=', $idInstance)->order_by('date', 'DESC');
+        )->from('water_test')->where('id_instance', '=', $idInstance)->order_by('datetime', 'DESC');
         return $query->execute()->as_array();
     }
 
     function insertWaterTest($id_instance, $data) {
         $return = array();
         $validation = Validation::factory($data);
-        $validation->rule('date', 'date');
+        $validation->rule('datetime', 'date');
         $validation->rule('ph', 'decimal', array(':value', '1'));
         $validation->rule('ph', 'range', array(':value', 1.0, 14.0));
         $validation->rule('ammonia', 'decimal', array(':value', '1'));
@@ -67,7 +67,7 @@ class Model_WaterTest {
             $query = DB::insert('water_test', array(
                 'id',
                 'id_instance',
-                'date',
+                'datetime',
                 'ph',
                 'ammonia',
                 'nitrite',
@@ -75,7 +75,7 @@ class Model_WaterTest {
             ))->values( array(
                 DB::expr("UUID()"),
                 $id_instance,
-                $data['date'],
+                $data['datetime'],
                 $data['ph'],
                 $data['ammonia'],
                 $data['nitrite'],
@@ -94,7 +94,7 @@ class Model_WaterTest {
     public function updateWaterTest($data) {
         $return = array();
         $validation = Validation::factory($data);
-        $validation->rule('date', 'date');
+        $validation->rule('datetime', 'date');
         $validation->rule('ph', 'decimal', array(':value', '1'));
         $validation->rule('ph', 'range', array(':value', 1, 14));
         $validation->rule('ammonia', 'decimal', array(':value', '1'));
@@ -104,7 +104,7 @@ class Model_WaterTest {
         if( $validation->check() ) {
 
             $query = DB::update('water_test')->set(array(
-                'date' => $data['date'],
+                'datetime' => $data['datetime'],
                 'ph' => $data['ph'],
                 'ammonia' => $data['ammonia'],
                 'nitrite' => $data['nitrite'],

@@ -24,7 +24,7 @@ class Controller_WaterTests extends Controller_AuthenticatedPage {
                     'type' => 'hidden'
                 ),
                 array(
-                    'name' => 'date',
+                    'name' => 'datetime',
                     'type' => 'datepicker',
                     'label' => __('Date'),
                     'format' => 'YYYY/MM/DD',
@@ -84,7 +84,7 @@ class Controller_WaterTests extends Controller_AuthenticatedPage {
         $nitrate = array();
 
         foreach($waterTests as $row) {
-            $datetime = strtotime($row['date']) * 1000;
+            $datetime = strtotime($row['datetime']) * 1000;
             $ph[] = array(
                 'x' => $datetime,
                 'y' => floatval($row['ph'])
