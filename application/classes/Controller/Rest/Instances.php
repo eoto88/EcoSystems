@@ -5,12 +5,25 @@ class Controller_Rest_Instances extends Controller_REST {
     public function action_index() {
         $id = $this->request->param('id');
         $mInstance = new Model_Instance();
+        $instances = null;
 
         if( isset($id) ) {
-            echo json_encode( array($mInstance->getInstance($id, $this->_user['id_user'])) );
+            $instances = array($mInstance->getInstance($id, $this->_user['id_user']));
         } else {
-            echo json_encode( $mInstance->getInstances($this->_user['id_user']) );
+            $instances = $mInstance->getInstances($this->_user['id_user']);
         }
+
+        // TODO http://ecosystems.ab6.ca/api/instances/1?params=true
+        // TODO JSON string to boolean
+        if($this->request->query('params') == "true") {
+            $mParam = new Model_Param();
+
+            for($i = 0; $i < count($instances); $i++) {
+                $instances[$i]['params'] = $mParam->getInstanceParams($instances[$i]['id']);
+            }
+        }
+
+        echo json_encode($instances);
     }
 
     public function action_update() {
