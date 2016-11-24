@@ -63,7 +63,11 @@ class Helper_Form {
                 break;
             case 'select';
                 // TODO selected
-                $input = '<select name="'.$data['name'].'" class="form-control">';
+                $cls = "form-control";
+                if(isset($data['selectize']) && $data['selectize']) {
+                    $cls = "";
+                }
+                $input = '<select name="'.$data['name'].'" class="'.$cls.'">';
                 foreach($data['values'] as $key => $type) {
                     $input .= '<option value="'. $key .'">'. $type .'</option>';
                 }

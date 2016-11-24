@@ -82,6 +82,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
     private function getStyles() {
         return array(
             "assets/css/main.css" => "screen",
+            "assets/css/vendor/selectize.default.css" => "screen",
             "assets/css/vendor/bootstrap-dialog.css" => "screen",
             "assets/css/vendor/bootstrap-datetimepicker.css",
             "assets/css/vendor/jquery.bootstrap-touchspin.css" => "screen",
@@ -103,6 +104,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
             "assets/js/widgets/instances.js",
             "assets/js/widget.js",
             "assets/js/main.js",
+            "assets/js/vendor/selectize.min.js",
             "assets/js/vendor/justgage.js",
             "assets/js/vendor/raphael-2.1.4.min.js",
             "assets/js/vendor/handlebars-v2.0.0.js",

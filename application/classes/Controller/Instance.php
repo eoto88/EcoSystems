@@ -69,6 +69,14 @@ class Controller_Instance extends Controller_AuthenticatedPage {
                     'value' => $instance ? $instance['type'] : ''
                 ),
                 array(
+                    'type' => 'select',
+                    'values' => array(),
+                    'name' => 'params',
+                    'label' => __('Params'),
+                    'selectize' => true
+                    //'value' => $instance ? $instance['type'] : ''
+                ),
+                array(
                     'type' => 'checkbox',
                     'name' => 'monitored',
                     'label' => __('Monitored'),
