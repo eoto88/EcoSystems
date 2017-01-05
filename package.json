@@ -1,0 +1,36 @@
+{
+  "name": "ecosystems",
+  "version": "1.0.0",
+  "description": "Monitoring app",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.9.1",
+    "gulp-uglify": "^2.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eoto88/EcoSystems.git"
+  },
+  "keywords": [
+    "monitoring",
+    "arduino",
+    "kohana",
+    "javascript"
+  ],
+  "author": "Eric Turcotte",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eoto88/EcoSystems/issues"
+  },
+  "homepage": "https://github.com/eoto88/EcoSystems#readme"
+}
