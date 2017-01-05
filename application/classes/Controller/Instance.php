@@ -49,6 +49,12 @@ class Controller_Instance extends Controller_AuthenticatedPage {
                     'value' => $instance ? $instance['id'] : ''
                 ),
                 array(
+                    'name' => 'icon',
+                    'type' => 'iconpicker',
+                    'label' => __('Icon'),
+                    'value' => $instance ? $instance['icon'] : ''
+                ),
+                array(
                     'name' => 'title',
                     'label' => __('Title'),
                     'maxlength' => 25,

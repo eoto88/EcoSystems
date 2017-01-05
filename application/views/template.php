@@ -15,7 +15,6 @@
 
     <script src="<?php echo URL::base(TRUE, TRUE); ?>assets/js/vendor/modernizr-2.6.2.min.js"></script>
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <?php foreach($styles as $file => $type) { echo HTML::style($file, array('media' => $type)), "\n";}?>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -35,36 +34,36 @@
             </div>
             <div class="col-xs-12 col-sm- col-md-6 col-lg-6">
                 <div class="header-block header-instances">
-                    <span><?php echo __('Instance') .' :'?></span>
-                    <a href="#" id="select-instance" class="dropdown-toggle" data-toggle="dropdown">
-                        <?php
-                        $currentInstance = null;
-                        foreach($instances as $instance) {
-                            if( $instance['id'] == $current_instance_id ) {
-                                $currentInstance = $instance;
-                            }
-                        }
-                        if( $currentInstance ) {  ?>
-                            <span><?php echo $currentInstance['title'] ?></span>
-                        <?php } else {  ?>
-                            <span><?php echo __('Select an instance'); ?></span>
-                        <?php } ?>
-                        &nbsp;<i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul id="dropdown-instances" class="dropdown-menu js-status-update pull-left">
-                        <?php
-                        foreach($instances as $instance) {
-                            $class = ($current_instance_id == $instance['id']) ? 'class="active"' : '';
-                            ?>
-                            <li <?php echo $class ?> data-id="<?php echo $instance['id'] ?>">
-                                <a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id'] ?>"><?php echo $instance['title'] ?></a>
-                            </li>
-                        <?php } ?>
-                        <li role="separator" class="divider"></li>
-                        <li data-id="<?php echo $instance['id'] ?>">
-                            <a href="<?php echo URL::base(TRUE, TRUE) .'instance/new' ?>"><?php echo __('Create new instance'); ?></a>
-                        </li>
-                    </ul>
+<!--                    <span>--><?php //echo __('Instance') .' :'?><!--</span>-->
+<!--                    <a href="#" id="select-instance" class="dropdown-toggle" data-toggle="dropdown">-->
+<!--                        --><?php
+//                        $currentInstance = null;
+//                        foreach($instances as $instance) {
+//                            if( $instance['id'] == $current_instance_id ) {
+//                                $currentInstance = $instance;
+//                            }
+//                        }
+//                        if( $currentInstance ) {  ?>
+<!--                            <span>--><?php //echo $currentInstance['title'] ?><!--</span>-->
+<!--                        --><?php //} else {  ?>
+<!--                            <span>--><?php //echo __('Select an instance'); ?><!--</span>-->
+<!--                        --><?php //} ?>
+<!--                        &nbsp;<i class="fa fa-caret-down"></i>-->
+<!--                    </a>-->
+<!--                    <ul id="dropdown-instances" class="dropdown-menu js-status-update pull-left">-->
+<!--                        --><?php
+//                        foreach($instances as $instance) {
+//                            $class = ($current_instance_id == $instance['id']) ? 'class="active"' : '';
+//                            ?>
+<!--                            <li --><?php //echo $class ?><!-- data-id="--><?php //echo $instance['id'] ?><!--">-->
+<!--                                <a href="--><?php //echo URL::base(TRUE, TRUE) .'live/'. $instance['id'] ?><!--">--><?php //echo $instance['title'] ?><!--</a>-->
+<!--                            </li>-->
+<!--                        --><?php //} ?>
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li data-id="--><?php //echo $instance['id'] ?><!--">-->
+<!--                            <a href="--><?php //echo URL::base(TRUE, TRUE) .'instance/new' ?><!--">--><?php //echo __('Create new instance'); ?><!--</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
                 </div>
                 <div class="header-block header-user">
                     <a href="#" id="welcome" class="dropdown-toggle" data-toggle="dropdown">
@@ -84,7 +83,21 @@
     </div>
 </header>
 <aside id="left-panel" class="mobile-closed">
-    <nav>
+    <nav id="instances-menu">
+        <h4>Instances</h4>
+        <ul>
+            <?php
+            foreach($instances as $instance) {
+                $class = ($current_instance_id == $instance['id']) ? 'class="active"' : '';
+                $instanceIcon = isset($instance['icon']) ? '<i class="'. $instance['icon'] .'"></i>' : '';
+                ?>
+                <li <?php echo $class ?> data-id="<?php echo $instance['id'] ?>">
+                    <a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id'] ?>"><?php echo $instanceIcon .'&nbsp;'. $instance['title'] ?></a>
+                </li>
+            <?php } ?>
+        </ul>
+    </nav>
+    <nav id="pages-menu">
         <ul>
             <li <?php echo ($current_route_name == 'dashboard') ? 'class="active"' : ''; ?>>
                 <a href="<?php echo URL::base(TRUE, TRUE); ?>">
@@ -175,8 +188,6 @@
     </div>
 </script>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
 <script type="text/javascript">var BASE_URL = "<?php echo URL::base(TRUE, TRUE); ?>";</script>
 
 <?php foreach($scripts as $file) { echo HTML::script($file), "\n"; }?>
