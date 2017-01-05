@@ -46,24 +46,6 @@ class Controller_AuthenticatedPage extends Controller_Template {
         $this->template->current_route_name = Route::name($this->request->route());
         $this->template->current_instance_id = $this->currentInstanceId;
 
-        //$mDay = new Model_Day();
-        //$day = $mDay->getCurrentDay( $this->currentInstanceId );
-        /*if( ! $day ) {
-            $date = new DateTime();
-            $date->sub(new DateInterval('P1D'));
-
-            $day = $mDay->getDayByDate( $this->currentInstanceId, $date->format('Y-m-d') );
-        }*/
-        //$hStatus = new Helper_Status();
-
-        /*$mInstance = new Model_Instance();
-        $liveData = $mInstance->getLiveData( $this->currentInstanceId );
-        $this->template->communication_status = $hStatus->getCommunicationStatus($liveData);
-        $this->template->pump_status = $hStatus->getStatus('pump', 'Pump', $liveData['pump_on']);
-        $this->template->light_status = $hStatus->getStatus('light', 'Light', $liveData['light_on']);
-        $this->template->fan_status = $hStatus->getStatus('fan', 'Fan', $liveData['fan_on']);
-        $this->template->heater_status = $hStatus->getStatus('heater', 'Heater', $liveData['heater_on']);*/
-
         $this->template->instances = $this->instances;
 
         $this->template->translations = array_merge( $this->jsTranslations, $this->getGlobalJsTranslations() );
@@ -82,15 +64,15 @@ class Controller_AuthenticatedPage extends Controller_Template {
     private function getStyles() {
         return array(
             "assets/css/main.css" => "screen",
-            "assets/css/vendor/selectize.default.css" => "screen",
+            "bower_components/selectize/dist/css/selectize.default.css" => "screen",
             "bower_components/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css" => "screen",
-            "/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" => "screen",
+            "bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" => "screen",
             "bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" => "screen",
             "bower_components/bootstrap/dist/css/bootstrap.min.css" => "screen",
-            "assets/css/normalize.css" => "screen",
             "bower_components/weather-icons/css/weather-icons.min.css" => "screen",
             "bower_components/components-font-awesome/css/font-awesome.min.css" => "screen",
-            "bower_components/fontawesome-iconpicker/dist/css/fontawesome-iconpicker.min.css" => "screen"
+            "bower_components/fontawesome-iconpicker/dist/css/fontawesome-iconpicker.min.css" => "screen",
+            "assets/css/normalize.css" => "screen"
         );
     }
 
@@ -106,21 +88,21 @@ class Controller_AuthenticatedPage extends Controller_Template {
             "assets/js/widgets/instances.js",
             "assets/js/widget.js",
             "assets/js/main.js",
-            "assets/js/vendor/selectize.min.js",
+            "bower_components/selectize/dist/js/standalone/selectize.min.js",
             "bower_components/justgage-toorshia/justgage.js",
             "bower_components/justgage-toorshia/raphael-2.1.4.min.js",
             "bower_components/handlebars/handlebars.min.js",
             "bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js",
             "bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js",
-            "assets/js/vendor/moment.js", // TODO
+            "bower_components/moment/min/moment.min.js",
             "bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js",
             "bower_components/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.js",
-            "assets/js/vendor/bootstrap.min.js", // TODO
+            "bower_components/bootstrap/dist/js/bootstrap.min.js",
             "bower_components/jquery.populate/jquery.populate.js",
             "bower_components/highstock/js/modules/exporting.src.js",
             "bower_components/highstock/js/highstock.src.js",
             "bower_components/salvattore/dist/salvattore.min.js",
-            "/bower_components/jquery/dist/jquery.min.js"
+            "bower_components/jquery/dist/jquery.min.js"
         );
     }
 
