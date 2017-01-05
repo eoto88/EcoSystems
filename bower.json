@@ -20,6 +20,16 @@
     "polymer": "Polymer/polymer#^1.7.1",
     "fontawesome-iconpicker": "^1.2.2",
     "components-font-awesome": "^4.7.0",
-    "weather-icons": "^2.0.10"
+    "weather-icons": "^2.0.10",
+    "bootstrap": "^3.3.7",
+    "bootstrap3-dialog": "^1.35.3",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.44",
+    "justgage-toorshia": "^1.2.9",
+    "highstock": "^3.0.1",
+    "salvattore": "^1.0.9",
+    "handlebars": "^4.0.5",
+    "jquery.populate": "^0.5.0",
+    "jquery": "^3.1.1",
+    "bootstrap-touchspin": "^3.1.2"
   }
 }

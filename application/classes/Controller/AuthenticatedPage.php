@@ -83,10 +83,10 @@ class Controller_AuthenticatedPage extends Controller_Template {
         return array(
             "assets/css/main.css" => "screen",
             "assets/css/vendor/selectize.default.css" => "screen",
-            "assets/css/vendor/bootstrap-dialog.css" => "screen",
-            "assets/css/vendor/bootstrap-datetimepicker.css",
-            "assets/css/vendor/jquery.bootstrap-touchspin.css" => "screen",
-            "assets/css/vendor/bootstrap.min.css" => "screen",
+            "bower_components/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css" => "screen",
+            "/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" => "screen",
+            "bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" => "screen",
+            "bower_components/bootstrap/dist/css/bootstrap.min.css" => "screen",
             "assets/css/normalize.css" => "screen",
             "bower_components/weather-icons/css/weather-icons.min.css" => "screen",
             "bower_components/components-font-awesome/css/font-awesome.min.css" => "screen",
@@ -107,19 +107,20 @@ class Controller_AuthenticatedPage extends Controller_Template {
             "assets/js/widget.js",
             "assets/js/main.js",
             "assets/js/vendor/selectize.min.js",
-            "assets/js/vendor/justgage.js",
-            "assets/js/vendor/raphael-2.1.4.min.js",
-            "assets/js/vendor/handlebars-v2.0.0.js",
-            "assets/js/vendor/bootstrap-dialog.js",
-            "assets/js/vendor/bootstrap-datetimepicker.js",
-            "assets/js/vendor/moment.js",
-            "assets/js/vendor/jquery.bootstrap-touchspin.js",
+            "bower_components/justgage-toorshia/justgage.js",
+            "bower_components/justgage-toorshia/raphael-2.1.4.min.js",
+            "bower_components/handlebars/handlebars.min.js",
+            "bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js",
+            "bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js",
+            "assets/js/vendor/moment.js", // TODO
+            "bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js",
             "bower_components/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.js",
-            "assets/js/vendor/bootstrap.min.js",
-            "assets/js/vendor/jquery.populate.js",
-            "http://code.highcharts.com/modules/exporting.js",
-            "http://code.highcharts.com/stock/highstock.js", //"http://code.highcharts.com/highcharts.js"
-            "assets/js/vendor/salvattore.min.js"
+            "assets/js/vendor/bootstrap.min.js", // TODO
+            "bower_components/jquery.populate/jquery.populate.js",
+            "bower_components/highstock/js/modules/exporting.src.js",
+            "bower_components/highstock/js/highstock.src.js",
+            "bower_components/salvattore/dist/salvattore.min.js",
+            "/bower_components/jquery/dist/jquery.min.js"
         );
     }
 
