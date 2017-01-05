@@ -32,16 +32,6 @@ class Model_Todo {
             "WHERE i.id = :id_instance;");
         $query->param(':id_instance', $id_instance);
         return $query->execute()->as_array();
-
-//        $query = DB::query(Database::SELECT,
-//            "SELECT id, title, id_instance, IF(DATE(last_check) > CASE time_unit
-//                WHEN \"DAY\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` DAY)
-//                WHEN \"MONTH\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` MONTH)
-//                END, 1, 0) AS checked
-//            FROM todo
-//            JOIN instance AS i ON i.id = t.id_instance
-//            WHERE id_instance = ". $id_instance .";");
-//        return $query->execute()->as_array();
     }
 
     public function getUncheckedTodos() {

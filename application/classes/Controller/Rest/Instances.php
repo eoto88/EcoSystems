@@ -51,6 +51,7 @@ class Controller_Rest_Instances extends Controller_REST {
         if( $validation->check() ) {
             $title = filter_input(INPUT_POST, 'datetime', FILTER_SANITIZE_SPECIAL_CHARS);
             var_dump($title);
+            // TODO ...
 
 //                $mInstance->insertInstance();
         } else {
@@ -58,11 +59,10 @@ class Controller_Rest_Instances extends Controller_REST {
                 ->body(json_encode(array(
                     'messages' => array('')
                 )));
-
         }
     }
 
     public function action_delete() {
-
+        die();
     }
 }

@@ -35,22 +35,34 @@ $(document).ready(function() {
         valueField: 'id',
         labelField: 'title',
         searchField: 'title',
-        options: [
-            {id: 1, title: 'Spectrometer', url: 'http://en.wikipedia.org/wiki/Spectrometers'},
-            {id: 2, title: 'Star Chart', url: 'http://en.wikipedia.org/wiki/Star_chart'},
-            {id: 3, title: 'Electrical Tape', url: 'http://en.wikipedia.org/wiki/Electrical_tape'}
-        ],
-        create: false
+        preload: true,
+        hideSelected: true,
+        optgroupField: 'id_category',
+        optgroupValueField: 'id_category',
+        optgroupLabelField: 'category_title',
+        //options: [
+        //    {id: 1, title: 'Spectrometer', url: 'http://en.wikipedia.org/wiki/Spectrometers'},
+        //    {id: 2, title: 'Star Chart', url: 'http://en.wikipedia.org/wiki/Star_chart'},
+        //    {id: 3, title: 'Electrical Tape', url: 'http://en.wikipedia.org/wiki/Electrical_tape'}
+        //],
+        plugins: ['remove_button','optgroup_columns'],
+        create: false,
+        load: function(query, callback) {
+            //if (!query.length) return callback();
+            $.ajax({
+                url: BASE_URL + "api/params/", // 'https://api.github.com/legacy/repos/search/' + encodeURIComponent(query),
+                type: 'GET',
+                error: function() {
+                    callback();
+                },
+                success: function(res) {
+                    callback(res.entities);
+                }
+            });
+        }
     });
 
     Highcharts.setOptions(highchartsOptions);
-
-    // FIXME Not at the right place
-    $("#instance_list li").click(function() {
-        var $instance = $(this);
-        var id_instance = $instance.attr('id');
-        document.location = BASE_URL + '/live/' + id_instance
-    });
 
     $('#dropdown-instances li a').click(function (e) {
         e.preventDefault();
@@ -81,6 +93,55 @@ $(document).ready(function() {
     $('#mobile-menu-icon').click(function() {
         $(this).toggleClass('active');
         $('#left-panel').toggleClass('mobile-closed');
+    });
+
+    $('.icon-picker').iconpicker({
+        title: "Choose an icon", // TODO
+        icons: $.merge([
+                'wi-day-sunny',
+                'wi-day-cloudy',
+                'wi-day-cloudy-gusts',
+                'wi-day-cloudy-windy',
+                'wi-day-fog',
+                'wi-day-hail',
+                'wi-day-haze',
+                'wi-day-lightning',
+                'wi-day-rain',
+                'wi-day-rain-mix',
+                'wi-day-rain-wind',
+                'wi-day-showers',
+                'wi-day-sleet',
+                'wi-day-sleet-storm',
+                'wi-day-snow',
+                'wi-day-snow-thunderstorm',
+                'wi-day-snow-wind',
+                'wi-day-sprinkle',
+                'wi-day-storm-showers',
+                'wi-day-sunny-overcast',
+                'wi-day-thunderstorm',
+                'wi-day-windy',
+                'wi-solar-eclipse',
+                'wi-hot',
+                'wi-day-cloudy-high',
+                'wi-day-light-wind',
+                'wi-night-clear',
+                'wi-night-alt-cloudy',
+                'wi-night-alt-cloudy-gusts',
+                'wi-night-alt-cloudy-windy',
+                'wi-night-alt-hail',
+                'wi-night-alt-lightning',
+                'wi-night-alt-rain',
+                'wi-night-alt-rain-mix',
+                ''],
+                // https://erikflowers.github.io/weather-icons/
+            $.iconpicker.defaultOptions.icons),
+        fullClassFormatter: function(val){
+            if(val.match(/^fa-/)){
+                return 'fa '+val;
+            }else{
+                return 'wi '+val;
+            }
+        }
     });
 });
 

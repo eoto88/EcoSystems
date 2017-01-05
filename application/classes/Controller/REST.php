@@ -67,6 +67,7 @@ abstract class Controller_REST extends Controller {
             if ( ! isset($this->_action_map[$method])) {
                 $this->request->action('invalid');
             } else {
+                $this->response->headers('Content-Type','application/json; charset=utf-8');
                 $this->request->action($this->_action_map[$method]);
             }
 
@@ -104,10 +105,10 @@ abstract class Controller_REST extends Controller {
     }
 
     protected function respond($entities) {
-        echo json_encode(array(
+        $this->response->body(json_encode(array(
             'entityName' => $this->entityName,
             'entities' => $entities
-        ));
+        )));
     }
 
 } // End REST
