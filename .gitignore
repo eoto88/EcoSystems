@@ -9,4 +9,5 @@
 /assets/css/main.css
 /assets/css/main.css.map
 copyForTesting.sh
-/bower_components/*
+/bower_components/
+/node_modules/
