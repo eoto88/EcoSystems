@@ -198,7 +198,7 @@ App.WidgetTodos = App.Widget.extend({
                 label: 'Delete',  // TODO Translate
                 cssClass: 'btn-primary',
                 action: function(dialog) {
-                    var id_instance = getCurrentInstanceId(),
+                    var id_instance = ES.getCurrentInstanceId(),
                         id = $todo.data('id'),
                         url = BASE_URL + "api/instances/" + id_instance + "/todos/" + id;
 
@@ -250,7 +250,7 @@ App.WidgetTodos = App.Widget.extend({
             $list = $("#unchecked-todos");
         }
 
-        if( isDashboard() ) {
+        if( ES.isDashboard() ) {
             var $instanceGroup = $list.find('.instance-group-title[data-id="'+ params.id_instance +'"]');
             if($instanceGroup.length > 0) {
                 // Get all todos in the group

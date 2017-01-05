@@ -71,18 +71,18 @@ $(document).ready(function() {
         $('#dropdown-instances .active').toggleClass('active');
         $(this).parent().toggleClass('active');
 
-        if(isDashboard()) {
-            document.location = BASE_URL + 'live/'+ getCurrentInstanceId();
+        if(ES.isDashboard()) {
+            document.location = BASE_URL + 'live/'+ ES.getCurrentInstanceId();
         } else {
             var url = $('#left-panel .active a').attr('href');
-            document.location = url +'/'+ getCurrentInstanceId();
+            document.location = url +'/'+ ES.getCurrentInstanceId();
         }
     });
 
     $('#left-panel a.require-instance-id').click(function(e) {
         e.preventDefault();
         var url = $(this).attr('href');
-        document.location = url +'/'+ getCurrentInstanceId();
+        document.location = url +'/'+ ES.getCurrentInstanceId();
     });
 
     $('#minify-menu').click(function() {
@@ -144,16 +144,6 @@ $(document).ready(function() {
         }
     });
 });
-
-// TODO ES.getCurrentInstanceId
-function getCurrentInstanceId() {
-    return $('#dropdown-instances .active').data('id');
-}
-
-// TODO ES.isDashboard
-function isDashboard() {
-    return window.location.pathname == '/';
-}
 
 var App = {
     factory: function (class_) {

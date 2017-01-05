@@ -33,38 +33,6 @@
                 <span id="mobile-menu-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
             </div>
             <div class="col-xs-12 col-sm- col-md-6 col-lg-6">
-                <div class="header-block header-instances">
-<!--                    <span>--><?php //echo __('Instance') .' :'?><!--</span>-->
-<!--                    <a href="#" id="select-instance" class="dropdown-toggle" data-toggle="dropdown">-->
-<!--                        --><?php
-//                        $currentInstance = null;
-//                        foreach($instances as $instance) {
-//                            if( $instance['id'] == $current_instance_id ) {
-//                                $currentInstance = $instance;
-//                            }
-//                        }
-//                        if( $currentInstance ) {  ?>
-<!--                            <span>--><?php //echo $currentInstance['title'] ?><!--</span>-->
-<!--                        --><?php //} else {  ?>
-<!--                            <span>--><?php //echo __('Select an instance'); ?><!--</span>-->
-<!--                        --><?php //} ?>
-<!--                        &nbsp;<i class="fa fa-caret-down"></i>-->
-<!--                    </a>-->
-<!--                    <ul id="dropdown-instances" class="dropdown-menu js-status-update pull-left">-->
-<!--                        --><?php
-//                        foreach($instances as $instance) {
-//                            $class = ($current_instance_id == $instance['id']) ? 'class="active"' : '';
-//                            ?>
-<!--                            <li --><?php //echo $class ?><!-- data-id="--><?php //echo $instance['id'] ?><!--">-->
-<!--                                <a href="--><?php //echo URL::base(TRUE, TRUE) .'live/'. $instance['id'] ?><!--">--><?php //echo $instance['title'] ?><!--</a>-->
-<!--                            </li>-->
-<!--                        --><?php //} ?>
-<!--                        <li role="separator" class="divider"></li>-->
-<!--                        <li data-id="--><?php //echo $instance['id'] ?><!--">-->
-<!--                            <a href="--><?php //echo URL::base(TRUE, TRUE) .'instance/new' ?><!--">--><?php //echo __('Create new instance'); ?><!--</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-                </div>
                 <div class="header-block header-user">
                     <a href="#" id="welcome" class="dropdown-toggle" data-toggle="dropdown">
                         <span>Welcome <?php echo $user['name']; ?></span>&nbsp;<i class="fa fa-caret-down"></i>

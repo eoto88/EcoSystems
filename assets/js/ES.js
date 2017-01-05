@@ -2,6 +2,15 @@
  * Created by eoto on 08/11/16.
  */
 var ES = {
+
+    getCurrentInstanceId: function() {
+        return $('#dropdown-instances .active').data('id');
+    },
+
+    isDashboard: function() {
+        return window.location.pathname == '/';
+    },
+
     /**
      * Returns `true` if the passed value is a JavaScript Function, `false` otherwise.
      * @param {Object} value The value to test.

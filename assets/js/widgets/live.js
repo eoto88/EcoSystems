@@ -146,7 +146,7 @@ App.WidgetLive = App.Widget.extend({
     requestChartData: function() {
         var me = this;
         $.ajax({
-            url: BASE_URL + 'ajax/chartLiveData/' + getCurrentInstanceId(),
+            url: BASE_URL + 'ajax/chartLiveData/' + ES.getCurrentInstanceId(),
             cache: false,
             dataType: "json",
             success: function(point) {

@@ -111,16 +111,10 @@ class Helper_Form {
 
                 break;
             case 'iconpicker':
-                $input = '<button type="button" class="btn btn-primary iconpicker-component"><i class="fa fa-car"></i></button>
-                    <button type="button" class="icon-picker btn btn-primary dropdown-toggle iconpicker-element" data-selected="fa-car" data-toggle="dropdown" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu iconpicker-container"></div>';
                 $input = '<div class="input-group iconpicker-container">
-                                    <input data-placement="bottomRight" class="form-control icon-picker iconpicker-input" value="fa-archive" type="text">
-                                    <span class="input-group-addon"><i class="fa fa-archive"></i></span>
-                                </div>';
+                        <input data-placement="bottomRight" class="form-control icon-picker iconpicker-input" value="fa-archive" type="text">
+                        <span class="input-group-addon"><i class="fa fa-archive"></i></span>
+                    </div>';
                 break;
             case 'text';
             default;
