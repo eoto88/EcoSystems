@@ -1,0 +1,25 @@
+{
+  "name": "EcoSystems",
+  "homepage": "https://github.com/eoto88/EcoSystems",
+  "authors": [
+    "eoto <when.the.music.play@gmail.com>"
+  ],
+  "description": "Monitoring app",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "selectize": "^0.12.4",
+    "polymer": "Polymer/polymer#^1.7.1",
+    "fontawesome-iconpicker": "^1.2.2",
+    "components-font-awesome": "^4.7.0",
+    "weather-icons": "^2.0.10"
+  }
+}

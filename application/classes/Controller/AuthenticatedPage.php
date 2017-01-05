@@ -88,7 +88,9 @@ class Controller_AuthenticatedPage extends Controller_Template {
             "assets/css/vendor/jquery.bootstrap-touchspin.css" => "screen",
             "assets/css/vendor/bootstrap.min.css" => "screen",
             "assets/css/normalize.css" => "screen",
-            "assets/css/weather-icons.min.css" => "screen"
+            "bower_components/weather-icons/css/weather-icons.min.css" => "screen",
+            "bower_components/components-font-awesome/css/font-awesome.min.css" => "screen",
+            "bower_components/fontawesome-iconpicker/dist/css/fontawesome-iconpicker.min.css" => "screen"
         );
     }
 
@@ -112,6 +114,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
             "assets/js/vendor/bootstrap-datetimepicker.js",
             "assets/js/vendor/moment.js",
             "assets/js/vendor/jquery.bootstrap-touchspin.js",
+            "bower_components/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.js",
             "assets/js/vendor/bootstrap.min.js",
             "assets/js/vendor/jquery.populate.js",
             "http://code.highcharts.com/modules/exporting.js",
