@@ -78,7 +78,7 @@ I18n::lang('en-us');
  * Need a cookie salt
  * @see http://tinyurl.com/38atkx9 pour générer un salt
  */
-Cookie::$salt = "EJsGidEouzwIhHzzdz8U";
+Cookie::$salt = "qUSZups4oHoiWA58o3Ac";
 Cookie::$path = $BASE_URL;
 
 if (isset($_SERVER['SERVER_PROTOCOL'])) {
