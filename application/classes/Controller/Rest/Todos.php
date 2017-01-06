@@ -31,18 +31,8 @@ class Controller_Rest_Todos extends Controller_REST {
         if( $result['success']) {
             echo json_encode( $result );
         } else {
-            $this->response->status(406)
-                ->body(json_encode($result));
+            $this->response->status(406)->body(json_encode($result));
         }
-
-
-//            if( isset($data['done']) ) {
-//                $result = $mTodo->checkTodo($id, $data['done']);
-//            } else if( isset($data['title']) ) {
-//                $result = $mTodo->updateTodo($id, $data['title'], $data['time_unit'], $data['interval_value']);
-//            }
-//
-//            echo json_encode( $result );
     }
 
     public function action_create() {

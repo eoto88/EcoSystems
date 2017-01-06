@@ -10,7 +10,7 @@ class Model_Todo {
         return $query->execute()->as_array();
     }
 
-    public function getTodos() {
+    public function getTodos($id_user) {
         $query = DB::query(Database::SELECT,
             "SELECT t.id AS id, t.title, id_instance, i.title AS instance_title, IF(DATE(last_check) > CASE time_unit
                 WHEN \"DAY\" THEN DATE_SUB(NOW(), INTERVAL `interval_value` DAY)
@@ -18,7 +18,9 @@ class Model_Todo {
                 END, 1, 0) AS checked
             FROM todo AS t
             JOIN instance AS i ON i.id = t.id_instance
+            WHERE i.id_user = :id_user
             ORDER BY t.id_instance ASC, i.title ASC;");
+        $query->param(':id_user', $id_user);
         return $query->execute()->as_array();
     }
 
