@@ -19,24 +19,27 @@ class Controller_Instance extends Controller_AuthenticatedPage {
 
         if( is_numeric($this->request->param('id')) ) {
             $instance = $mInstance->getInstance($this->request->param('id'), $this->user['id_user']);
+            if( ! $instance ) {
+                throw new HTTP_Exception_404;
+            }
         } else if( $this->request->param('id') == 'new' ) {
             // Nothing yet...
         } else {
             throw new HTTP_Exception_404;
         }
 
-        if($post) {
-            if( isset($post['title']) && isset($post['code']) && isset($post['type']) ) {
-                if( !isset($post['monitored']) ) {
-                    $post['monitored'] = 0;
-                }
-                if( !isset($post['water_tests']) ) {
-                    $post['water_tests'] = 0;
-                }
-
-                $mInstance->insertInstance($this->user['id_user'], $post['title'], $post['type'], $post['monitored'], $post['water_tests']);
-            }
-        }
+//        if($post) {
+//            if( isset($post['title']) && isset($post['code']) && isset($post['type']) ) {
+//                if( !isset($post['monitored']) ) {
+//                    $post['monitored'] = 0;
+//                }
+//                if( !isset($post['water_tests']) ) {
+//                    $post['water_tests'] = 0;
+//                }
+//
+//                $mInstance->insertInstance($this->user['id_user'], $post['title'], $post['type'], $post['monitored'], $post['water_tests']);
+//            }
+//        }
 
         $form = $hForm->createForm(array(
             'name' => 'form-instance',
@@ -86,15 +89,15 @@ class Controller_Instance extends Controller_AuthenticatedPage {
                     'type' => 'checkbox',
                     'name' => 'monitored',
                     'label' => __('Monitored'),
-                    'value' => 1,
-                    'value' => $instance ? $instance['monitored'] : ''
+//                    'value' => '1',
+                    'value' => $instance ? $instance['monitored'] : '0'
                 ),
                 array(
                     'type' => 'checkbox',
                     'name' => 'water_tests',
                     'label' => __('Show water tests page'),
-                    'value' => 1,
-                    'value' => $instance ? $instance['water_tests'] : ''
+//                    'value' => '1',
+                    'value' => $instance ? $instance['water_tests'] : '0'
                 ),
                 array(
                     'type' => 'submit'
