@@ -102,6 +102,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
             "bower_components/highstock/js/modules/exporting.src.js",
             "bower_components/highstock/js/highstock.src.js",
             "bower_components/salvattore/dist/salvattore.min.js",
+            "bower_components/jquery-migrate/jquery-migrate.min.js",
             "bower_components/jquery/dist/jquery.min.js"
         );
     }
