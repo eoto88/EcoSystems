@@ -54,7 +54,7 @@ class Helper_WidgetTodos {
         if( $id_instance ) {
             $todos = $mTodo->getTodosByIdInstance($id_instance);
         } else {
-            $todos = $mTodo->getTodos();
+            $todos = $mTodo->getTodos($id_user);
         }
 
         $checkedTodos = array();
