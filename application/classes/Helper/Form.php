@@ -65,7 +65,7 @@ class Helper_Form {
                 // TODO selected
                 $cls = "form-control";
                 if(isset($data['selectize']) && $data['selectize']) {
-                    $cls = "";
+                    $cls = "fieldSelectize";
                 }
                 $input = '<select name="'.$data['name'].'" class="'.$cls.'">';
                 foreach($data['values'] as $key => $type) {
@@ -81,7 +81,6 @@ class Helper_Form {
                 </div>';
                 break;
             // TODO Textarea
-            // TODO Numberfield avec spinner
             case 'datepicker':
                 $attr = '';
                 if( isset($data['format']) ) {

@@ -1,6 +1,3 @@
-/**
- * Created by eoto on 31/10/14.
- */
 App.Widget = Class.extend({
     config: {
         collapsible: true,

@@ -40,7 +40,7 @@ class Helper_WidgetTodos {
                     'label' => __('Time unit')
                 ),
                 array(
-                    // TODO numberfield
+                    'type' => 'spinner',
                     'name' => 'interval_value',
                     'label' => __('Interval value')
                 ),

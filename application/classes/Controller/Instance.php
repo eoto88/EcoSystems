@@ -12,9 +12,10 @@ class Controller_Instance extends Controller_AuthenticatedPage {
         $this->template->icon = 'fa-list-alt';
         $mInstance = new Model_Instance();
         $instance = null;
+        $mParam = new Model_Param();
+//        $mParamType = new Model_ParamType();
         $mInstanceType = new Model_InstanceType();
         $instanceTypes = $mInstanceType->getInstanceTypes();
-        $post = $this->request->post();
         $hForm = new Helper_Form();
 
         if( is_numeric($this->request->param('id')) ) {
@@ -23,23 +24,10 @@ class Controller_Instance extends Controller_AuthenticatedPage {
                 throw new HTTP_Exception_404;
             }
         } else if( $this->request->param('id') == 'new' ) {
-            // Nothing yet...
+            // Default values...
         } else {
             throw new HTTP_Exception_404;
         }
-
-//        if($post) {
-//            if( isset($post['title']) && isset($post['code']) && isset($post['type']) ) {
-//                if( !isset($post['monitored']) ) {
-//                    $post['monitored'] = 0;
-//                }
-//                if( !isset($post['water_tests']) ) {
-//                    $post['water_tests'] = 0;
-//                }
-//
-//                $mInstance->insertInstance($this->user['id_user'], $post['title'], $post['type'], $post['monitored'], $post['water_tests']);
-//            }
-//        }
 
         $form = $hForm->createForm(array(
             'name' => 'form-instance',
@@ -121,6 +109,8 @@ class Controller_Instance extends Controller_AuthenticatedPage {
             $vTodos = $hWidgetTodos->getView($this->user['id_user'], $instance['id']);
             $instancesData['widget_todos'] = $vTodos;
             $instancesData['widget_instances'] = $vInstance;
+            $instancesData['instance_params'] = $mParam->getInstanceParams($instance['id']);
+//            $instancesData['param_types'] = $mParamType->getParamTypes();
         }
 
         $view = View::factory( "instance" )->set( $instancesData );;
