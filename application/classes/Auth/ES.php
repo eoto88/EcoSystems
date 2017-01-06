@@ -1,6 +1,6 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
-class Auth_Example extends Auth
+class Auth_ES extends Auth
 {
     protected function _login($username, $password, $remember) {
         $mUser = new Model_ESUser();
