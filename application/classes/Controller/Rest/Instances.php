@@ -43,22 +43,12 @@ class Controller_Rest_Instances extends Controller_REST {
         $post = $this->request->post();
 
         $data = json_decode(file_get_contents('php://input'), true);
+        $result = $mInstance->insertInstance($this->_user['id_user'], $data);
 
-        $validation = Validation::factory($data);
-        $validation->rule('title', 'not_empty')->rule('title', 'max_length', array(':value', '25'));
-        $validation->rule('type', 'not_empty')->rule('type', 'digit');
-
-        if( $validation->check() ) {
-            $title = filter_input(INPUT_POST, 'datetime', FILTER_SANITIZE_SPECIAL_CHARS);
-            var_dump($title);
-            // TODO ...
-
-//                $mInstance->insertInstance();
+        if( $result['success']) {
+            echo json_encode( $result );
         } else {
-            $this->response->status(406)
-                ->body(json_encode(array(
-                    'messages' => array('')
-                )));
+            $this->response->status(406)->body(json_encode($result));
         }
     }
 

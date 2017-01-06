@@ -63,6 +63,9 @@
                     <a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id'] ?>"><?php echo $instanceIcon .'&nbsp;'. $instance['title'] ?></a>
                 </li>
             <?php } ?>
+            <li data-id="new">
+                <a href="<?php echo URL::base(TRUE, TRUE) .'instance/new' ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i>Create an instance</a>
+            </li>
         </ul>
     </nav>
     <nav id="pages-menu">

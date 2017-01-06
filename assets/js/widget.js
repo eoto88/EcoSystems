@@ -168,14 +168,16 @@ App.Widget = Class.extend({
             failure: function(data) {
                 // TODO if 404
                 // TODO if 406
-                $.each(data.responseJSON.errors, function(index, value) {
-                    $field = $form.find('[name='+ index +']');
-                    if( $field ) {
-                        var $formGroup = $field.closest('.form-group');
-                        $formGroup.addClass('has-error');
-                        $formGroup.append('<span class="help-block">'+ value +'</span>')
-                    }
-                });
+                if(data.responseJSON) {
+                    $.each(data.responseJSON.errors, function(index, value) {
+                        $field = $form.find('[name='+ index +']');
+                        if( $field ) {
+                            var $formGroup = $field.closest('.form-group');
+                            $formGroup.addClass('has-error');
+                            $formGroup.append('<span class="help-block">'+ value +'</span>')
+                        }
+                    });
+                }
                 if( params.failure ) {
                     params.failure(data);
                 }

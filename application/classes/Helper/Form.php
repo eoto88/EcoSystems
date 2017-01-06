@@ -112,7 +112,7 @@ class Helper_Form {
                 break;
             case 'iconpicker':
                 $input = '<div class="input-group iconpicker-container">
-                        <input data-placement="bottomRight" class="form-control icon-picker iconpicker-input" value="fa-archive" type="text">
+                        <input data-placement="bottomRight" name="'.$data['name'].'" class="form-control icon-picker iconpicker-input" value="fa-archive" type="text">
                         <span class="input-group-addon"><i class="fa fa-archive"></i></span>
                     </div>';
                 break;
