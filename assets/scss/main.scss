@@ -910,55 +910,6 @@ label {
   .icon-switch .switch.icon-switch-off > div > span > i {
     color: white;
   }
-
-//  .live-status {
-//    text-align: right;
-//  }
-//  .live-label {
-//    display: block;
-//  }
-//  .live-value {
-//    display: block;
-//    font-size: 24px;
-//    line-height: 35px;
-//
-//    i {
-//      font-size: 28px;
-//      padding-right: 10px;
-//
-//      &.fa-flask {
-//        font-size: 30px;
-//      }
-//      &.wi-na {
-//        font-size: 32px;
-//      }
-//    }
-//  }
-//  .very-acidic {
-//    color: $very-acidic;
-//  }
-//  .acidic i {
-//    color: $acidic;
-//  }
-//  .neutral i {
-//    color: $neutral;
-//  }
-//  .alkaline i {
-//    color: $alkaline;
-//  }
-//  .very-alkaline i {
-//    color: $very-alkaline;
-//  }
-//
-//  .low-danger i {
-//    color: $low-danger;
-//  }
-//  .medium-danger i {
-//    color: $medium-danger;
-//  }
-//  .high-danger i {
-//    color: $high-danger;
-//  }
 }
 /* **** Widget instances - END **** */
 
@@ -1050,6 +1001,14 @@ label {
   }
 }
 /* **** Widget ToDos - END **** */
+
+/* **** Widget Instance Parameters - START **** */
+.widget-params {
+  .widget-body {
+    padding: 15px;
+  }
+}
+/* **** Widget Instance Parameters - END **** */
 
 /* **** Widget Table - START **** */
 .widget-table {
@@ -1158,14 +1117,20 @@ label {
 
   #widget-todos {
 
+    //.widget-body {
+    //  max-height: 600px;
+    //  overflow-y: auto;
+    //  overflow-x: hidden;
+    //}
+
     #unchecked-todos,
     #checked-todos {
       border-top: 1px solid $light-grey;
       list-style: none;
       padding: 0;
-      max-height: 400px;
-      overflow-y: auto;
-      overflow-x: hidden;
+      //max-height: 400px;
+      //overflow-y: auto;
+      //overflow-x: hidden;
     }
   }
 }
