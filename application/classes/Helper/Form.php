@@ -80,7 +80,10 @@ class Helper_Form {
                     <label for="show-password" title="Show Password">Show</label>
                 </div>';
                 break;
-            // TODO Textarea
+            case 'textarea':
+                $input = '<textarea name="'. $data['name'] .'" class="form-control">'. $value .'</textarea>';
+
+                break;
             case 'datepicker':
                 $attr = '';
                 if( isset($data['format']) ) {
