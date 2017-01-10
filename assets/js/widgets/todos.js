@@ -48,7 +48,6 @@ App.WidgetTodos = App.Widget.extend({
                         me.addTodoInList({
                             checked: false,
                             id_instance: todoData.id_instance,
-                            instance_title: todoData.instance_title,
                             todo: tmplNewTodo(todoData)
                         });
 
@@ -111,7 +110,6 @@ App.WidgetTodos = App.Widget.extend({
                     me.addTodoInList({
                         checked: (done == 1),
                         id_instance: id_instance,
-                        instance_title: 'Test bla bla bla', // TODO Comment trouver instance_title ?
                         todo: $todo
                     });
                 });
@@ -210,6 +208,7 @@ App.WidgetTodos = App.Widget.extend({
                         }
                     }
 
+                    // TODO me.ajax...
                     $.ajax({
                         url: url,
                         type: 'DELETE',
@@ -236,7 +235,6 @@ App.WidgetTodos = App.Widget.extend({
      * @param params    Parameters object
      * @param params.checked    true is checked list or false for unchecked list
      * @param params.id_instance    Todo instance id
-     * @param params.instance_title Todo instance title
      * @param params.todo   Todo element
      */
     addTodoInList: function(params) {
@@ -268,8 +266,15 @@ App.WidgetTodos = App.Widget.extend({
                 }
             } else {
                 // If instance group doesn't exist
-                $list.append('<li class="instance-group-title" data-id="'+ params.id_instance +'">'+ params.instance_title +'</li>');
-                $list.append( $todo );
+                me.ajax({
+                    url: BASE_URL + "api/instances/" + params.id_instance,
+                    success: function(data) {
+                        if(data[0]) {
+                            $list.append('<li class="instance-group-title" data-id="'+ params.id_instance +'">'+ data[0].title +'</li>');
+                            me.addTodoInList(params);
+                        }
+                    }
+                });
             }
             if( $list.find('#no-todo') ) {
                 $list.find('#no-todo').animate({'height': 0, 'opacity': 0}, 500, function() {
