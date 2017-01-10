@@ -208,16 +208,14 @@ App.WidgetTodos = App.Widget.extend({
                         }
                     }
 
-                    // TODO me.ajax...
-                    $.ajax({
+                    me.ajax({
                         url: url,
-                        type: 'DELETE',
+                        method: 'DELETE',
                         success: function(data) {
                             $todo.remove();
+                            me.updateTodoCounts();
                             dialog.close();
                         }
-                    }).fail(function() {
-                        alert('error');
                     });
                 }
             }, {
