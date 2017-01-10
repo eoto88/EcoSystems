@@ -3,6 +3,10 @@
  */
 var ES = {
 
+    /**
+     * @deprecated
+     * @returns {undefined|Number}
+     */
     getCurrentInstanceId: function() {
         return $('#dropdown-instances .active').data('id');
     },
