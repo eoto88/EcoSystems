@@ -12,8 +12,6 @@ class Controller_Instance extends Controller_AuthenticatedPage {
         $this->template->icon = 'fa-list-alt';
         $mInstance = new Model_Instance();
         $instance = null;
-        $mParam = new Model_Param();
-//        $mParamType = new Model_ParamType();
         $mInstanceType = new Model_InstanceType();
         $instanceTypes = $mInstanceType->getInstanceTypes();
         $hForm = new Helper_Form();
@@ -109,8 +107,10 @@ class Controller_Instance extends Controller_AuthenticatedPage {
             $vTodos = $hWidgetTodos->getView($this->user['id_user'], $instance['id']);
             $instancesData['widget_todos'] = $vTodos;
             $instancesData['widget_instances'] = $vInstance;
-            $instancesData['instance_params'] = $mParam->getInstanceParams($instance['id']);
-//            $instancesData['param_types'] = $mParamType->getParamTypes();
+
+            $hWidgetInstanceParams = new Helper_WidgetInstanceParameters();
+            $vInstanceParams = $hWidgetInstanceParams->getView($instance['id']);
+            $instancesData['widget_instanceParameters'] = $vInstanceParams;
         }
 
         $view = View::factory( "instance" )->set( $instancesData );;

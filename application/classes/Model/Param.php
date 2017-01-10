@@ -14,12 +14,16 @@ class Model_Param {
 
     public function getInstanceParams($id_instance) {
         $query = DB::query(Database::SELECT,
-            "SELECT p.title, p.alias, pt.title AS type ".
+            "SELECT p.title, p.alias, pt.title AS type, p.options ".
             "FROM param AS p ".
             "JOIN param_type AS pt ON pt.id = p.id_type ".
             "WHERE p.id_instance = :id_instance "
         );
         $query->param(':id_instance', $id_instance);
         return $query->execute()->as_array();
+    }
+
+    public function insertParam($data) {
+
     }
 }
