@@ -198,12 +198,17 @@ App.WidgetTodos = App.Widget.extend({
                 label: 'Delete',  // TODO Translate
                 cssClass: 'btn-primary',
                 action: function(dialog) {
-                    var id_instance = ES.getCurrentInstanceId(),
+                    var id_instance = $todo.data('id-instance'),
                         id = $todo.data('id'),
-                        url = BASE_URL + "api/instances/" + id_instance + "/todos/" + id;
+                        url = BASE_URL + "api/instances/" + id_instance + "/todos/" + id,
+                        $form = $('#todo-form');
 
-                    // FIXME Verify if todo in form and if this todo has this id
-                    // FIXME if todo in form has this id emptyForm()
+                    if($form) {
+                        if(id == $form.find('[name=id]').val()) {
+                            me.emptyForm($form);
+                            $form.slideUp();
+                        }
+                    }
 
                     $.ajax({
                         url: url,
