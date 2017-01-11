@@ -5,16 +5,7 @@ Monitoring system made with Arduino to monitor an aquaponic system. This project
 An ecosystem is a community of living organisms (plants, animals and microbes) in conjunction with the nonliving components of their environment (things like air, water and mineral soil), interacting as a system.
 http://en.wikipedia.org/wiki/Ecosystem
 
-## Components
-- Arduino Uno/Arduino Mega
-- Ethernet Shield
-- Photoresistor
-- Thermal sensor DS18B20
-- Real time clock DS1307
-- 4 channel relay module
-- Temperature Humidity Sensor AM2301 (Soon)
-
-:fish: + :sunny: + :herb: = :tomato:
+Arduino code: https://github.com/eoto88/Arduino-EcoSystem
 
 ## This project is in development and the code here is not complete yet!
 For more infos, come visit later or simply write me!
@@ -36,8 +27,3 @@ For more infos, come visit later or simply write me!
 To configure the web application, you need to copy the application/config*.template.php to application/config/*.php
 
 Ex: database.template.php => database.php
-
-
-## Arduino configuration
-1. SetTime
-2. one_wire_address_finder
