@@ -81,10 +81,10 @@ App.WidgetInstances = App.Widget.extend({
                         $pumpSwitch = $instance.find('.pump-status'),
                         $fanSwitch = $instance.find('.fan-status');
 
-                    me.updateSwitch($heartbeatSwitch, instanceData.heartbeat);
-                    me.updateSwitch($lightSwitch, instanceData.light_on);
-                    me.updateSwitch($pumpSwitch, instanceData.pump_on);
-                    me.updateSwitch($fanSwitch, instanceData.fan_on);
+                    me.updateSwitch($heartbeatSwitch, instanceData.heartbeat, instanceData.last_communication);
+                    me.updateSwitch($lightSwitch, instanceData.light_on, instanceData.last_communication);
+                    me.updateSwitch($pumpSwitch, instanceData.pump_on, instanceData.last_communication);
+                    me.updateSwitch($fanSwitch, instanceData.fan_on, instanceData.last_communication);
 
                     if($instanceBody.html() != "") {
                         var deferredCalls = [],
@@ -213,7 +213,7 @@ App.WidgetInstances = App.Widget.extend({
         });
     },
 
-    updateSwitch: function($switch, onOffStatus) {
+    updateSwitch: function($switch, onOffStatus, datetime) {
         if(onOffStatus == "1") {
             if($switch.find('.switch-wrapper').hasClass('icon-switch-off')) {
                 $switch.find('.switch-wrapper').toggleClass('icon-switch-on').toggleClass('icon-switch-off');
@@ -223,6 +223,12 @@ App.WidgetInstances = App.Widget.extend({
                 $switch.find('.switch-wrapper').toggleClass('icon-switch-on').toggleClass('icon-switch-off');
             }
         }
+
+        var popoverID = $switch.attr('aria-describedby');
+        if( popoverID ) {
+            $('#' + popoverID).find('.popover-content').html('Last communication: ' + datetime);
+        }
+        $switch.attr('data-content', 'Last communication: ' + datetime);
     },
 
     onInstanceExpandClick: function(event, element) {
@@ -235,6 +241,13 @@ App.WidgetInstances = App.Widget.extend({
 
         $instanceBody.slideToggle();
         $(event.currentTarget).find('i').toggleClass('fa-chevron-circle-down').toggleClass('fa-chevron-circle-up');
+
+        me.ajax({
+            url: BASE_URL + "api/instances/"+ instanceData.id +"/paramGroups/",
+            success: function(data) {
+                debugger;
+            }
+        });
 
         if($instanceBody.html() == "") {
             if(instanceData.monitored == "1") {
@@ -365,6 +378,7 @@ App.WidgetInstances = App.Widget.extend({
             }
         } else {
             // TODO destroy gages
+            $instanceBody.find('[data-toggle=popover]').popover('destroy');
             $instanceBody.empty();
         }
     },
