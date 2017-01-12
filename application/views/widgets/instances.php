@@ -24,6 +24,7 @@
     </script>
     <script type="text/x-handlebars-template" id="instance-body-tmpl">
         <div class="row">
+            <div class="param-group col-xs-6 col-md-6 col-lg-6"></div>
             <div class="data-status col-xs-6 col-md-6 col-lg-6"></div>
             <div class="water-test-status col-xs-6 col-md-6 col-lg-6"></div>
         </div>
