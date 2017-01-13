@@ -49,9 +49,14 @@ class Model_Data {
                 $data['humidity'] = null;
             }
 
+            if ( ! isset($data['id_param'])) {
+                $data['id_param'] = 0;
+            }
+
             $query = DB::insert('data', array(
                 'id',
                 'id_instance',
+                'id_param',
                 'datetime',
                 'humidity',
                 'room_temperature',
@@ -59,6 +64,7 @@ class Model_Data {
             ))->values( array(
                 DB::expr("UUID()"),
                 $idInstance,
+                $data['id_param'],
                 $data['datetime'],
                 $data['humidity'],
                 $data['roomTemperature'],

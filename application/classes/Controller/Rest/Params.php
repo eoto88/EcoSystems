@@ -5,9 +5,17 @@ class Controller_Rest_Params extends Controller_REST {
     protected $entityName = 'param';
 
     public function action_index() {
+        $id_instance = $this->request->param('id_instance');
+        $id = $this->request->param('id');
         $mParam = new Model_Param();
 
-        $this->respond($mParam->getParams());
+        if( ! empty($id_instance)) {
+            $this->respond($mParam->getInstanceParams($id_instance));
+        } else {
+            $this->respond($mParam->getParams());
+        }
+
+
     }
 
     public function action_update() {

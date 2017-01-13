@@ -790,6 +790,15 @@ label {
     display: none;
     border-top: 1px solid $light-grey!important;
 
+    h4 {
+      border-bottom: 1px solid $light-grey;
+    }
+
+    .param {
+      float: left;
+      width: 50%;
+    }
+
     .statusGage {
       margin-bottom: 15px;
 

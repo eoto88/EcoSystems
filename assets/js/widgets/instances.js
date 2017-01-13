@@ -242,12 +242,11 @@ App.WidgetInstances = App.Widget.extend({
         $instanceBody.slideToggle();
         $(event.currentTarget).find('i').toggleClass('fa-chevron-circle-down').toggleClass('fa-chevron-circle-up');
 
-        me.ajax({
-            url: BASE_URL + "api/instances/"+ instanceData.id +"/paramGroups/",
-            success: function(data) {
-                debugger;
-            }
-        });
+        deferredCalls.push(
+            me.ajax({
+                url: BASE_URL + "api/instances/"+ instanceData.id +"/params/"
+            })
+        );
 
         if($instanceBody.html() == "") {
             if(instanceData.monitored == "1") {
@@ -279,6 +278,10 @@ App.WidgetInstances = App.Widget.extend({
 
                             if (entityName == 'waterTest') {
                                 instanceBodyData.waterTest = arguments[i][0].entities;
+                            }
+
+                            if (entityName == "param") {
+                                instanceBodyData.params = arguments[i][0].entities;
                             }
                         }
 
@@ -731,6 +734,23 @@ App.WidgetInstances = App.Widget.extend({
 
     registerHelpers: function() {
         var me = this;
+
+        Handlebars.registerHelper('showParams', function(params) {
+            var tpl = "",
+                lastIdGroup = 0;
+            $.each(params, function(key, param) {
+                if(lastIdGroup != param.id_group) {
+                    if(lastIdGroup != 0) {
+                        tpl += '</div>';
+                    }
+                    tpl += '<div class="param-group col-xs-6 col-md-6 col-lg-6"><h4>'+ param.groupTitle +'</h4>';
+                }
+                tpl += '<div class="param">'+ param.title +'</div>';
+                lastIdGroup = param.id_group;
+            });
+            tpl += '</div>';
+            return tpl;
+        });
 
         Handlebars.registerHelper('iconSwitch', function(onOffStatus, cls) {
             var onIconCls,
