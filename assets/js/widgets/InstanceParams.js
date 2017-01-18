@@ -41,6 +41,11 @@ ES.WidgetInstanceParams = ES.Widget.extend({
                             valField: 'id',
                             values: []
                         },
+                        {
+                            cmpType: 'iconpicker',
+                            name: 'number',
+                            label: 'Iconpicker'
+                        },
                         //{
                         //    cmpType: 'formSep',
                         //    title: 'Options'
@@ -48,10 +53,10 @@ ES.WidgetInstanceParams = ES.Widget.extend({
                         //{
                         //    cmpType: ''
                         //},
-                        //{
-                        //    cmpType: 'button',
-                        //    text: 'Save'
-                        //}
+                        {
+                           cmpType: 'button',
+                           text: 'Save'
+                        }
                     ]
 
                 }

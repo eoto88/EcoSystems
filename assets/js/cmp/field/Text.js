@@ -2,19 +2,26 @@
  * Created by eoto88 on 17/01/17.
  */
 ES.Field.Text = ES.Field.extend({
-    initCmp: function(configs) {
+    attr: '',
+    maxLength: null,
+
+    initCmp: function(config) {
         var me = this;
 
-        ES.apply(me, configs);
+        ES.apply(me, config);
         me._super('text');
-        me.appendTo(configs.parent);
+        me.appendTo(config.parent);
     },
 
     getTpl: function() {
         var me = this,
             tpl = me._super(),
             label = me.getLabel(),
-            field = '<input type="text" id="{{cmpId}}" name="{{name}}" class="form-control" maxlength="{{maxLength}}" />';
+            field = '{{{before}}}<input type="text" id="{{cmpId}}" name="{{name}}" class="form-control" {{{attr}}} />{{{after}}}';
+
+        if( ! ES.isEmpty(me.maxLength) ) {
+            me.attr += ' maxlength="'+ me.maxLength +'"';
+        }
 
         field = Handlebars.compile(label + field);
 
