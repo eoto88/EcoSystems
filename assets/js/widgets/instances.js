@@ -1,4 +1,4 @@
-App.WidgetInstances = App.Widget.extend({
+ES.WidgetInstances = ES.Widget.extend({
     // TODO Improve this
     config: {
         collapsible: true,
@@ -34,11 +34,19 @@ App.WidgetInstances = App.Widget.extend({
         me.startLoading();
 
         me.ajax({
-            url: BASE_URL + "api/instances/" + (id_instance > 0 ? id_instance : ""),
+            url: BASE_URL + "api/instances/" + (id_instance > 0 ? id_instance : "") + "?params=true&header=true",
             success: function(data) {
                 $component.find('.widget-body').append('<ul></ul>');
 
                 $.each(data, function(key, instanceData) {
+                    instanceData.params = me.parseData(instanceData.params);
+                    //$.each(instanceData.params, function(key, param) {
+                    //    try {
+                    //        param.data = JSON.parse(param.data);
+                    //    } catch(err) {
+                    //        // TODO
+                    //    }
+                    //});
                     me.compileTpl({
                         tplId: 'instance-tmpl',
                         appendTo: $component.find('.widget-body ul'),
@@ -60,6 +68,17 @@ App.WidgetInstances = App.Widget.extend({
                 me.stopLoading();
             }
         });
+    },
+
+    parseData: function(params) {
+        $.each(params, function(key, param) {
+            try {
+                param.data = JSON.parse(param.data);
+            } catch(err) {
+                console.error("Error parsing data JSON.");
+            }
+        });
+        return params;
     },
 
     refresh: function(loading) {
@@ -244,7 +263,7 @@ App.WidgetInstances = App.Widget.extend({
 
         deferredCalls.push(
             me.ajax({
-                url: BASE_URL + "api/instances/"+ instanceData.id +"/params/"
+                url: BASE_URL + "api/instances/"+ instanceData.id +"/params"+ "?header=false"
             })
         );
 
@@ -281,7 +300,7 @@ App.WidgetInstances = App.Widget.extend({
                             }
 
                             if (entityName == "param") {
-                                instanceBodyData.params = arguments[i][0].entities;
+                                instanceBodyData.params = me.parseData(arguments[i][0].entities);
                             }
                         }
 
@@ -292,88 +311,119 @@ App.WidgetInstances = App.Widget.extend({
                             data: instanceBodyData
                         });
 
+                        $.each(instanceBodyData.params, function(key, param) {
+                            return me.createGage({
+                                appendTo: $instance.find('.param.'+ param.paramAlias),
+                                iconCls: param.icon,
+                                title: param.title,
+                                content: 'Datetime: '+ param.datetime,
+                                gageId: param.paramAlias,
+                                value: param.data.value,
+                                minVal: 0,
+                                maxVal: 50,
+                                decimals: 1,
+                                symbol: ' °C',
+                                levelColors : [  "#e74c3c", "#2ecc71", "#e74c3c" ],
+                                customSectors: {
+                                    ranges: [{
+                                        color : "#e74c3c",
+                                        lo : 0,
+                                        hi : 13
+                                    },{
+                                        color : "#2ecc71",
+                                        lo : 24,
+                                        hi : 26
+                                    },{
+                                        color : "#e74c3c",
+                                        lo : 27,
+                                        hi : 50
+                                    }]
+                                }
+                            });
+                        });
+
                         // TODO datetime
 
-                        if(instanceBodyData.data.room_temperature) {
-                            me.createRoomTemperatureGage(
-                                $instance,
-                                instanceBodyData.data.room_temperature,
-                                instanceBodyData.data.datetime
-                            );
-                        } else {
-                            // TODO N/A
-                        }
+                        //if(instanceBodyData.data.room_temperature) {
+                        //    me.createRoomTemperatureGage(
+                        //        $instance,
+                        //        instanceBodyData.data.room_temperature,
+                        //        instanceBodyData.data.datetime
+                        //    );
+                        //} else {
+                        //    // TODO N/A
+                        //}
 
-                        if(instanceBodyData.data.tank_temperature) {
-                            me.createTankTemperatureGage(
-                                $instance,
-                                instanceBodyData.data.tank_temperature,
-                                instanceBodyData.data.datetime
-                            );
-                        } else {
-                            // TODO N/A
-                        }
+                        //if(instanceBodyData.data.tank_temperature) {
+                        //    me.createTankTemperatureGage(
+                        //        $instance,
+                        //        instanceBodyData.data.tank_temperature,
+                        //        instanceBodyData.data.datetime
+                        //    );
+                        //} else {
+                        //    // TODO N/A
+                        //}
 
-                        if(instanceBodyData.data.humidity) {
-                            me.createHumidityGage(
-                                $instance,
-                                instanceBodyData.data.humidity,
-                                instanceBodyData.data.datetime
-                            );
-                        } else {
-                            // TODO N/A
-                        }
+                        //if(instanceBodyData.data.humidity) {
+                        //    me.createHumidityGage(
+                        //        $instance,
+                        //        instanceBodyData.data.humidity,
+                        //        instanceBodyData.data.datetime
+                        //    );
+                        //} else {
+                        //    // TODO N/A
+                        //}
 
-                        instanceBodyData.data.water_level = 80;
-                        if(instanceBodyData.data.water_level) {
-                            me.createWaterLevelGage(
-                                $instance,
-                                instanceBodyData.data.water_level,
-                                instanceBodyData.data.datetime
-                            );
-                        } else {
-                            // TODO N/A
-                        }
+                        //instanceBodyData.data.water_level = 80;
+                        //if(instanceBodyData.data.water_level) {
+                        //    me.createWaterLevelGage(
+                        //        $instance,
+                        //        instanceBodyData.data.water_level,
+                        //        instanceBodyData.data.datetime
+                        //    );
+                        //} else {
+                        //    // TODO N/A
+                        //}
 
-                        if(instanceBodyData.waterTest.ph) {
-                            me.createPhGage(
-                                $instance,
-                                instanceBodyData.waterTest.ph,
-                                instanceBodyData.waterTest.datetime
-                            );
-                        } else {
-                            // TODO N/A
-                        }
+                        //if(instanceBodyData.waterTest.ph) {
+                        //    me.createPhGage(
+                        //        $instance,
+                        //        instanceBodyData.waterTest.ph,
+                        //        instanceBodyData.waterTest.datetime
+                        //    );
+                        //} else {
+                        //    // TODO N/A
+                        //}
 
-                        if(instanceBodyData.waterTest.ammonia) {
-                            me.createAmmoniaGage(
-                                $instance,
-                                instanceBodyData.waterTest.ammonia,
-                                instanceBodyData.waterTest.datetime
-                            );
-                        } else {
-                            // TODO N/A
-                        }
+                        //if(instanceBodyData.waterTest.ammonia) {
+                        //    me.createAmmoniaGage(
+                        //        $instance,
+                        //        instanceBodyData.waterTest.ammonia,
+                        //        instanceBodyData.waterTest.datetime
+                        //    );
+                        //} else {
+                        //    // TODO N/A
+                        //}
 
-                        if(instanceBodyData.waterTest.nitrite) {
-                            me.createNitriteGage(
-                                $instance,
-                                instanceBodyData.waterTest.nitrite,
-                                instanceBodyData.waterTest.datetime
-                            );
-                        } else {
-                            // TODO N/A
-                        }
+                        //if(instanceBodyData.waterTest.nitrite) {
+                        //    me.createNitriteGage(
+                        //        $instance,
+                        //        instanceBodyData.waterTest.nitrite,
+                        //        instanceBodyData.waterTest.datetime
+                        //    );
+                        //} else {
+                        //    // TODO N/A
+                        //}
 
-                        if(instanceBodyData.waterTest.nitrate) {
-                            me.createNitrateGage(
-                                $instance,
-                                instanceBodyData.waterTest.nitrate,
-                                instanceBodyData.waterTest.datetime
-                            );
-                        } else {
-                            // TODO N/A
-                        }
+                        //if(instanceBodyData.waterTest.nitrate) {
+                        //    me.createNitrateGage(
+                        //        $instance,
+                        //        instanceBodyData.waterTest.nitrate,
+                        //        instanceBodyData.waterTest.datetime
+                        //    );
+                        //} else {
+                        //    // TODO N/A
+                        //}
                     }
                 });
             } else {
@@ -735,7 +785,15 @@ App.WidgetInstances = App.Widget.extend({
     registerHelpers: function() {
         var me = this;
 
-        Handlebars.registerHelper('showParams', function(params) {
+        Handlebars.registerHelper('showInstanceHeaderParams', function(params) {
+            var tpl = "";
+            $.each(params, function(key, param) {
+                tpl += Handlebars.helpers.iconSwitch(param);
+            });
+            return tpl;
+        });
+
+        Handlebars.registerHelper('showBodyParams', function(params) {
             var tpl = "",
                 lastIdGroup = 0;
             $.each(params, function(key, param) {
@@ -745,43 +803,37 @@ App.WidgetInstances = App.Widget.extend({
                     }
                     tpl += '<div class="param-group col-xs-6 col-md-6 col-lg-6"><h4>'+ param.groupTitle +'</h4>';
                 }
-                tpl += '<div class="param">'+ param.title +'</div>';
+                tpl += '<div class="param '+ param.paramAlias +'"></div>';
                 lastIdGroup = param.id_group;
             });
             tpl += '</div>';
             return tpl;
         });
 
-        Handlebars.registerHelper('iconSwitch', function(onOffStatus, cls) {
+        Handlebars.registerHelper('iconSwitch', function(param) {
             var onIconCls,
                 offIconCls,
-                title,
-                content = 'Last communication: ' + this.last_communication;
+                cls = param.typeAlias,
+                content = 'Date: ' + param.datetime;
 
-            if(cls == 'heartbeat-status') {
-                onIconCls = 'fa fa-check success';
-                offIconCls = 'fa fa-exclamation-triangle error';
-                title = 'Heartbeat status';
-            } else if(cls == 'light-status') {
-                onIconCls = offIconCls = 'fa fa-lightbulb-o';
-                title = 'Light status';
-            } else if(cls == 'pump-status') {
-                onIconCls = offIconCls = 'fa fa-tint';
-                title = 'Pump status';
-            } else if(cls == 'fan-status') {
-                onIconCls = offIconCls = 'wi wi-cloudy-gusts';
-                title = 'Fan status';
-            }
+            //if(param.typeAlias == 'heartbeat') {
+            //    onIconCls = 'fa fa-check success';
+            //    offIconCls = 'fa fa-exclamation-triangle error';
+            //} else if(cls == 'statusOnOff') {
+            //    onIconCls = offIconCls = 'fa fa-lightbulb-o';
+            //} else if(cls == 'pumpStatus') {
+            //    onIconCls = offIconCls = 'fa fa-tint';
+            //}
 
             var tpl = Handlebars.compile($("#icon-switch-tmpl").html());
 
             return tpl({
-                iconCls: cls,
-                title: title,
+                iconCls: param.typeAlias,
+                title: param.title,
                 content: content,
-                onOffStatus: (onOffStatus == "1" ? 'on' : 'off'),
-                onIconCls: onIconCls,
-                offIconCls: offIconCls
+                onOffStatus: (typeof(param.data.value) === "boolean" && param.data.value ? 'on' : 'off'),
+                onIconCls: param.icon,
+                offIconCls: (param.typeAlias == 'heartbeat') ? 'fa fa-exclamation-triangle error' : param.icon
             });
         });
     }

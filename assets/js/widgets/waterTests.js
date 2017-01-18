@@ -1,7 +1,7 @@
 /**
  * Created by eoto on 22/09/16.
  */
-App.WidgetWaterTests = App.Widget.extend({
+ES.WidgetWaterTests = ES.Widget.extend({
     init: function() {
         var me = this;
         me._super('widget-waterTests');

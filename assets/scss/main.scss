@@ -247,7 +247,7 @@ form {
   -webkit-transform: translate(0px,0) translateZ(0px);
 
   #instances-menu {
-    border-bottom: 1px solid #1A1817;
+    border-top: 1px solid #525151;
 
     h4 {
       color: white;
@@ -256,7 +256,7 @@ form {
   }
 
   #pages-menu {
-    border-top: 1px solid #525151;
+    border-bottom: 1px solid #1A1817;
   }
 
   &.mobile-closed {
@@ -269,7 +269,6 @@ form {
 
   ul {
     width: 100%;
-    padding: 40px 28px 25px 0;
     padding: 0;
     margin: 0;
     font-size: 13px;
@@ -278,6 +277,9 @@ form {
     position: relative;
 
     li {
+      ul {
+        padding: 0 0 0 25px;
+      }
       &:hover > a {
         color: white;
       }
@@ -791,13 +793,14 @@ label {
     border-top: 1px solid $light-grey!important;
 
     h4 {
+      padding-bottom: 6px;
       border-bottom: 1px solid $light-grey;
     }
 
-    .param {
-      float: left;
-      width: 50%;
-    }
+//    .param {
+//      float: left;
+//      width: 50%;
+//    }
 
     .statusGage {
       margin-bottom: 15px;
@@ -835,7 +838,7 @@ label {
     }
   }
 
-  .icon-switch.heartbeat-status {
+  .icon-switch.heartbeat {
     .switch-primary {
       background-color: $darkGreen;
     }
@@ -867,7 +870,7 @@ label {
     }
   }
 
-  .icon-switch.light-status {
+  .icon-switch.statusOnOff {
     .switch-primary {
       background-color: $darkYellow;
     }
@@ -1027,7 +1030,13 @@ label {
 }
 /* **** Widget Table - END **** */
 
-/* **** Widget Table - FORM **** */
+.formSeparator {
+  background: $medium-blue;
+  padding: 5px 10px;
+  color: #ffffff;
+}
+
+/* **** Widget Table - START **** */
 .widget-form {
   .widget-body {
     padding: 15px;

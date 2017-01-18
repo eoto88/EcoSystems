@@ -19,7 +19,7 @@ class Controller_Rest_Instances extends Controller_REST {
             $mParam = new Model_Param();
 
             for($i = 0; $i < count($instances); $i++) {
-                $instances[$i]['params'] = $mParam->getInstanceParams($instances[$i]['id']);
+                $instances[$i]['params'] = $mParam->getHeaderParamsWithData($instances[$i]['id']);
             }
         }
 

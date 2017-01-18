@@ -1,4 +1,4 @@
-App.WidgetTodos = App.Widget.extend({
+ES.WidgetTodos = ES.Widget.extend({
     init: function() {
         this._super( 'widget-todos' );
 

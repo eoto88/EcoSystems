@@ -1,13 +1,32 @@
-App.Widget = Class.extend({
+ES.Widget = Class.extend({
     config: {
         collapsible: true,
         refreshable: false
     },
 
-    init: function(cssId) {
+    init: function(cssId, configs) {
         this.cssId = cssId;
         var me = this,
             $component = $('#' + this.cssId);
+
+        if(configs && configs.items) {
+            var $wbody = $component.find('.widget-body')
+            $.each(configs.items, function (key, item) {
+                if(item.cmpType) {
+                    item.parent = $component.find('.widget-body');
+                    var cmp = ES.create(item.cmpType);
+                    cmp.initCmp(item);
+
+                    //
+                    //cmp.initCmp(item);
+                } else {
+                    // <debug>
+                    console.warn("cmpType is required.");
+                    // </debug>
+                }
+            });
+        }
+
 
         if(this.config.collapsible) {
             $component.find('header').append('<span class="widget-expand"><i class="fa fa-chevron-down"></i></span>');

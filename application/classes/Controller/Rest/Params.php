@@ -9,10 +9,14 @@ class Controller_Rest_Params extends Controller_REST {
         $id = $this->request->param('id');
         $mParam = new Model_Param();
 
-        if( ! empty($id_instance)) {
-            $this->respond($mParam->getInstanceParams($id_instance));
-        } else {
+        if(empty($id_instance)) {
             $this->respond($mParam->getParams());
+        } else {
+            if($this->request->query('header') == "false") {
+                $this->respond($mParam->getGroupParamsWithData($id_instance, false));
+            } else {
+                $this->respond($mParam->getInstanceParams($id_instance));
+            }
         }
 
 

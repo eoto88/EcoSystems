@@ -16,6 +16,6 @@
             }
             ?>
         </table>
-        <?php echo $form; ?>
+        <?php /*echo $form;*/ ?>
     </div>
 </div>

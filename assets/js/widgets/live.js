@@ -1,4 +1,4 @@
-App.WidgetLive = App.Widget.extend({
+ES.WidgetLive = ES.Widget.extend({
     init: function() {
         var me = this;
         me._super('widget-live');

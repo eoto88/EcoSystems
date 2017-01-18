@@ -51,23 +51,6 @@
     </div>
 </header>
 <aside id="left-panel" class="mobile-closed">
-    <nav id="instances-menu">
-        <h4>Instances</h4>
-        <ul>
-            <?php
-            foreach($instances as $instance) {
-                $class = ($current_instance_id == $instance['id']) ? 'class="active"' : '';
-                $instanceIcon = isset($instance['icon']) ? '<i class="'. $instance['icon'] .'"></i>' : '';
-                ?>
-                <li <?php echo $class ?> data-id="<?php echo $instance['id'] ?>">
-                    <a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id'] ?>"><?php echo $instanceIcon .'&nbsp;'. $instance['title'] ?></a>
-                </li>
-            <?php } ?>
-            <li data-id="new">
-                <a href="<?php echo URL::base(TRUE, TRUE) .'instance/new' ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i>Create an instance</a>
-            </li>
-        </ul>
-    </nav>
     <nav id="pages-menu">
         <ul>
             <li <?php echo ($current_route_name == 'dashboard') ? 'class="active"' : ''; ?>>
@@ -76,47 +59,72 @@
                     <span class="menu-title"><?php echo __('Dashboard'); ?></span>
                 </a>
             </li>
-            <li <?php echo ($current_route_name == 'live') ? 'class="active"' : ''; ?>>
-                <a href="<?php echo URL::base(TRUE, TRUE) .'live'; ?>" class="require-instance-id">
-                    <i class="fa fa-lg fa-fw fa-bar-chart-o"></i>&nbsp;
-                    <span class="menu-title"><?php echo __('Live'); ?></span>
-                </a>
-            </li>
-            <li <?php echo ($current_route_name == 'history') ? 'class="active"' : ''; ?>>
-                <a href="<?php echo URL::base(TRUE, TRUE) .'history'; ?>" class="require-instance-id">
-                    <i class="fa fa-lg fa-fw fa-history"></i>&nbsp;
-                    <span class="menu-title"><?php echo __('History'); ?></span>
-                </a>
-            </li>
-            <li <?php echo ($current_route_name == 'water-tests') ? 'class="active"' : ''; ?>>
-                <a href="<?php echo URL::base(TRUE, TRUE) .'water-tests'; ?>" class="require-instance-id">
-                    <i class="fa fa-lg fa-fw fa-flask"></i>&nbsp;
-                    <span class="menu-title"><?php echo __('Water tests'); ?></span>
-                </a>
-            </li>
-            <li <?php echo ($current_route_name == 'todos') ? 'class="active"' : ''; ?>>
-                <a href="<?php echo URL::base(TRUE, TRUE) .'todos'; ?>" class="require-instance-id">
-                    <i class="fa fa-lg fa-fw fa-check"></i>&nbsp;
-                    <span class="menu-title"><?php echo __('ToDo\'s'); ?></span>
-                </a>
-            </li>
-            <li <?php echo ($current_route_name == 'instance') ? 'class="active"' : ''; ?>>
-                <a href="<?php echo URL::base(TRUE, TRUE) .'instance'; ?>" class="require-instance-id">
-                    <i class="fa fa-lg fa-fw fa-list-alt"></i>&nbsp;
-                    <span class="menu-title"><?php echo __('Instance') ?></span>
-                </a>
-            </li>
-            <li  <?php echo ($current_route_name == 'logs') ? 'class="active"' : ''; ?>>
-                <a href="<?php echo URL::base(TRUE, TRUE) .'logs'; ?>">
-                    <i class="fa fa-lg fa-fw fa-file-text-o"></i>&nbsp;
-                    <span class="menu-title"><?php echo __('Logs'); ?></span>
-                </a>
-            </li>
-            <li>
-                <a id="logout" href="<?php echo URL::base(TRUE, TRUE) .'logout'; ?>">
-                    <i class="fa fa-lg fa-fw fa-sign-out"></i>&nbsp;
-                    <span class="menu-title"><?php echo __('Logout'); ?></span>
-                </a>
+<!--            <li --><?php //echo ($current_route_name == 'live') ? 'class="active"' : ''; ?><!-->-->
+<!--                <a href="--><?php //echo URL::base(TRUE, TRUE) .'live'; ?><!--" class="require-instance-id">-->
+<!--                    <i class="fa fa-lg fa-fw fa-bar-chart-o"></i>&nbsp;-->
+<!--                    <span class="menu-title">--><?php //echo __('Live'); ?><!--</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li --><?php //echo ($current_route_name == 'history') ? 'class="active"' : ''; ?><!-->-->
+<!--                <a href="--><?php //echo URL::base(TRUE, TRUE) .'history'; ?><!--" class="require-instance-id">-->
+<!--                    <i class="fa fa-lg fa-fw fa-history"></i>&nbsp;-->
+<!--                    <span class="menu-title">--><?php //echo __('History'); ?><!--</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li --><?php //echo ($current_route_name == 'water-tests') ? 'class="active"' : ''; ?><!-->-->
+<!--                <a href="--><?php //echo URL::base(TRUE, TRUE) .'water-tests'; ?><!--" class="require-instance-id">-->
+<!--                    <i class="fa fa-lg fa-fw fa-flask"></i>&nbsp;-->
+<!--                    <span class="menu-title">--><?php //echo __('Water tests'); ?><!--</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li --><?php //echo ($current_route_name == 'todos') ? 'class="active"' : ''; ?><!-->-->
+<!--                <a href="--><?php //echo URL::base(TRUE, TRUE) .'todos'; ?><!--" class="require-instance-id">-->
+<!--                    <i class="fa fa-lg fa-fw fa-check"></i>&nbsp;-->
+<!--                    <span class="menu-title">--><?php //echo __('ToDo\'s'); ?><!--</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li --><?php //echo ($current_route_name == 'instance') ? 'class="active"' : ''; ?><!-->-->
+<!--                <a href="--><?php //echo URL::base(TRUE, TRUE) .'instance'; ?><!--" class="require-instance-id">-->
+<!--                    <i class="fa fa-lg fa-fw fa-list-alt"></i>&nbsp;-->
+<!--                    <span class="menu-title">--><?php //echo __('Instance') ?><!--</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li  --><?php //echo ($current_route_name == 'logs') ? 'class="active"' : ''; ?><!-->-->
+<!--                <a href="--><?php //echo URL::base(TRUE, TRUE) .'logs'; ?><!--">-->
+<!--                    <i class="fa fa-lg fa-fw fa-file-text-o"></i>&nbsp;-->
+<!--                    <span class="menu-title">--><?php //echo __('Logs'); ?><!--</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <a id="logout" href="--><?php //echo URL::base(TRUE, TRUE) .'logout'; ?><!--">-->
+<!--                    <i class="fa fa-lg fa-fw fa-sign-out"></i>&nbsp;-->
+<!--                    <span class="menu-title">--><?php //echo __('Logout'); ?><!--</span>-->
+<!--                </a>-->
+<!--            </li>-->
+        </ul>
+    </nav>
+    <nav id="instances-menu">
+        <h4>Instances</h4>
+        <ul>
+            <?php
+            foreach($instances as $instance) {
+                $class = ($current_instance_id === $instance['id']) ? 'class="active"' : '';
+                $instanceIcon = isset($instance['icon']) ? '<i class="'. $instance['icon'] .'"></i>' : '';
+                ?>
+                <li <?php echo $class ?> data-id="<?php echo $instance['id'] ?>">
+                    <a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id'] ?>"><?php echo $instanceIcon .'&nbsp;'. $instance['title'] ?></a>
+                    <ul>
+                        <li>
+                            <a href="<?php echo URL::base(TRUE, TRUE) .'instance/'. $instance['id']; ?>">
+                                <i class="fa fa-lg fa-fw fa-list-alt"></i>&nbsp;
+                                <span class="menu-title"><?php echo __('Edit instance') ?></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            <?php } ?>
+            <li data-id="new">
+                <a href="<?php echo URL::base(TRUE, TRUE) .'instance/new' ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i>Create an instance</a>
             </li>
         </ul>
     </nav>
@@ -174,20 +182,21 @@
 
         // TODO Find a better place to put this code
         var WidgetList = {
-            'widget-form': App.WidgetForm,
-            'widget-todos': App.WidgetTodos,
-            'widget-waterTests': App.WidgetWaterTests,
-            'widget-instances': App.WidgetInstances,
-            'widget-history': App.WidgetHistory,
-            'widget-live': App.WidgetLive,
-            'widget-logs': App.WidgetLogs
+            'widget-form': ES.WidgetForm,
+            'widget-todos': ES.WidgetTodos,
+            'widget-waterTests': ES.WidgetWaterTests,
+            'widget-instances': ES.WidgetInstances,
+            'widget-params': ES.WidgetInstanceParams,
+            'widget-history': ES.WidgetHistory,
+            'widget-live': ES.WidgetLive,
+            'widget-logs': ES.WidgetLogs
         };
 
         $(document).ready(function() {
             $(".widget").each(function() {
                 var widget = WidgetList[$(this).attr('id')];
                 if( widget ) {
-                    App.factory(WidgetList[$(this).attr('id')]);
+                    ES.factory(WidgetList[$(this).attr('id')]);
                 }
             });
         });

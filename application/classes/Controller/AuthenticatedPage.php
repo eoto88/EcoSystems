@@ -5,7 +5,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
     public $template = 'template'; // Default template
     public $jsTranslations = array();
     public $user;
-    public $currentInstanceId;
+    public $currentInstanceId = null;
     public $instances;
 
     public function before() {
@@ -16,7 +16,11 @@ class Controller_AuthenticatedPage extends Controller_Template {
             HTTP::redirect(URL::base(TRUE, TRUE) . 'login');
         }
 
-        $this->getAndSetCurrentInstanceId();
+        if( $this->request->param('id') ) {
+            $this->currentInstanceId = $this->request->param('id');
+        }
+
+//        $this->getAndSetCurrentInstanceId();
         
         $this->user = Auth::instance()->get_user();
 
@@ -24,21 +28,18 @@ class Controller_AuthenticatedPage extends Controller_Template {
         $this->instances = $mInstance->getInstances($this->user['id_user']);
     }
 
-    private function getAndSetCurrentInstanceId() {
-        if( $this->request->param('id') ) {
-            $id = $this->request->param('id');
-            if( ! is_numeric($id) && $id != 'new' )
-                throw new HTTP_Exception_404;
-            $this->currentInstanceId = $this->request->param('id');
-            Cookie::set('current_instance_id', $this->currentInstanceId);
-        } else if( Cookie::get('current_instance_id') ) {
-            $this->currentInstanceId = Cookie::get('current_instance_id');
-        } else {
-            $config = Kohana::$config->load('app');
-            $this->currentInstanceId = $config['default_instance'];
-            Cookie::set('current_instance_id', $this->currentInstanceId);
-        }
-    }
+//    private function getAndSetCurrentInstanceId() {
+//        // TODO Not necessary anymore ...
+//        if( $this->request->param('id') ) {
+//            $id = $this->request->param('id');
+//            if( ! is_numeric($id) && $id != 'new' )
+//                throw new HTTP_Exception_404;
+//            $this->currentInstanceId = $this->request->param('id');
+//            Cookie::set('current_instance_id', $this->currentInstanceId);
+//        } else if( Cookie::get('current_instance_id') ) {
+//            $this->currentInstanceId = Cookie::get('current_instance_id');
+//        }
+//    }
 
     public function after() {
         $this->template->user = $this->user;
@@ -78,15 +79,23 @@ class Controller_AuthenticatedPage extends Controller_Template {
 
     private function getScripts() {
         return array(
-            "assets/js/ES.js",
             "assets/js/widgets/form.js",
             "assets/js/widgets/history.js",
             "assets/js/widgets/waterTests.js",
             "assets/js/widgets/live.js",
             "assets/js/widgets/logs.js",
             "assets/js/widgets/todos.js",
+            "assets/js/widgets/InstanceParams.js",
             "assets/js/widgets/instances.js",
+            "assets/js/cmp/field/Hidden.js",
+            "assets/js/cmp/field/Combo.js",
+            "assets/js/cmp/field/Text.js",
+            "assets/js/cmp/Field.js",
+            "assets/js/cmp/Table.js",
+            "assets/js/cmp/Form.js",
+            "assets/js/Cmp.js",
             "assets/js/widget.js",
+            "assets/js/ES.js",
             "assets/js/main.js",
             "bower_components/selectize/dist/js/standalone/selectize.min.js",
             "bower_components/justgage-toorshia/justgage.js",

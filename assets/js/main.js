@@ -64,12 +64,6 @@ $(document).ready(function() {
     });
 });
 
-var App = {
-    factory: function (class_) {
-        return new class_();
-    }
-};
-
 
 /*  http://ejohn.org/blog/simple-javascript-inheritance/  */
 
@@ -85,8 +79,12 @@ var App = {
     this.Class = function(){};
 
     // Create a new Class that inherits from this class
-    Class.extend = function(prop) {
+    Class.extend = function(prop, className) {
         var _super = this.prototype;
+
+        if(className) {
+            ES.register(className);
+        }
 
         // Instantiate a base class (but only create the instance,
         // don't run the init constructor)

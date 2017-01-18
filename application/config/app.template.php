@@ -4,7 +4,6 @@ defined('SYSPATH') OR die('No direct access allowed.');
 
 return array(
     'base_url' => 'http://yourdomain.com/',
-    'default_instance' => 1,
     'admin_email' => 'your.email@gmail.com',
     'sender_email' => 'your.email@gmail.com',
     'time_units' => array(

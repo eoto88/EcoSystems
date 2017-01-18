@@ -1,4 +1,4 @@
-App.WidgetForm = App.Widget.extend({
+ES.WidgetForm = ES.Widget.extend({
     init: function() {
         var me = this;
         me._super( 'widget-form' );

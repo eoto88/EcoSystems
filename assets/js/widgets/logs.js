@@ -1,7 +1,7 @@
 /**
  * Created by eoto on 09/11/16.
  */
-App.WidgetLogs = App.Widget.extend({
+ES.WidgetLogs = ES.Widget.extend({
     // TODO Improve this
     config: {
         collapsible: true,

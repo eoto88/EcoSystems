@@ -13,10 +13,7 @@
                         <a href="{{BASE_URL}}live/{{id}}">{{title}}&nbsp;<span class="instance-type">({{instance_type}})</span></a>
                         <a class="instance-expand"><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></a>
                     </h3>
-                    {{{iconSwitch this.heartbeat "heartbeat-status"}}}&nbsp;&nbsp;
-                    {{{iconSwitch this.light_on "light-status"}}}&nbsp;&nbsp;
-                    {{{iconSwitch this.pump_on "pump-status"}}}&nbsp;&nbsp;
-                    {{{iconSwitch this.fan_on "fan-status"}}}
+                    {{{showInstanceHeaderParams this.params}}}
                 </div>
                 <div class="instance-body col-sm-12 col-md-12 col-lg-12"></div>
             </div>
@@ -24,9 +21,7 @@
     </script>
     <script type="text/x-handlebars-template" id="instance-body-tmpl">
         <div class="row">
-            {{{showParams this.params}}}
-            <div class="data-status col-xs-6 col-md-6 col-lg-6"></div>
-            <div class="water-test-status col-xs-6 col-md-6 col-lg-6"></div>
+            {{{showBodyParams this.params}}}
         </div>
     </script>
     <script type="text/x-handlebars-template" id="gage-tmpl">

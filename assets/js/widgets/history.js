@@ -1,4 +1,4 @@
-App.WidgetHistory = App.Widget.extend({
+ES.WidgetHistory = ES.Widget.extend({
     init: function() {
         var me = this;
         me._super('widget-history');

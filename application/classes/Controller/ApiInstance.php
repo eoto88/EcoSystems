@@ -62,17 +62,26 @@ class Controller_ApiInstance extends Controller {
     }
 
     public function action_postData() {
+        if( isset($_POST['code']) && isset($_POST['params']) ) {
+            $idInstance = $this->getInstanceId(filter_input(INPUT_POST, 'code', FILTER_SANITIZE_SPECIAL_CHARS));
+
+            if($idInstance != null) {
+                $params = json_decode($_POST['params'], true);
+
+                if($params) {
+                    $mData = new Model_Data();
+                    $mData->insertParamsData($idInstance, $params);
+                } else {
+                    $return['errors'] = "Not valid json.";
+                }
+            } else {
+                $return['errors'] = "Unknown instance.";
+            }
+        }
         if ( isset($_POST['pass']) && isset($_POST['action']) ) {
             $idInstance = $this->getInstanceId(filter_input(INPUT_POST, 'pass', FILTER_SANITIZE_SPECIAL_CHARS));
             $datetime = null;
             $action = $_POST['action'];
-            $mParam = new Model_Param();
-            $idParam = 0;
-            $param = $mParam->getParamByAlias($idInstance, $action);
-
-            if($param) {
-                $idParam = $param['id'];
-            }
 
             switch ($action) {
                 case 'heartbeat':
