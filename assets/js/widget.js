@@ -127,34 +127,6 @@ ES.Widget = Class.extend({
     /**
      *
      * @param {Object} params
-     * @param {string} params.url
-     * @param {string} [params.method]
-     * @param {Object} params.data
-     * @param {Function} params.success
-     * @param {Function} [params.failure]
-     */
-    ajax: function(params) {
-        if( ! params.method ) {
-            params.method = 'GET';
-        }
-        // TODO Default values for success and fail methods
-        return $.ajax({
-            url: params.url,
-            type: params.method,
-            contentType: 'application/json',
-            data: JSON.stringify(params.data),
-            success: params.success,
-            dataType: 'json'
-        }).fail(function(data) {
-            if( params.failure ) {
-                params.failure(data);
-            }
-        });
-    },
-
-    /**
-     *
-     * @param {Object} params
      * @param {string} params.form
      * @param {string} params.url
      * @param {Object} params.data
@@ -168,7 +140,7 @@ ES.Widget = Class.extend({
 
         me.clearErrors($form);
 
-        me.ajax({
+        ES.ajax({
             url: params.url,
             method: params.method,
             data: params.data,

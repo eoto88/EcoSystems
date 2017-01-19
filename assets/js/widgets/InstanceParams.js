@@ -13,7 +13,22 @@ ES.WidgetInstanceParams = ES.Widget.extend({
         me._super('widget-params', {
             items: [
                 {
-                    cmpType: 'table'
+                    cmpType: 'table',
+                    url: BASE_URL + "api/instances/"+ id_instance +"/params",
+                    columns: [
+                        {
+                            title: 'Title',
+                            name: 'title'
+                        },
+                        {
+                            title: 'Alias',
+                            name: 'alias'
+                        },
+                        {
+                            title: 'Type',
+                            name: 'typeTitle'
+                        }
+                    ]
                 },
                 {
                     cmpType: 'form',

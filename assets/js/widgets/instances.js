@@ -33,7 +33,7 @@ ES.WidgetInstances = ES.Widget.extend({
 
         me.startLoading();
 
-        me.ajax({
+        ES.ajax({
             url: BASE_URL + "api/instances/" + (id_instance > 0 ? id_instance : "") + "?params=true&header=true",
             success: function(data) {
                 $component.find('.widget-body').append('<ul></ul>');
@@ -89,7 +89,7 @@ ES.WidgetInstances = ES.Widget.extend({
             me.startLoading();
         }
 
-        me.ajax({
+        ES.ajax({
             url: BASE_URL + "api/instances/",
             success: function(data) {
                 $.each(data, function(key, instanceData) {
@@ -111,7 +111,7 @@ ES.WidgetInstances = ES.Widget.extend({
 
                         if(instanceData.monitored == "1") {
                             deferredCalls.push(
-                                me.ajax({
+                                ES.ajax({
                                     url: BASE_URL + "api/instances/"+ instanceData.id +"/data/"
                                 })
                             );
@@ -119,7 +119,7 @@ ES.WidgetInstances = ES.Widget.extend({
 
                         if(instanceData.water_tests == "1") {
                             deferredCalls.push(
-                                me.ajax({
+                                ES.ajax({
                                     url: BASE_URL + "api/instances/" + instanceData.id + "/WaterTests/"
                                 })
                             );
@@ -262,7 +262,7 @@ ES.WidgetInstances = ES.Widget.extend({
         $(event.currentTarget).find('i').toggleClass('fa-chevron-circle-down').toggleClass('fa-chevron-circle-up');
 
         deferredCalls.push(
-            me.ajax({
+            ES.ajax({
                 url: BASE_URL + "api/instances/"+ instanceData.id +"/params"+ "?header=false"
             })
         );
@@ -270,7 +270,7 @@ ES.WidgetInstances = ES.Widget.extend({
         if($instanceBody.html() == "") {
             if(instanceData.monitored == "1") {
                 deferredCalls.push(
-                    me.ajax({
+                    ES.ajax({
                         url: BASE_URL + "api/instances/"+ instanceData.id +"/data/"
                     })
                 );
@@ -278,7 +278,7 @@ ES.WidgetInstances = ES.Widget.extend({
 
             if(instanceData.water_tests == "1") {
                 deferredCalls.push(
-                    me.ajax({
+                    ES.ajax({
                         url: BASE_URL + "api/instances/" + instanceData.id + "/WaterTests/"
                     })
                 );

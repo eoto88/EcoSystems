@@ -97,7 +97,7 @@ ES.WidgetTodos = ES.Widget.extend({
             id_instance = $todo.data('id-instance'),
             data = { 'id': id, 'done': done };
 
-        me.ajax({
+        ES.ajax({
             url: BASE_URL + "api/instances/" + id_instance + "/todos/" + id,
             method: 'PUT',
             data: data,
@@ -208,7 +208,7 @@ ES.WidgetTodos = ES.Widget.extend({
                         }
                     }
 
-                    me.ajax({
+                    ES.ajax({
                         url: url,
                         method: 'DELETE',
                         success: function(data) {
@@ -264,7 +264,7 @@ ES.WidgetTodos = ES.Widget.extend({
                 }
             } else {
                 // If instance group doesn't exist
-                me.ajax({
+                ES.ajax({
                     url: BASE_URL + "api/instances/" + params.id_instance,
                     success: function(data) {
                         if(data[0]) {

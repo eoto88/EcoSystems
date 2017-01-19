@@ -49,6 +49,34 @@ var ES = {
     },
 
     /**
+     *
+     * @param {Object} params
+     * @param {string} params.url
+     * @param {string} [params.method]
+     * @param {Object} params.data
+     * @param {Function} params.success
+     * @param {Function} [params.failure]
+     */
+    ajax: function(params) {
+        if( ! params.method ) {
+            params.method = 'GET';
+        }
+        // TODO Default values for success and fail methods
+        return $.ajax({
+            url: params.url,
+            type: params.method,
+            contentType: 'application/json',
+            data: JSON.stringify(params.data),
+            success: params.success,
+            dataType: 'json'
+        }).fail(function(data) {
+            if( params.failure ) {
+                params.failure(data);
+            }
+        });
+    },
+
+    /**
      * @deprecated
      * @returns {undefined|Number}
      */

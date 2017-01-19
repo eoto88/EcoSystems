@@ -39,7 +39,7 @@ ES.WidgetLogs = ES.Widget.extend({
         me.startLoading();
 
 
-        me.ajax({
+        ES.ajax({
             // api/instances/1/logs (All logs from 1 instance)
             // api/logs (All logs from all instances)
             url: BASE_URL + "api/" + (id_instance > 0 ? "instances/" + id_instance : "") + "logs",
