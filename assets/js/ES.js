@@ -80,8 +80,12 @@ var ES = {
      * @deprecated
      * @returns {undefined|Number}
      */
-    getCurrentInstanceId: function() {
-        return $('#dropdown-instances .active').data('id');
+    getActiveInstanceId: function() {
+        var pathname = window.location.pathname;
+        if(/^\/instance/.test(pathname)) {
+            return pathname.replace('/instance/', '');
+        }
+        return null;
     },
 
     capitalizeFirstLetter: function(string) {

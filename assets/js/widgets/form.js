@@ -15,7 +15,7 @@ ES.WidgetForm = ES.Widget.extend({
             e.preventDefault();
 
             if(requiresIdInstance) {
-                var id_instance = ES.getCurrentInstanceId();
+                var id_instance = ES.getActiveInstanceId();
                 url = BASE_URL +'api/instances/'+id_instance+'/'+ $form.data('api-url'); // TODO PUT   +'/'+ 1,
             }
 

@@ -40,17 +40,17 @@ $(document).ready(function() {
         $(this).parent().toggleClass('active');
 
         if(ES.isDashboard()) {
-            document.location = BASE_URL + 'live/'+ ES.getCurrentInstanceId();
+            document.location = BASE_URL + 'live/'+ ES.getActiveInstanceId();
         } else {
             var url = $('#left-panel .active a').attr('href');
-            document.location = url +'/'+ ES.getCurrentInstanceId();
+            document.location = url +'/'+ ES.getActiveInstanceId();
         }
     });
 
     $('#left-panel a.require-instance-id').click(function(e) {
         e.preventDefault();
         var url = $(this).attr('href');
-        document.location = url +'/'+ ES.getCurrentInstanceId();
+        document.location = url +'/'+ ES.getActiveInstanceId();
     });
 
     $('#minify-menu').click(function() {
