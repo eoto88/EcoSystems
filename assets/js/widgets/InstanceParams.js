@@ -97,8 +97,18 @@ ES.WidgetInstanceParams = ES.Widget.extend({
                 }
             ],
             listeners: [
-                'table'
+                {
+                    sel: 'table .action-edit',
+                    event: 'click',
+                    fn: function() {
+                        debugger;
+                    }
+                }
             ]
+        });
+
+        me.onClick($('#widget-params').find('table .action-edit'), function() {
+            debugger;
         });
     }
 });

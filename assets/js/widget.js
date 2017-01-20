@@ -9,22 +9,26 @@ ES.Widget = Class.extend({
         var me = this,
             $component = $('#' + this.cssId);
 
-        if(configs && configs.items) {
-            var $wbody = $component.find('.widget-body')
-            $.each(configs.items, function (key, item) {
-                if(item.cmpType) {
-                    item.parent = $component.find('.widget-body');
-                    var cmp = ES.create(item.cmpType);
-                    cmp.initCmp(item);
-
-                    //
-                    //cmp.initCmp(item);
-                } else {
-                    // <debug>
-                    console.warn("cmpType is required.");
-                    // </debug>
-                }
-            });
+        if(configs) {
+            if(configs.items) {
+                var $wbody = $component.find('.widget-body')
+                $.each(configs.items, function (key, item) {
+                    if (item.cmpType) {
+                        item.parent = $component.find('.widget-body');
+                        var cmp = ES.create(item.cmpType);
+                        cmp.initCmp(item);
+                    } else {
+                        // <debug>
+                        console.warn("cmpType is required.");
+                        // </debug>
+                    }
+                });
+            }
+            if(configs.listeners) {
+                $.each(configs.listeners, function(key, item) {
+                    $component.on(item.event, item.sel, item.fn);
+                });
+            }
         }
 
 

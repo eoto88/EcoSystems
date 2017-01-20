@@ -73,35 +73,6 @@ ES.Table = ES.Cmp.extend({
             $table.append(row);
             $table.find('.dropdown-toggle').dropdown();
         });
-
-        //var $bodyCells = $table.find('tbody tr:first').children(),
-        //    colWidth;
-        //
-        //// Get the tbody columns width array
-        //colWidth = $bodyCells.map(function() {
-        //    return $(this).width();
-        //}).get();
-        //
-        //// Set the width of thead columns
-        //$table.find('thead tr').children().each(function(i, v) {
-        //    $(v).width(colWidth[i]);
-        //});
-
-        var eventData = { context: me };
-
-        $table.find('.action-edit').on( "click", eventData, function(event) {
-            event.preventDefault();
-
-            var entityId = $(event.target).closest('tr').data('id');
-            debugger;
-        });
-
-        $table.find('.action-delete').on( "click", eventData, function(event) {
-            event.preventDefault();
-
-            var entityId = $(event.target).closest('tr').data('id');
-            debugger;
-        });
     }
 
 }, 'ES.Table');
