@@ -4,7 +4,7 @@
 ES.Field.Hidden = ES.Field.extend({
     initCmp: function() {
         var me = this;
-        me.cmpId = me._super('hidden');
+        me._super('hidden');
     },
 
     getTpl: function() {

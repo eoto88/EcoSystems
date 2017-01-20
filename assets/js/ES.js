@@ -5,6 +5,7 @@ var ES = {
 
     cmpCount: 0,
     cmpTypes: [],
+    createdCmps: [],
 
     register: function(classCmp) {
         var cmpType = classCmp.substring(classCmp.lastIndexOf('.') + 1).toLowerCase();
@@ -13,23 +14,32 @@ var ES = {
     },
 
     create: function(cmpType) {
-        var classCmp = this.cmpTypes[cmpType];
+        var me = this,
+            classCmp = this.cmpTypes[cmpType];
 
         if(classCmp) {
-            var arrClsCmp = classCmp.split(".");
+            var cmp = null,
+                arrClsCmp = classCmp.split(".");
 
             if(arrClsCmp.length == 2) {
                 classCmp = window['ES'][arrClsCmp[1]];
-                return ES.isFunction(classCmp) ? new classCmp() : null;
             } else  if(arrClsCmp.length == 3) {
                 classCmp = window['ES'][arrClsCmp[1]][arrClsCmp[2]];
-                return ES.isFunction(classCmp) ? new classCmp() : null;
-            } else {
-                return null;
             }
+            if(ES.isFunction(classCmp)) {
+                cmp = new classCmp();
+            }
+            if(cmp == null) {
+                console.warn("Unknown cmpType: "+ cmpType);
+            }
+            return cmp;
         } else {
             console.warn("Unknown cmpType: "+ cmpType);
         }
+    },
+
+    getCmp: function(cmpId) {
+        return this.createdCmps[cmpId];
     },
 
     factory: function (class_) {
@@ -77,8 +87,9 @@ var ES = {
     },
 
     /**
-     * @deprecated
-     * @returns {undefined|Number}
+     * return active instance's id or null
+     *
+     * @returns {null|Number}
      */
     getActiveInstanceId: function() {
         var pathname = window.location.pathname;

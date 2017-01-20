@@ -2,23 +2,29 @@
  * Created by eoto88 on 15/01/17.
  */
 ES.Cmp = Class.extend({
-    //cmpType: null,
-    //cmpId: null,
+    cmpType: null,
+    cmpId: null,
+    hidden: false,
 
     initCmp: function(cmpType) {
         var me = this;
 
         me.cmpType = cmpType;
         me.cmpId = cmpType +'-'+ ES.getNextCmpId();
+        ES.createdCmps[me.cmpId] = me;
         return me.cmpId;
     },
 
-    appendTo: function(cmp) {
+    appendTo: function(parent) {
         var me = this,
             tpl = me.getTpl(),
-            $cmp = ES.getJQueryObject(cmp);
+            $parent = ES.getJQueryObject(parent);
 
-        $(tpl).appendTo($cmp);
+        $(tpl).appendTo($parent);
+
+        if(me.hidden) {
+            me.hide();
+        }
     },
 
     getTpl: function() {
@@ -29,21 +35,11 @@ ES.Cmp = Class.extend({
         return $("#"+ this.cmpId);
     },
 
-    // initCmp:function(params) {
-    //     debugger;
-    //     $appendTo.append('<div id="'+ me.cmpId +'"</div>');
-    // },
-
-    startLoading: function() {
-        // TODO
-        var $cmp = $('#' + this.cmpId);
-        $component.append('<div class="overlay"></div><div class="spinner"><div class="double-bounce1"></div><div class="double-bounce2"></div></div>');
+    hide: function() {
+        this.getCmp().hide();
     },
 
-    stopLoading: function() {
-        // TODO
-        var $component = $('#' + this.cssId);
-        $component.find('.overlay').remove();
-        $component.find('.spinner').remove();
+    show: function() {
+        this.getCmp().show();
     }
 });

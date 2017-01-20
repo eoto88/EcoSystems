@@ -5,7 +5,8 @@ ES.Form = ES.Cmp.extend({
     initCmp: function(configs) {
         var me = this;
 
-        me.cmpId = me._super('form');
+        ES.apply(me, configs);
+        me._super('form');
         me.appendTo(configs.parent);
         var $form = $("#"+ me.cmpId);
         $.each(configs.fields, function(key, config) {

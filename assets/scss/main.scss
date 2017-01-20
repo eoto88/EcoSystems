@@ -1030,6 +1030,16 @@ label {
 }
 /* **** Widget Table - END **** */
 
+.ddActionsWrapper {
+  position: relative;
+
+  .ddActions {
+    position: absolute;
+    top: -3px;
+    right: 5px;
+  }
+}
+
 .formSeparator {
   background: $medium-blue;
   padding: 5px 10px;

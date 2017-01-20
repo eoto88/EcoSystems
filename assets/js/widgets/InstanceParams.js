@@ -9,29 +9,52 @@ ES.WidgetInstanceParams = ES.Widget.extend({
     },
 
     init: function() {
-        var me = this;
+        var me = this,
+            idInstance = ES.getActiveInstanceId();
+
         me._super('widget-params', {
             items: [
                 {
                     cmpType: 'table',
-                    url: BASE_URL + "api/instances/"+ id_instance +"/params",
+                    url: BASE_URL + "api/instances/"+ idInstance +"/params",
+                    groupBy: 'id_group',
+                    groupTitle: 'groupTitle',
                     columns: [
                         {
                             title: 'Title',
-                            name: 'title'
+                            name: 'title',
+                            width: 4
                         },
                         {
                             title: 'Alias',
-                            name: 'alias'
+                            name: 'alias',
+                            width: 3
                         },
                         {
                             title: 'Type',
-                            name: 'typeTitle'
+                            name: 'type',
+                            width: 3
+                        },
+                        {
+                            title: 'Actions',
+                            cmpType: 'columnActions',
+                            width: 1,
+                            actions: [
+                                {
+                                    title: 'Edit',
+                                    type: 'edit'
+                                },
+                                {
+                                    title: 'Delete',
+                                    type: 'delete'
+                                }
+                            ]
                         }
                     ]
                 },
                 {
                     cmpType: 'form',
+                    hidden: true,
                     fields: [
                         {
                             cmpType: 'hidden',
@@ -65,9 +88,6 @@ ES.WidgetInstanceParams = ES.Widget.extend({
                         //    cmpType: 'formSep',
                         //    title: 'Options'
                         //},
-                        //{
-                        //    cmpType: ''
-                        //},
                         {
                            cmpType: 'button',
                            text: 'Save'
@@ -77,7 +97,7 @@ ES.WidgetInstanceParams = ES.Widget.extend({
                 }
             ],
             listeners: [
-
+                'table'
             ]
         });
     }
