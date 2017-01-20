@@ -12,6 +12,7 @@
     <meta name="robots" content="noindex, nofollow">
 
     <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="manifest" href="manifest.json" />
 
     <script src="assets/js/vendor/modernizr-2.6.2.min.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">

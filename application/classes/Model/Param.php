@@ -61,7 +61,7 @@ class Model_Param {
 
     public function getInstanceParams($id_instance) {
         $query = DB::query(Database::SELECT,
-            "SELECT p.title, p.alias, pt.title AS type, p.id_group, pg.title AS groupTitle, p.options ".
+            "SELECT p.id, p.title, p.alias, pt.title AS type, p.id_group, pg.title AS groupTitle, p.options ".
             "FROM param AS p ".
             "LEFT JOIN param_type AS pt ON pt.id = p.id_type ".
             "LEFT JOIN param_group AS pg ON pg.id = p.id_group ".

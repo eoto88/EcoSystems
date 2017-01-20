@@ -12,6 +12,7 @@
     <meta name="robots" content="noindex, nofollow">
 
     <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="manifest" href="manifest.json" />
 
     <script src="<?php echo URL::base(TRUE, TRUE); ?>assets/js/vendor/modernizr-2.6.2.min.js"></script>
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
