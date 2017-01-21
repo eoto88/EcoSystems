@@ -58,6 +58,23 @@ var ES = {
         return object;
     },
 
+    parseData: function(data) {
+        try {
+            return JSON.parse(data);
+        } catch(err) {
+            console.error("Error parsing data JSON.");
+        }
+        return params;
+    },
+
+    scrollToMe: function(cmp) {
+        var me = this,
+            $cmp = me.getJQueryObject(cmp);
+        $('html, body').animate({
+            scrollTop: ($cmp.offset().top - 130) // 130 = header
+        }, 1500);
+    },
+
     /**
      *
      * @param {Object} params

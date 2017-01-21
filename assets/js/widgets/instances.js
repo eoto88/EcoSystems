@@ -72,11 +72,7 @@ ES.WidgetInstances = ES.Widget.extend({
 
     parseData: function(params) {
         $.each(params, function(key, param) {
-            try {
-                param.data = JSON.parse(param.data);
-            } catch(err) {
-                console.error("Error parsing data JSON.");
-            }
+            param.data = ES.parseData(param.data);
         });
         return params;
     },
@@ -824,6 +820,27 @@ ES.WidgetInstances = ES.Widget.extend({
             //} else if(cls == 'pumpStatus') {
             //    onIconCls = offIconCls = 'fa fa-tint';
             //}
+
+            var now = new Date();
+            var paramDate   = new Date(param.datetime);
+            var seconds = (now.getTime() - paramDate.getTime()) / 1000;
+
+            if(seconds >= 86359) {
+                var days = Math.round((seconds / 86400) * 100) / 100;
+                content += ' ('+ days +' day(s) ago)'
+            } else if(seconds >= 3599) {
+                var hours = Math.round((seconds / 3600) * 100) / 100;
+                content += ' ('+ hours +' hour(s) ago)'
+            } else if(seconds >= 59) {
+                var minutes = Math.round((seconds / 60) * 100) / 100;
+                content += ' ('+ minutes +' minute(s) ago)'
+            } else {
+                content += ' ('+ Math.round(seconds) +' second(s) ago)'
+            }
+
+            if(param.typeAlias == 'heartbeat') {
+                param.data.value = (seconds < 120); // Less than 2 minutes
+            }
 
             var tpl = Handlebars.compile($("#icon-switch-tmpl").html());
 

@@ -2,11 +2,15 @@
  * Created by eoto88 on 17/01/17.
  */
 ES.Field.Iconpicker = ES.Field.Text.extend({
+    realValue: null,
 
     initCmp: function(config) {
         var me = this;
 
         ES.apply(me, config);
+        me.realValue = me.value;
+        me.value = me.formatValue(me.value);
+
         me._super('iconpicker');
         me.appendTo(config.parent);
         var $iconPicker = me.getCmp();
@@ -67,9 +71,24 @@ ES.Field.Iconpicker = ES.Field.Text.extend({
 
         me.attr += ' data-placement="bottomRight"';
         me.before = '<div class="input-group iconpicker-container">';
-        me.after = '<span class="input-group-addon"><i class=""></i></span></div>';
+        me.after = '<span class="input-group-addon"><i class="'+ (me.realValue ? me.realValue : '') +'"></i></span></div>';
 
         var tpl = me._super();
         return tpl;
+    },
+
+    setValue: function (value) {
+        var me = this,
+            $input = me.getInput();
+
+        me.realValue = value;
+        me.value = me.formatValue(value);
+
+        $input.val(value);
+        me._super(value);
+    },
+
+    formatValue: function(value) {
+        return value.replace('fa ', '').replace('wi ', '');
     }
 }, 'ES.Field.Iconpicker');

@@ -5,15 +5,17 @@ class Controller_Rest_ParamGroups extends Controller_REST {
     protected $entityName = 'param_group';
 
     public function action_index() {
-        $id_instance = $this->request->param('id_instance');
-        $id = $this->request->param('id');
+        $idInstance = $this->request->param('id_instance');
+        $idGroup = $this->request->param('id');
         $mParamGroup = new Model_ParamGroup();
 
-        if( ! empty($id_instance) && ! empty($id)) {
-            // TODO
-            //echo json_encode( $mData->getTodo($id) );
-        } else if( ! empty($id_instance)) {
-            $this->respond($mParamGroup->getInstanceParamGroups($id_instance));
+        if( ! empty($idInstance) && ! empty($idGroup)) {
+            die();
+//            $this->respond($mParamGroup->getInstanceParamGroups($idInstance));
+        } else if( ! empty($idInstance) && empty($idGroup)) {
+            $this->respond($mParamGroup->getInstanceParamGroups($idInstance));
+        } else {
+            $this->response->status(406)->body();
         }
     }
 

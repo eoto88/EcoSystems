@@ -5,21 +5,22 @@ class Controller_Rest_Params extends Controller_REST {
     protected $entityName = 'param';
 
     public function action_index() {
-        $id_instance = $this->request->param('id_instance');
-        $id = $this->request->param('id');
+        $idInstance = $this->request->param('id_instance');
+        $idParam = $this->request->param('id'); // *****
         $mParam = new Model_Param();
 
-        if(empty($id_instance)) {
-            $this->respond($mParam->getParams());
-        } else {
+        if( isset($idInstance) && isset($idParam) ) {
+            $this->respond($mParam->getInstanceParam($idInstance, $idParam));
+        } else if( isset($idInstance) ) {
             if($this->request->query('header') == "false") {
-                $this->respond($mParam->getGroupParamsWithData($id_instance, false));
+                $this->respond($mParam->getGroupParamsWithData($idInstance, false));
             } else {
-                $this->respond($mParam->getInstanceParams($id_instance));
+                $this->respond($mParam->getInstanceParams($idInstance));
             }
+        } else {
+            // json_encode($result)
+            $this->response->status(406)->body();
         }
-
-
     }
 
     public function action_update() {

@@ -52,7 +52,6 @@ class Model_Data {
                 } else if($param['dataType'] == "float") {
                     $value = $paramData['v'];
                 }
-                $mLog->log($idInstance, "info", $paramData['a'] .' - '. $value);
                 $query = DB::insert('data', array(
                     'id',
                     'id_instance',
@@ -70,7 +69,7 @@ class Model_Data {
 
                 $return['success'] = true;
             } else {
-                $mLog->log($idInstance, "error", "Unknown param.");
+                $mLog->log($idInstance, "error", "Unknown param: "+ $paramData['a']);
                 $return['errors'][] = "Unknown param.";
             }
         }

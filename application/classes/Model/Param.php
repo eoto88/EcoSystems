@@ -2,7 +2,7 @@
 
 class Model_Param {
 
-    public function getParamByAlias($id_instance, $alias) {
+    public function getParamByAlias($idInstance, $alias) {
         $query = DB::query(Database::SELECT,
                "SELECT p.id, p.id_group, pt.alias AS typeAlias, pt.data_type AS dataType ".
                "FROM param AS p ".
@@ -11,7 +11,7 @@ class Model_Param {
                "WHERE p.alias = :alias ".
                "AND pg.id_instance = :id_instance"
         );
-        $query->param(':id_instance', $id_instance);
+        $query->param(':id_instance', $idInstance);
         $query->param(':alias', $alias);
         return $query->execute()->current();
     }
@@ -26,8 +26,8 @@ class Model_Param {
         return $query->execute()->as_array();
     }
 
-    public function getHeaderParamsWithData($id_instance) {
-        return $this->getGroupParamsWithData($id_instance, true);
+    public function getHeaderParamsWithData($idInstance) {
+        return $this->getGroupParamsWithData($idInstance, true);
     }
 
 //SELECT p.title, p.alias, pt.title AS type, p.id_group, pg.title AS groupTitle, p.options, d.data, d.datetime
@@ -42,7 +42,7 @@ class Model_Param {
 //#AND pg.header = "1"
 //ORDER BY d.datetime DESC, pg.title ASC, p.title ASC
 
-    public function getGroupParamsWithData($id_instance, $header) {
+    public function getGroupParamsWithData($idInstance, $header) {
         $query = DB::query(Database::SELECT,
             "SELECT p.title, p.alias AS paramAlias, p.icon, pt.alias AS typeAlias, pt.title AS type, p.id_group, pg.title AS groupTitle, p.options, d.data, d.datetime ".
             "FROM param AS p ".
@@ -55,11 +55,11 @@ class Model_Param {
             "AND d2.id IS NULL ".
             "AND pg.header = ". ($header ? "1" : "0") ." ".
             "ORDER BY d.datetime DESC, p.title ASC");
-        $query->param(':id_instance', $id_instance);
+        $query->param(':id_instance', $idInstance);
         return $query->execute()->as_array();
     }
 
-    public function getInstanceParams($id_instance) {
+    public function getInstanceParams($idInstance) {
         $query = DB::query(Database::SELECT,
             "SELECT p.id, p.title, p.alias, pt.title AS type, p.id_group, pg.title AS groupTitle, p.options ".
             "FROM param AS p ".
@@ -68,7 +68,22 @@ class Model_Param {
             "WHERE pg.id_instance = :id_instance ".
             "ORDER BY pg.title ASC, p.title ASC"
         );
-        $query->param(':id_instance', $id_instance);
+        $query->param(':id_instance', $idInstance);
+        return $query->execute()->as_array();
+    }
+
+    public function getInstanceParam($idInstance, $idParam) {
+        $query = DB::query(Database::SELECT,
+            "SELECT p.id, p.title, p.alias, p.id_type, p.id_group, IF(p.options = \"\", pt.options, p.options) AS options ".
+            "FROM param AS p ".
+            "LEFT JOIN param_type AS pt ON pt.id = p.id_type ".
+            "LEFT JOIN param_group AS pg ON pg.id = p.id_group ".
+            "WHERE pg.id_instance = :id_instance ".
+            "AND p.id = :id_param ".
+            "ORDER BY pg.title ASC, p.title ASC"
+        );
+        $query->param(':id_instance', $idInstance);
+        $query->param(':id_param', $idParam);
         return $query->execute()->as_array();
     }
 

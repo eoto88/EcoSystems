@@ -3,6 +3,7 @@
  */
 ES.Cmp = Class.extend({
     cmpType: null,
+    cmpIndex: null,
     cmpId: null,
     hidden: false,
 
@@ -12,6 +13,9 @@ ES.Cmp = Class.extend({
         me.cmpType = cmpType;
         me.cmpId = cmpType +'-'+ ES.getNextCmpId();
         ES.createdCmps[me.cmpId] = me;
+        if(me.cmpIndex) {
+            ES.createdCmps[me.cmpIndex] = me;
+        }
         return me.cmpId;
     },
 

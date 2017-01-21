@@ -1138,9 +1138,10 @@ label {
     content: '1 .col-xs-12';
   }
   #widget-instances .statusGage {
-    width: 45%;
+    width: 46%;
+    min-height: 135px;
     float: left;
-    margin: 0 2.5%;
+    margin: 0 2%;
   }
 
   #widget-todos {

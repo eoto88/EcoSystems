@@ -9,7 +9,7 @@ ES.Field.Text = ES.Field.extend({
         var me = this;
 
         ES.apply(me, config);
-        me._super('text');
+        me._super(me.cmpType);
         me.appendTo(config.parent);
     },
 
@@ -17,16 +17,24 @@ ES.Field.Text = ES.Field.extend({
         var me = this,
             tpl = me._super(),
             label = me.getLabel(),
-            field = '{{{before}}}<input type="text" id="{{cmpId}}" name="{{name}}" class="form-control" {{{attr}}} />{{{after}}}';
+            field = '{{{before}}}<input type="text" name="{{name}}" class="form-control" {{{attr}}} />{{{after}}}';
 
         if( ! ES.isEmpty(me.maxLength) ) {
             me.attr += ' maxlength="'+ me.maxLength +'"';
         }
+        if( ! ES.isEmpty(me.value) ) {
+            me.attr += ' value="'+ me.value +'"';
+        }
 
         field = Handlebars.compile(label + field);
 
-        //debugger;
+        return tpl({
+            cmpId: me.cmpId,
+            field: field(me)
+        });;
+    },
 
-        return tpl({ field: field(me) });
+    getInput: function() {
+        return this.getCmp().find('input');
     }
 }, 'ES.Field.Text');

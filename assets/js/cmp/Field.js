@@ -10,13 +10,10 @@ ES.Field = ES.Cmp.extend({
         var me = this;
 
         me._super(cmpType);
-
-        //configs.appendTo.append('<form id="'+ me.cmpId +'"></form>');
-        //$component = $("#"+ me.cmpId);
     },
 
     getTpl: function() {
-        return Handlebars.compile('<div class=\"form-group\">{{{field}}}</div>');
+        return Handlebars.compile('<div class=\"form-group es-cmp\" id=\"{{cmpId}}\">{{{field}}}</div>');
     },
 
     getLabel: function() {
@@ -27,11 +24,19 @@ ES.Field = ES.Cmp.extend({
         return '';
     },
 
+    getInput: function() {
+        return this.getCmp();
+    },
+
     getValue: function () {
         return this.value;
     },
     
     setValue: function (value) {
-        this.value = value;
+        var me = this,
+            $input = me.getInput();
+
+        $input.val(value);
+        me.value = value;
     }
 });

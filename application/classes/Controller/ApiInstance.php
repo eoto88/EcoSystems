@@ -78,34 +78,16 @@ class Controller_ApiInstance extends Controller {
                 $return['errors'] = "Unknown instance.";
             }
         }
-        if ( isset($_POST['pass']) && isset($_POST['action']) ) {
-            $idInstance = $this->getInstanceId(filter_input(INPUT_POST, 'pass', FILTER_SANITIZE_SPECIAL_CHARS));
+        if ( isset($_POST['code']) && isset($_POST['action']) ) {
+            $idInstance = $this->getInstanceId(filter_input(INPUT_POST, 'code', FILTER_SANITIZE_SPECIAL_CHARS));
             $datetime = null;
             $action = $_POST['action'];
 
             switch ($action) {
-                case 'heartbeat':
-                    // Do nothing here!
-                    break;
-                case 'data':
-                    $mData = new Model_Data();
-                    $mData->insertData($idInstance, array(
-                        'id_param' => $idParam,
-                        'roomTemperature' => filter_input(INPUT_POST, 'roomTemperature', FILTER_SANITIZE_SPECIAL_CHARS),
-                        'tankTemperature' => filter_input(INPUT_POST, 'tankTemperature', FILTER_SANITIZE_SPECIAL_CHARS),
-                        'humidity' => filter_input(INPUT_POST, 'humidity', FILTER_SANITIZE_SPECIAL_CHARS)
-                    ));
-                    break;
                 case 'log':
                     $mLog = new Model_Log();
                     $mLog->log($idInstance, filter_input(INPUT_POST, 'type', FILTER_SANITIZE_SPECIAL_CHARS), filter_input(INPUT_POST, 'message', FILTER_SANITIZE_SPECIAL_CHARS));
 
-                    break;
-                case 'pumpState':
-                    $this->savePumpState($idInstance);
-                    break;
-                case 'lightState':
-                    $this->saveLightState($idInstance);
                     break;
             }
             $this->updateHeartbeat($idInstance);

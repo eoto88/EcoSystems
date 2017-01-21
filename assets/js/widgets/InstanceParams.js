@@ -15,6 +15,7 @@ ES.WidgetInstanceParams = ES.Widget.extend({
         me._super('widget-params', {
             items: [
                 {
+                    cmpIndex: 'TableParams',
                     cmpType: 'table',
                     url: BASE_URL + "api/instances/"+ idInstance +"/params",
                     groupBy: 'id_group',
@@ -23,7 +24,7 @@ ES.WidgetInstanceParams = ES.Widget.extend({
                         {
                             title: 'Title',
                             name: 'title',
-                            width: 4
+                            width: 5
                         },
                         {
                             title: 'Alias',
@@ -53,7 +54,9 @@ ES.WidgetInstanceParams = ES.Widget.extend({
                     ]
                 },
                 {
+                    cmpIndex: 'FormParam',
                     cmpType: 'form',
+                    title: 'Form Parameter',
                     hidden: true,
                     fields: [
                         {
@@ -74,41 +77,73 @@ ES.WidgetInstanceParams = ES.Widget.extend({
                         },
                         {
                             cmpType: 'combo',
-                            name: 'type',
+                            name: 'id_type',
                             label: 'Type',
+                            url: BASE_URL + "api/param-types/",
                             valField: 'id',
-                            values: []
+                            titleField: 'title'
                         },
                         {
-                            cmpType: 'iconpicker',
-                            name: 'number',
-                            label: 'Iconpicker'
-                        },
+                            cmpType: 'combo',
+                            name: 'id_group',
+                            label: 'Group',
+                            url: BASE_URL + "api/instances/"+ idInstance +"/param-groups",
+                            valField: 'id',
+                            titleField: 'title'
+                        }
+                        //{
+                        //    cmpType: 'iconpicker',
+                        //    name: 'number',
+                        //    label: 'Iconpicker'
+                        //},
                         //{
                         //    cmpType: 'formSep',
                         //    title: 'Options'
                         //},
+                    ],
+                    buttons: [
                         {
-                           cmpType: 'button',
-                           text: 'Save'
+                            cmpType: 'button',
+                            text: 'Save'
+                        },
+                        {
+                            cmpType: 'button',
+                            text: 'Cancel'
                         }
                     ]
-
                 }
             ],
             listeners: [
                 {
                     sel: 'table .action-edit',
                     event: 'click',
-                    fn: function() {
-                        debugger;
-                    }
+                    fn: me.editParam
                 }
             ]
         });
+    },
 
-        me.onClick($('#widget-params').find('table .action-edit'), function() {
-            debugger;
+    editParam: function(event) {
+        event.preventDefault();
+        var me = this,
+            idInstance = ES.getActiveInstanceId(),
+            idParam = $(event.target.closest('tr')).data('id'),
+            formParam = ES.getCmp('FormParam');
+
+        ES.ajax({
+            url: BASE_URL + "api/instances/"+ idInstance +"/params/"+ idParam,
+            success: function(data) {
+                var param = data.entities[0];
+                formParam.populate(param);
+                formParam.show();
+                ES.scrollToMe(formParam.getCmp());
+                if(param.options) {
+                    var options = ES.parseData(param.options);
+                    $.each(options, function(key, option) {
+                        formParam.addField(option);
+                    });
+                }
+            }
         });
     }
 });

@@ -73,6 +73,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
             "bower_components/weather-icons/css/weather-icons.min.css" => "screen",
             "bower_components/components-font-awesome/css/font-awesome.min.css" => "screen",
             "bower_components/fontawesome-iconpicker/dist/css/fontawesome-iconpicker.min.css" => "screen",
+            "bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" => "screen",
             "assets/css/normalize.css" => "screen"
         );
     }
@@ -88,6 +89,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
             "assets/js/widgets/InstanceParams.js",
             "assets/js/widgets/instances.js",
             "assets/js/cmp/Button.js",
+            "assets/js/cmp/field/Colorpicker.js",
             "assets/js/cmp/field/Iconpicker.js",
             "assets/js/cmp/field/Spinner.js",
             "assets/js/cmp/field/Hidden.js",
@@ -100,6 +102,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
             "assets/js/widget.js",
             "assets/js/ES.js",
             "assets/js/main.js",
+            "bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js",
             "bower_components/selectize/dist/js/standalone/selectize.min.js",
             "bower_components/justgage-toorshia/justgage.js",
             "bower_components/justgage-toorshia/raphael-2.1.4.min.js",
