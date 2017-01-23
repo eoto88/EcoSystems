@@ -20,11 +20,21 @@ ES.WidgetInstanceParams = ES.Widget.extend({
                     url: BASE_URL + "api/instances/"+ idInstance +"/params",
                     groupBy: 'id_group',
                     groupTitle: 'groupTitle',
+                    groupActions: [
+                        {
+                            title: 'Edit',
+                            type: 'edit'
+                        },
+                        {
+                            title: 'Delete',
+                            type: 'delete'
+                        }
+                    ],
                     columns: [
                         {
                             title: 'Title',
                             name: 'title',
-                            width: 5
+                            width: 4
                         },
                         {
                             title: 'Alias',
@@ -90,16 +100,12 @@ ES.WidgetInstanceParams = ES.Widget.extend({
                             url: BASE_URL + "api/instances/"+ idInstance +"/param-groups",
                             valField: 'id',
                             titleField: 'title'
+                        },
+                        {
+                            cmpType: 'jsonfields',
+                            name: 'options',
+                            title: 'Options'
                         }
-                        //{
-                        //    cmpType: 'iconpicker',
-                        //    name: 'number',
-                        //    label: 'Iconpicker'
-                        //},
-                        //{
-                        //    cmpType: 'formSep',
-                        //    title: 'Options'
-                        //},
                     ],
                     buttons: [
                         {
@@ -137,12 +143,12 @@ ES.WidgetInstanceParams = ES.Widget.extend({
                 formParam.populate(param);
                 formParam.show();
                 ES.scrollToMe(formParam.getCmp());
-                if(param.options) {
-                    var options = ES.parseData(param.options);
-                    $.each(options, function(key, option) {
-                        formParam.addField(option);
-                    });
-                }
+                //if(param.options) {
+                //    var options = ES.parseData(param.options);
+                //    $.each(options, function(key, option) {
+                //        formParam.addField(option);
+                //    });
+                //}
             }
         });
     }

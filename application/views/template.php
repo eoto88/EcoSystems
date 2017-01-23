@@ -29,11 +29,11 @@
 <header id="header">
     <div id="header-container">
         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <h1 id="logo">EcoSystems</h1>
                 <span id="mobile-menu-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
             </div>
-            <div class="col-xs-12 col-sm- col-md-6 col-lg-6">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="header-block header-user">
                     <a href="#" id="welcome" class="dropdown-toggle" data-toggle="dropdown">
                         <span>Welcome <?php echo $user['name']; ?></span>&nbsp;<i class="fa fa-caret-down"></i>
@@ -60,12 +60,6 @@
                     <span class="menu-title"><?php echo __('Dashboard'); ?></span>
                 </a>
             </li>
-<!--            <li --><?php //echo ($current_route_name == 'live') ? 'class="active"' : ''; ?><!-->-->
-<!--                <a href="--><?php //echo URL::base(TRUE, TRUE) .'live'; ?><!--" class="require-instance-id">-->
-<!--                    <i class="fa fa-lg fa-fw fa-bar-chart-o"></i>&nbsp;-->
-<!--                    <span class="menu-title">--><?php //echo __('Live'); ?><!--</span>-->
-<!--                </a>-->
-<!--            </li>-->
 <!--            <li --><?php //echo ($current_route_name == 'history') ? 'class="active"' : ''; ?><!-->-->
 <!--                <a href="--><?php //echo URL::base(TRUE, TRUE) .'history'; ?><!--" class="require-instance-id">-->
 <!--                    <i class="fa fa-lg fa-fw fa-history"></i>&nbsp;-->
@@ -96,12 +90,6 @@
 <!--                    <span class="menu-title">--><?php //echo __('Logs'); ?><!--</span>-->
 <!--                </a>-->
 <!--            </li>-->
-<!--            <li>-->
-<!--                <a id="logout" href="--><?php //echo URL::base(TRUE, TRUE) .'logout'; ?><!--">-->
-<!--                    <i class="fa fa-lg fa-fw fa-sign-out"></i>&nbsp;-->
-<!--                    <span class="menu-title">--><?php //echo __('Logout'); ?><!--</span>-->
-<!--                </a>-->
-<!--            </li>-->
         </ul>
     </nav>
     <nav id="instances-menu">
@@ -109,12 +97,18 @@
         <ul>
             <?php
             foreach($instances as $instance) {
-                $class = ($current_instance_id === $instance['id']) ? 'class="active"' : '';
+                $class = ($current_instance_id === $instance['id']) ? 'active' : '';
                 $instanceIcon = isset($instance['icon']) ? '<i class="'. $instance['icon'] .'"></i>' : '';
                 ?>
-                <li <?php echo $class ?> data-id="<?php echo $instance['id'] ?>">
-                    <a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id'] ?>"><?php echo $instanceIcon .'&nbsp;'. $instance['title'] ?></a>
+                <li class="<?php echo $class ?>" data-id="<?php echo $instance['id'] ?>">
+                    <a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id'] ?>" class="instanceLink"><?php echo $instanceIcon .'&nbsp;'. $instance['title'] ?></a>
                     <ul>
+                        <li>
+                            <a href="<?php echo URL::base(TRUE, TRUE) .'live/'. $instance['id']; ?>">
+                                <i class="fa fa-lg fa-fw fa-bar-chart-o"></i>&nbsp;
+                                <span class="menu-title"><?php echo __('Live data') ?></span>
+                            </a>
+                        </li>
                         <li>
                             <a href="<?php echo URL::base(TRUE, TRUE) .'instance/'. $instance['id']; ?>">
                                 <i class="fa fa-lg fa-fw fa-list-alt"></i>&nbsp;
@@ -189,7 +183,7 @@
             'widget-instances': ES.WidgetInstances,
             'widget-params': ES.WidgetInstanceParams,
             'widget-history': ES.WidgetHistory,
-            'widget-live': ES.WidgetLive,
+            'widget-livedata': ES.WidgetLive,
             'widget-logs': ES.WidgetLogs
         };
 

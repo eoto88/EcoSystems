@@ -1,50 +1,7 @@
-var highchartsOptions ={},
-    highchartsLangFr = {
-    months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-        'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
-    weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi',
-        'Jeudi', 'Vendredi', 'Samedi'],
-    shortMonths: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil',
-        'Aout', 'Sept', 'Oct', 'Nov', 'Déc'],
-    decimalPoint: ',',
-    downloadPNG: 'Télécharger en image PNG',
-    downloadJPEG: 'Télécharger en image JPEG',
-    downloadPDF: 'Télécharger en document PDF',
-    downloadSVG: 'Télécharger en document Vectoriel',
-    exportButtonTitle: 'Export du graphique',
-    loading: 'Chargement en cours...',
-    printButtonTitle: 'Imprimer le graphique',
-    resetZoom: 'Réinitialiser le zoom',
-    resetZoomTitle: 'Réinitialiser le zoom au niveau 1:1',
-    thousandsSep: ' ',
-    decimalPoint: ','
-};
-
 $(document).ready(function() {
-    highchartsOptions.global =  {
-        timezoneOffset: -4,
-        useUTC: false
-    };
-
-    if( I18n.lang == 'fr') {
-        highchartsOptions.lang = highchartsLangFr;
-    }
-
-    Highcharts.setOptions(highchartsOptions);
-
-    $('#dropdown-instances li a').click(function (e) {
+    $('#instances-menu a.instanceLink').click(function(e) {
         e.preventDefault();
-        //window.history.pushState($(this).text(), $(this).text(), $(this).attr('href'));
-        $('#select-instance span').text($(this).text());
-        $('#dropdown-instances .active').toggleClass('active');
-        $(this).parent().toggleClass('active');
-
-        if(ES.isDashboard()) {
-            document.location = BASE_URL + 'live/'+ ES.getActiveInstanceId();
-        } else {
-            var url = $('#left-panel .active a').attr('href');
-            document.location = url +'/'+ ES.getActiveInstanceId();
-        }
+        $(this).parent().find('ul').slideToggle();
     });
 
     $('#left-panel a.require-instance-id').click(function(e) {

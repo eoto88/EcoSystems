@@ -3,10 +3,7 @@
 class Model_Data {
     public function getLastData($idInstance) {
         $query = DB::select(
-            DB::expr($this->getExprDatetime().'  AS datetime'),
-            'humidity',
-            'room_temperature',
-            'tank_temperature'
+            DB::expr($this->getExprDatetime().'  AS datetime'), 'data'
         )->from('data')->where('id_instance', '=', $idInstance)->order_by('timestamp', 'DESC')->limit(1)->offset(0);
         return $query->execute()->current();
     }
@@ -14,7 +11,7 @@ class Model_Data {
     public function getData($idInstance) {
         $query = DB::query(Database::SELECT,
             "SELECT " . $this->getExprDatetime() .'  AS datetime'.
-            ", humidity, room_temperature, tank_temperature FROM ( SELECT * FROM data WHERE id_instance = ". $idInstance ." ORDER BY timestamp DESC LIMIT 40 ) sub ORDER BY datetime ASC"
+            ", data FROM ( SELECT * FROM data WHERE id_instance = ". $idInstance ." ORDER BY timestamp DESC LIMIT 40 ) sub ORDER BY datetime ASC"
         );
 
         return $query->execute()->as_array();

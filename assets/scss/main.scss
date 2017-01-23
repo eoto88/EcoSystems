@@ -117,7 +117,7 @@ $low-danger: #039C4A;
 $medium-danger: #E47F25;
 $high-danger: #BF0B23;
 
-$header-height-mobile: 82px;
+$header-height-mobile: 49px;
 
 $menu-transition: 250ms cubic-bezier(0.1,.57,.1,1);
 
@@ -231,7 +231,7 @@ form {
   top: $header-height-mobile;
   left: 0;
   z-index: 904;
-  width: 125px;
+  width: 200px;
   min-height: 100%;
   border-top: 1px solid #525151;
   background: $dark-grey;
@@ -253,6 +253,14 @@ form {
       color: white;
       padding: 10px 10px 10px 11px;
     }
+
+    ul li ul {
+      display: none;
+    }
+
+    ul li.active ul {
+      display: block;
+    }
   }
 
   #pages-menu {
@@ -260,7 +268,7 @@ form {
   }
 
   &.mobile-closed {
-    left: -125px;
+    left: -205px;
   }
 
   #minify-menu {
@@ -1030,6 +1038,27 @@ label {
 }
 /* **** Widget Table - END **** */
 
+.table-grouped.table-striped > tbody  {
+  .groupTitle {
+    background-color: inherit;
+
+    td {
+      border-bottom-width: 2px;
+    }
+  }
+  .entity {
+    background-color: inherit;
+  }
+  .entity.odd {
+    background-color: #f9f9f9;
+  }
+}
+
+/* Charts */
+#testChart {
+  min-height: 250px;
+}
+
 .ddActionsWrapper {
   position: relative;
 
@@ -1123,10 +1152,10 @@ label {
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
   body {
-    padding-top: 49px;
+    padding-top: $header-height-mobile;
   }
   #header {
-    height: 49px;
+    height: $header-height-mobile;
   }
   #logo {
     margin: 12px 0 15px;
@@ -1162,6 +1191,10 @@ label {
       //overflow-x: hidden;
     }
   }
+
+  #testChart {
+    min-height: 350px;
+  }
 }
 
 /* Medium devices (desktops, 992px and up) */
@@ -1177,7 +1210,7 @@ label {
 
   #left-panel {
     position: fixed;
-    top: 49px;
+    top: $header-height-mobile;
     left: 0;
     width: 200px;
 

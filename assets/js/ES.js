@@ -112,6 +112,8 @@ var ES = {
         var pathname = window.location.pathname;
         if(/^\/instance/.test(pathname)) {
             return pathname.replace('/instance/', '');
+        } else if(/^\/live/.test(pathname)) {
+            return pathname.replace('/live/', '');
         }
         return null;
     },

@@ -58,40 +58,40 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
     }
     
     private function getLiveData() {
-        $mData = new Model_Data();
-        $data = $mData->getData( $this->currentInstanceId );
-
-        $mInstance = new Model_Instance();
-        $instance = $mInstance->getInstance( $this->currentInstanceId, $this->user['id_user'] );
-
-        $humidity = array();
-        $roomTemperature = array();
-        $tankTemperature = array();
-        foreach($data as $row) {
-            $datetime = strtotime($row['datetime']) * 1000;
-            $humidity[] = array(
-                'x' => $datetime,
-                'y' => floatval($row['humidity'])
-            );
-            $roomTemperature[] = array(
-                'x' => $datetime,
-                'y' => floatval($row['room_temperature'])
-            );
-            $tankTemperature[] = array(
-                'x' => $datetime,
-                'y' => floatval($row['tank_temperature'])
-            );
-        }
+//        $mData = new Model_Data();
+//        $data = $mData->getData( $this->currentInstanceId );
+//
+//        $mInstance = new Model_Instance();
+//        $instance = $mInstance->getInstance( $this->currentInstanceId, $this->user['id_user'] );
+//
+//        $humidity = array();
+//        $roomTemperature = array();
+//        $tankTemperature = array();
+//        foreach($data as $row) {
+//            $datetime = strtotime($row['datetime']) * 1000;
+//            $humidity[] = array(
+//                'x' => $datetime,
+//                'y' => floatval($row['humidity'])
+//            );
+//            $roomTemperature[] = array(
+//                'x' => $datetime,
+//                'y' => floatval($row['room_temperature'])
+//            );
+//            $tankTemperature[] = array(
+//                'x' => $datetime,
+//                'y' => floatval($row['tank_temperature'])
+//            );
+//        }
 
         $hWidgetInstances = new Helper_WidgetInstances();
         $vInstances = $hWidgetInstances->getViewSingleInstance($this->currentInstanceId);
-        
+
         return array(
             'widget_instances'      => $vInstances,
 //            'instance'              => $instance,
-            'humidityData'          => $humidity,
-            'roomTemperatureData'   => $roomTemperature,
-            'tankTemperatureData'   => $tankTemperature,
+//            'humidityData'          => $humidity,
+//            'roomTemperatureData'   => $roomTemperature,
+//            'tankTemperatureData'   => $tankTemperature,
         );
     }
     

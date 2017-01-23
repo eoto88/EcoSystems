@@ -19,7 +19,7 @@ ES.Form = ES.Cmp.extend({
      */
     getTpl: function() {
         var me = this,
-            tpl = '<form id="'+ me.cmpId +'">';
+            tpl = '<form id="'+ me.cmpId +'" class="es-cmp">';
         if(me.title) {
             tpl += '<header role="heading"><span class="widget-icon"><i class="fa fa-pencil fa-fw"></i></span><h2>'+ me.title +'</h2> <span class="close-form"><i class="fa fa-times"></i></span></header>';
         }
