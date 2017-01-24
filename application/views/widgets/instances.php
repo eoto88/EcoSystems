@@ -21,7 +21,7 @@
     </script>
     <script type="text/x-handlebars-template" id="instance-body-tmpl">
         <div class="row">
-            {{{showBodyParams this.params}}}
+            {{{showBodyParams this.groups}}}
         </div>
     </script>
     <script type="text/x-handlebars-template" id="gage-tmpl">

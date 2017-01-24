@@ -40,13 +40,6 @@ ES.WidgetInstances = ES.Widget.extend({
 
                 $.each(data, function(key, instanceData) {
                     instanceData.params = me.parseData(instanceData.params);
-                    //$.each(instanceData.params, function(key, param) {
-                    //    try {
-                    //        param.data = JSON.parse(param.data);
-                    //    } catch(err) {
-                    //        // TODO
-                    //    }
-                    //});
                     me.compileTpl({
                         tplId: 'instance-tmpl',
                         appendTo: $component.find('.widget-body ul'),
@@ -257,13 +250,13 @@ ES.WidgetInstances = ES.Widget.extend({
         $instanceBody.slideToggle();
         $(event.currentTarget).find('i').toggleClass('fa-chevron-circle-down').toggleClass('fa-chevron-circle-up');
 
-        deferredCalls.push(
-            ES.ajax({
-                url: BASE_URL + "api/instances/"+ instanceData.id +"/params"+ "?header=false"
-            })
-        );
-
         if($instanceBody.html() == "") {
+            deferredCalls.push(
+                ES.ajax({
+                    url: BASE_URL + "api/instances/"+ instanceData.id +"/groups?addFields=params,data&filters=header:eq:0"
+                })
+            );
+
             if(instanceData.monitored == "1") {
                 deferredCalls.push(
                     ES.ajax({
@@ -295,8 +288,8 @@ ES.WidgetInstances = ES.Widget.extend({
                                 instanceBodyData.waterTest = arguments[i][0].entities;
                             }
 
-                            if (entityName == "param") {
-                                instanceBodyData.params = me.parseData(arguments[i][0].entities);
+                            if (entityName == "param_group") {
+                                instanceBodyData.groups = arguments[i][0].entities;
                             }
                         }
 
@@ -307,34 +300,46 @@ ES.WidgetInstances = ES.Widget.extend({
                             data: instanceBodyData
                         });
 
-                        $.each(instanceBodyData.params, function(key, param) {
-                            return me.createGage({
-                                appendTo: $instance.find('.param.'+ param.paramAlias),
-                                iconCls: param.icon,
-                                title: param.title,
-                                content: 'Datetime: '+ param.datetime,
-                                gageId: param.paramAlias,
-                                value: param.data.value,
-                                minVal: 0,
-                                maxVal: 50,
-                                decimals: 1,
-                                symbol: ' °C',
-                                levelColors : [  "#e74c3c", "#2ecc71", "#e74c3c" ],
-                                customSectors: {
-                                    ranges: [{
-                                        color : "#e74c3c",
-                                        lo : 0,
-                                        hi : 13
-                                    },{
-                                        color : "#2ecc71",
-                                        lo : 24,
-                                        hi : 26
-                                    },{
-                                        color : "#e74c3c",
-                                        lo : 27,
-                                        hi : 50
-                                    }]
+                        $.each(instanceBodyData.groups, function(key, group) {
+                            $.each(group.params, function(key, param) {
+                                param.data = ES.parseData(param.data);
+
+                                var symbol = '';
+
+                                if(param.typeAlias == 'percentage') {
+                                    symbol = ' %';
+                                } else if(param.typeAlias == 'temperature') {
+                                    symbol = ' °C';
                                 }
+
+                                me.createGage({
+                                    appendTo: $instance.find('.param.'+ param.paramAlias),
+                                    iconCls: param.icon,
+                                    title: param.title,
+                                    content: 'Datetime: '+ param.datetime,
+                                    gageId: param.paramAlias,
+                                    value: param.data.value,
+                                    minVal: 0,
+                                    maxVal: 50,
+                                    decimals: 1,
+                                    symbol: symbol,
+                                    levelColors : [  "#e74c3c", "#2ecc71", "#e74c3c" ],
+                                    customSectors: {
+                                        ranges: [{
+                                            color : "#e74c3c",
+                                            lo : 0,
+                                            hi : 13
+                                        },{
+                                            color : "#2ecc71",
+                                            lo : 24,
+                                            hi : 26
+                                        },{
+                                            color : "#e74c3c",
+                                            lo : 27,
+                                            hi : 50
+                                        }]
+                                    }
+                                });
                             });
                         });
 
@@ -789,20 +794,16 @@ ES.WidgetInstances = ES.Widget.extend({
             return tpl;
         });
 
-        Handlebars.registerHelper('showBodyParams', function(params) {
-            var tpl = "",
-                lastIdGroup = 0;
-            $.each(params, function(key, param) {
-                if(lastIdGroup != param.id_group) {
-                    if(lastIdGroup != 0) {
-                        tpl += '</div>';
-                    }
-                    tpl += '<div class="param-group col-xs-6 col-md-6 col-lg-6"><h4>'+ param.groupTitle +'</h4>';
-                }
-                tpl += '<div class="param '+ param.paramAlias +'"></div>';
-                lastIdGroup = param.id_group;
+        Handlebars.registerHelper('showBodyParams', function(groups) {
+            var tpl = "";
+            $.each(groups, function(key, group) {
+                tpl += '<div class="param-group col-xs-6 col-md-6 col-lg-6"><h4>'+ group.title +'</h4>';
+
+                $.each(group.params, function(key, param) {
+                    tpl += '<div class="param '+ param.paramAlias +'"></div>';
+                });
+                tpl += '</div>';
             });
-            tpl += '</div>';
             return tpl;
         });
 

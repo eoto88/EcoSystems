@@ -97,7 +97,7 @@ ES.WidgetInstanceParams = ES.Widget.extend({
                             cmpType: 'combo',
                             name: 'id_group',
                             label: 'Group',
-                            url: BASE_URL + "api/instances/"+ idInstance +"/param-groups",
+                            url: BASE_URL + "api/instances/"+ idInstance +"/groups",
                             valField: 'id',
                             titleField: 'title'
                         },

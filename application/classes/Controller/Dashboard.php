@@ -136,28 +136,4 @@ class Controller_Dashboard extends Controller_AuthenticatedPage {
         );
     }
 
-    public function action_todos() {
-        $this->template->title = __('ToDo\'s');
-        $this->template->icon = 'fa-check';
-
-        $mInstanceType = new Model_InstanceType();
-        $mTodo = new Model_Todo();
-
-        $instancesData = array(
-            'toDos' => array(), //$mTodo->getTodos(),
-            'instance_types' => $mInstanceType->getInstanceTypes()
-        );
-
-        $view = View::factory( "todos" )->set( $instancesData );;
-        $this->template->content = $view->render();
-    }
-
-    public function action_logs() {
-        $this->template->title = __('Logs');
-        $this->template->icon = 'fa-file-text-o';
-
-        $view = View::factory( "logs" )->set( array('instances' => $this->instances) );;
-        $this->template->content = $view->render();
-    }
-
 } // End Welcome

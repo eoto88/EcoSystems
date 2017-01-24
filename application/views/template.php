@@ -72,24 +72,6 @@
 <!--                    <span class="menu-title">--><?php //echo __('Water tests'); ?><!--</span>-->
 <!--                </a>-->
 <!--            </li>-->
-<!--            <li --><?php //echo ($current_route_name == 'todos') ? 'class="active"' : ''; ?><!-->-->
-<!--                <a href="--><?php //echo URL::base(TRUE, TRUE) .'todos'; ?><!--" class="require-instance-id">-->
-<!--                    <i class="fa fa-lg fa-fw fa-check"></i>&nbsp;-->
-<!--                    <span class="menu-title">--><?php //echo __('ToDo\'s'); ?><!--</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li --><?php //echo ($current_route_name == 'instance') ? 'class="active"' : ''; ?><!-->-->
-<!--                <a href="--><?php //echo URL::base(TRUE, TRUE) .'instance'; ?><!--" class="require-instance-id">-->
-<!--                    <i class="fa fa-lg fa-fw fa-list-alt"></i>&nbsp;-->
-<!--                    <span class="menu-title">--><?php //echo __('Instance') ?><!--</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li  --><?php //echo ($current_route_name == 'logs') ? 'class="active"' : ''; ?><!-->-->
-<!--                <a href="--><?php //echo URL::base(TRUE, TRUE) .'logs'; ?><!--">-->
-<!--                    <i class="fa fa-lg fa-fw fa-file-text-o"></i>&nbsp;-->
-<!--                    <span class="menu-title">--><?php //echo __('Logs'); ?><!--</span>-->
-<!--                </a>-->
-<!--            </li>-->
         </ul>
     </nav>
     <nav id="instances-menu">

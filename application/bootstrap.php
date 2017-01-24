@@ -169,7 +169,7 @@ Route::set('rest-api-instances', 'api/instances(/<id>)', array('id' => '[0-9]+')
         'controller' => 'Instances',
         'action' => 'index',
     ));
-Route::set('rest-api-instance-groups', 'api/instances(/<id_instance>)/param-groups(/<id>)', array('id_instance' => '[0-9]+', 'id' => '[0-9]+'))
+Route::set('rest-api-instance-groups', 'api/instances(/<id_instance>)/groups(/<id>)', array('id_instance' => '[0-9]+', 'id' => '[0-9]+'))
     ->defaults(array(
         'directory' => 'rest',
         'controller' => 'ParamGroups',
@@ -185,25 +185,10 @@ Route::set('rest-api', 'api/<controller>(/<id>)', array('id' => '[0-9]+'))
         'directory' => 'rest',
         'action' => 'index',
     ));
-//Route::set('water-tests', 'water-tests/<id>')
-//    ->defaults(array(
-//        'controller' => 'WaterTests',
-//        'action' => 'index',
-//    ));
 Route::set('live', 'live/<id>')
     ->defaults(array(
         'controller' => 'dashboard',
         'action' => 'live',
-    ));
-Route::set('history', 'history/<id>')
-    ->defaults(array(
-        'controller' => 'dashboard',
-        'action' => 'history',
-    ));
-Route::set('todos', 'todos/<id>')
-    ->defaults(array(
-        'controller' => 'dashboard',
-        'action' => 'todos',
     ));
 Route::set('instance', 'instance/<id>')
     ->defaults(array(

@@ -100,8 +100,10 @@ class Model_Param {
         $params = $this->getInstanceHeaderGroupParams($idInstance);
         for($j = 0; $j < count($params); $j++) {
             $data = $mData->getParamData($params[$j]['id_param'], 1);
-            $params[$j]['datetime'] = $data[0]['datetime'];
-            $params[$j]['data'] = $data[0]['data'];
+            if($data) {
+                $params[$j]['datetime'] = $data[0]['datetime'];
+                $params[$j]['data'] = $data[0]['data'];
+            }
         }
         return $params;
     }
@@ -111,8 +113,10 @@ class Model_Param {
         $params = $this->getInstanceGroupParams($idInstance, $idGroup);
         for($j = 0; $j < count($params); $j++) {
             $data = $mData->getParamData($params[$j]['id_param'], 1);
-            $params[$j]['datetime'] = $data[0]['datetime'];
-            $params[$j]['data'] = $data[0]['data'];
+            if($data) {
+                $params[$j]['datetime'] = $data[0]['datetime'];
+                $params[$j]['data'] = $data[0]['data'];
+            }
         }
         return $params;
     }

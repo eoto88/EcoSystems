@@ -27,3 +27,21 @@ For more infos, come visit later or simply write me!
 To configure the web application, you need to copy the application/config*.template.php to application/config/*.php
 
 Ex: database.template.php => database.php
+
+## API
+
+Additionnal fields
+[addFields=params,data]
+
+Filters
+[filters=header:eq:1]
+
+* /api/instances
+* /api/instances/:id
+* /api/instances/:id/groups
+* /api/instances/{0}/groups
+* /api/instances/{0}/groups/{1}
+* /api/instances/{0}/params
+* /api/instances/{0}/params/{1}
+* /api/instances/{0}/params/{1}/data
+* /api/instances/{0}/params/{1}/data/{2}
