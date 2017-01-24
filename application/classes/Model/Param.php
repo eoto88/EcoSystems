@@ -67,6 +67,20 @@ class Model_Param {
         return $query->execute()->as_array();
     }
 
+    public function getInstanceGroupParams($idInstance, $idGroup) {
+        $query = DB::query(Database::SELECT,
+            "SELECT p.id AS id_param, p.title, p.alias AS paramAlias, p.icon, pt.alias AS typeAlias, pt.title AS type, p.options ".
+            "FROM param_group AS pg ".
+            "JOIN param AS p ON p.id_group = pg.id ".
+            "JOIN param_type AS pt ON pt.id = p.id_type ".
+            "WHERE pg.id_instance = :id_instance ".
+            "AND pg.id = :id_group"
+        );
+        $query->param(':id_instance', $idInstance);
+        $query->param(':id_group', $idGroup);
+        return $query->execute()->as_array();
+    }
+
     public function getParamWithData($idParam) {
         $query = DB::query(Database::SELECT,
             "SELECT p.title, p.alias AS paramAlias, p.icon, pt.alias AS typeAlias, pt.title AS type, p.options, d.data, d.datetime ".
@@ -94,7 +108,7 @@ class Model_Param {
 
     public function getGroupParamsWithData($idInstance, $idGroup) {
         $mData = new Model_Data();
-        $params = $this->getInstanceGroupParams($idInstance);
+        $params = $this->getInstanceGroupParams($idInstance, $idGroup);
         for($j = 0; $j < count($params); $j++) {
             $data = $mData->getParamData($params[$j]['id_param'], 1);
             $params[$j]['datetime'] = $data[0]['datetime'];
