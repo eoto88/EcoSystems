@@ -30,6 +30,11 @@ class Model_Instance {
         return $query->execute()->as_array();
     }
 
+    /**
+     * @deprecated
+     *
+     * @param $idInstance
+     */
     public function updateHeartbeat($idInstance) {
         $query = DB::query(Database::UPDATE, "UPDATE instance SET last_communication = NOW() WHERE id = :idInstance");
         $query->param(':idInstance', $idInstance);

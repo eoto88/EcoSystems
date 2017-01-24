@@ -1,6 +1,12 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
 class Model_Data {
+    /**
+     * @deprecated
+     *
+     * @param $idInstance
+     * @return mixed
+     */
     public function getLastData($idInstance) {
         $query = DB::select(
             DB::expr($this->getExprDatetime().'  AS datetime'), 'data'
@@ -8,12 +14,31 @@ class Model_Data {
         return $query->execute()->current();
     }
 
+    /**
+     * @deprecated
+     *
+     * @param $idInstance
+     * @return mixed
+     */
     public function getData($idInstance) {
         $query = DB::query(Database::SELECT,
             "SELECT " . $this->getExprDatetime() .'  AS datetime'.
             ", data FROM ( SELECT * FROM data WHERE id_instance = ". $idInstance ." ORDER BY timestamp DESC LIMIT 40 ) sub ORDER BY datetime ASC"
         );
 
+        return $query->execute()->as_array();
+    }
+
+    public function getParamData($idParam, $limit) {
+        $query = DB::query(Database::SELECT,
+            "SELECT datetime, data ".
+            "FROM data ".
+            "WHERE id_param = :id_param ".
+            "ORDER BY datetime DESC ".
+            "LIMIT :limit"
+        );
+        $query->param(':id_param', $idParam);
+        $query->param(':limit', $limit);
         return $query->execute()->as_array();
     }
 

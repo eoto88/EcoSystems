@@ -64,7 +64,6 @@ var ES = {
         } catch(err) {
             console.error("Error parsing data JSON.");
         }
-        return params;
     },
 
     scrollToMe: function(cmp) {
