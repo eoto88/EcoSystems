@@ -10,7 +10,7 @@ ES.Field.Combo = ES.Field.extend({
         var me = this;
 
         ES.apply(me, config);
-        me._super('combo');
+        me._super(me.cmpType);
         me.appendTo(config.parent);
     },
 

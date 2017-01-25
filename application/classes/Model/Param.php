@@ -16,6 +16,11 @@ class Model_Param {
         return $query->execute()->current();
     }
 
+    /**
+     * @deprecated
+     *
+     * @return mixed
+     */
     public function getParams() {
         $query = DB::query(Database::SELECT,
             "SELECT p.id, p.id_category, p.code, p.title, pc.title AS category_title ".
@@ -25,10 +30,6 @@ class Model_Param {
         );
         return $query->execute()->as_array();
     }
-
-//    public function getHeaderParamsWithData($idInstance) {
-//        return $this->getGroupParamsWithData($idInstance, true);
-//    }
 
 //    /**
 //     * @deprecated

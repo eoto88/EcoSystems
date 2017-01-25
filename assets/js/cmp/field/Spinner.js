@@ -12,7 +12,7 @@ ES.Field.Spinner = ES.Field.Text.extend({
         var me = this;
 
         ES.apply(me, config);
-        me._super('spinner');
+        me._super(me.cmpType);
         me.appendTo(config.parent);
         var $spinner = me.getCmp(),
             initval = $spinner.data('initval'),

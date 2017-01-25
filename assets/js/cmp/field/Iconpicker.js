@@ -11,7 +11,7 @@ ES.Field.Iconpicker = ES.Field.Text.extend({
         me.realValue = me.value;
         me.value = me.formatValue(me.value);
 
-        me._super('iconpicker');
+        me._super(me.cmpType);
         me.appendTo(config.parent);
         var $iconPicker = me.getCmp();
 

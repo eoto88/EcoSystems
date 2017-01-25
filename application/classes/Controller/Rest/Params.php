@@ -19,9 +19,11 @@ class Controller_Rest_Params extends Controller_REST {
                     $groups[$i]['params'] = $mParam->getGroupParamsWithData($idInstance, $groups[$i]['id']);
                 }
                 $this->respond($groups);
-
-            } else {
+            } else if($this->request->query('header') == "true") {
                 $params = $mParam->getHeaderParamsWithData($idInstance);
+                $this->respond($params);
+            } else {
+                $params = $mParam->getInstanceParams($idInstance);
                 $this->respond($params);
             }
         } else {

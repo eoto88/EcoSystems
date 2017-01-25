@@ -7,7 +7,7 @@ ES.Field.Colorpicker = ES.Field.Text.extend({
         var me = this;
 
         ES.apply(me, config);
-        me._super('colorpicker');
+        me._super(me.cmpType);
         me.appendTo(config.parent);
         var $colorPicker = me.getCmp();
 

@@ -6,7 +6,7 @@ ES.Field.TagField = ES.Field.Combo.extend({
         var me = this;
 
         ES.apply(me, config);
-        me._super('tagfield');
+        me._super(me.cmpType);
         me.appendTo(config.parent);
     },
 
