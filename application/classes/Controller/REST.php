@@ -67,6 +67,9 @@ abstract class Controller_REST extends Controller {
             if ( ! isset($this->_action_map[$method])) {
                 $this->request->action('invalid');
             } else {
+                $config = Kohana::$config->load('app');
+
+                $this->response->headers('Access-Control-Allow-Origin', $config['base_url']);
                 $this->response->headers('Content-Type','application/json; charset=utf-8');
                 $this->request->action($this->_action_map[$method]);
             }

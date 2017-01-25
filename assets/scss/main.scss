@@ -188,7 +188,7 @@ form {
 }
 #logo {
   color: white;
-  margin: 5px 0;
+  margin: 10px 0;
   width: 75%;
   float: left;
 }
@@ -196,6 +196,7 @@ form {
   color: #CCC;
   float: right;
   font-size: 18px;
+  margin-top: 10px;
 
   &.active {
     color: white;
@@ -454,7 +455,7 @@ form {
 /* **** Switch - START **** */
 .icon-switch .switch {
   border-radius: 4px;
-  -webkit-mask-box-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP…00VjRjMC0yLjIsMS44LTQsNC00aDcyYzIuMiwwLDQsMS44LDQsNFYyNXoiLz4NCjwvc3ZnPg0K) 0 0 stretch;
+//  -webkit-mask-box-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP…00VjRjMC0yLjIsMS44LTQsNC00aDcyYzIuMiwwLDQsMS44LDQsNFYyNXoiLz4NCjwvc3ZnPg0K) 0 0 stretch;
 }
 
 .icon-switch .switch>div {
@@ -810,7 +811,7 @@ label {
 //      width: 50%;
 //    }
 
-    .statusGage {
+    .param {
       margin-bottom: 15px;
 
       h5 {
@@ -837,6 +838,12 @@ label {
             color: $brightYellow;
           }
         }
+      }
+
+      .no-data {
+        font-size: 58px;
+        display: block;
+        margin: 15px 30%;
       }
 
       .gage {

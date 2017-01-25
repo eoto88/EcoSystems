@@ -3,6 +3,15 @@
         <?php echo $widget_instances; ?>
     </article>
     <article>
+        <div id="widget-formdata" class="widget">
+            <header role="heading">
+                <span class="widget-icon"><i class="fa fa-check fa-fw"></i></span>
+                <h2><?php echo __('Form data') ?></h2>
+            </header>
+            <div class="widget-body"></div>
+        </div>
+    </article>
+    <article>
         <div id="widget-livedata" class="widget">
             <header role="heading">
                 <span class="widget-icon"><i class="fa fa-check fa-fw"></i></span>

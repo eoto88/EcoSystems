@@ -86,6 +86,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
             "assets/js/widgets/live.js",
             "assets/js/widgets/logs.js",
             "assets/js/widgets/todos.js",
+            "assets/js/widgets/FormData.js",
             "assets/js/widgets/InstanceParams.js",
             "assets/js/widgets/instances.js",
             "assets/js/cmp/Button.js",

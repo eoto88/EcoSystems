@@ -29,24 +29,22 @@
 <header id="header">
     <div id="header-container">
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h1 id="logo">EcoSystems</h1>
                 <span id="mobile-menu-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="header-block header-user">
-                    <a href="#" id="welcome" class="dropdown-toggle" data-toggle="dropdown">
-                        <span>Welcome <?php echo $user['name']; ?></span>&nbsp;<i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul id="dropdown-user" class="dropdown-menu js-status-update pull-right">
-                        <li data-id="">
-                            <a href="<?php echo URL::base(TRUE, TRUE) .'profile' ?>"><?php echo __('Profile') ?></a>
-                        </li>
-                        <li data-id="">
-                            <a href="<?php echo URL::base(TRUE, TRUE) .'logout' ?>"><?php echo __('Logout') ?></a>
-                        </li>
-                    </ul>
-                </div>
+<!--                <div class="header-block header-user">-->
+<!--                    <a href="#" id="welcome" class="dropdown-toggle" data-toggle="dropdown">-->
+<!--                        <span>Welcome --><?php //echo $user['name']; ?><!--</span>&nbsp;<i class="fa fa-caret-down"></i>-->
+<!--                    </a>-->
+<!--                    <ul id="dropdown-user" class="dropdown-menu js-status-update pull-right">-->
+<!--                        <li data-id="">-->
+<!--                            <a href="--><?php //echo URL::base(TRUE, TRUE) .'profile' ?><!--">--><?php //echo __('Profile') ?><!--</a>-->
+<!--                        </li>-->
+<!--                        <li data-id="">-->
+<!--                            <a href="--><?php //echo URL::base(TRUE, TRUE) .'logout' ?><!--">--><?php //echo __('Logout') ?><!--</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
             </div>
         </div>
     </div>
@@ -156,27 +154,6 @@
         <?php } ?>
         };
         <?php } ?>
-
-        // TODO Find a better place to put this code
-        var WidgetList = {
-            'widget-form': ES.WidgetForm,
-            'widget-todos': ES.WidgetTodos,
-            'widget-waterTests': ES.WidgetWaterTests,
-            'widget-instances': ES.WidgetInstances,
-            'widget-params': ES.WidgetInstanceParams,
-            'widget-history': ES.WidgetHistory,
-            'widget-livedata': ES.WidgetLive,
-            'widget-logs': ES.WidgetLogs
-        };
-
-        $(document).ready(function() {
-            $(".widget").each(function() {
-                var widget = WidgetList[$(this).attr('id')];
-                if( widget ) {
-                    ES.factory(WidgetList[$(this).attr('id')]);
-                }
-            });
-        });
     </script>
 
 </body>

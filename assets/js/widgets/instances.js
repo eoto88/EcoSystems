@@ -72,7 +72,7 @@ ES.WidgetInstances = ES.Widget.extend({
 
     refresh: function(loading) {
         var me = this,
-            loading = (loading == undefined ? true : false)
+            loading = (loading == undefined || !loading ? true : false);
 
         if(loading) {
             me.startLoading();
@@ -241,7 +241,6 @@ ES.WidgetInstances = ES.Widget.extend({
 
     onInstanceExpandClick: function(event, element) {
         var me = event.data.context,
-            deferredCalls = [],
             instanceData = event.data.entityData,
             instanceBodyData = {},
             $instance = $('#'+ me.cssId).find('li[data-id='+ instanceData.id +']'),
@@ -251,57 +250,25 @@ ES.WidgetInstances = ES.Widget.extend({
         $(event.currentTarget).find('i').toggleClass('fa-chevron-circle-down').toggleClass('fa-chevron-circle-up');
 
         if($instanceBody.html() == "") {
-            deferredCalls.push(
-                ES.ajax({
-                    url: BASE_URL + "api/instances/"+ instanceData.id +"/groups?addFields=params,data&filters=header:eq:0"
-                })
-            );
+            me.startLoading();
+            ES.ajax({
+                url: BASE_URL + "api/instances/"+ instanceData.id +"/groups?addFields=params,data&filters=header:eq:0",
+                success: function(data) {
+                    instanceBodyData.groups = data.entities;
 
-            if(instanceData.monitored == "1") {
-                deferredCalls.push(
-                    ES.ajax({
-                        url: BASE_URL + "api/instances/"+ instanceData.id +"/data/"
-                    })
-                );
-            }
+                    me.compileTpl({
+                        tplId: 'instance-body-tmpl',
+                        appendTo: $instance.find('.instance-body'),
+                        empty: true,
+                        data: instanceBodyData
+                    });
 
-            if(instanceData.water_tests == "1") {
-                deferredCalls.push(
-                    ES.ajax({
-                        url: BASE_URL + "api/instances/" + instanceData.id + "/WaterTests/"
-                    })
-                );
-            }
-
-            if(deferredCalls.length) {
-                me.asyncCalls({
-                    calls: deferredCalls,
-                    callback: function() {
-                        for (var i = 0; i < arguments.length; i++) {
-                            var entityName = arguments[i][0].entityName;
-
-                            if (entityName == 'data') {
-                                instanceBodyData.data = arguments[i][0].entities;
-                            }
-
-                            if (entityName == 'waterTest') {
-                                instanceBodyData.waterTest = arguments[i][0].entities;
-                            }
-
-                            if (entityName == "param_group") {
-                                instanceBodyData.groups = arguments[i][0].entities;
-                            }
-                        }
-
-                        me.compileTpl({
-                            tplId: 'instance-body-tmpl',
-                            appendTo: $instance.find('.instance-body'),
-                            empty: true,
-                            data: instanceBodyData
-                        });
-
-                        $.each(instanceBodyData.groups, function(key, group) {
-                            $.each(group.params, function(key, param) {
+                    $.each(instanceBodyData.groups, function(key, group) {
+                        $.each(group.params, function(key, param) {
+                            if(ES.isEmpty(param.data)) {
+                                var noDataParam = '<h5><i class="'+ param.icon +'"></i>'+ param.title +'</h5><i class="wi wi-na no-data"></i>';
+                                $instance.find('.param.'+ param.paramAlias).append(noDataParam);
+                            } else {
                                 param.data = ES.parseData(param.data);
 
                                 var symbol = '';
@@ -340,96 +307,12 @@ ES.WidgetInstances = ES.Widget.extend({
                                         }]
                                     }
                                 });
-                            });
+                            }
                         });
-
-                        // TODO datetime
-
-                        //if(instanceBodyData.data.room_temperature) {
-                        //    me.createRoomTemperatureGage(
-                        //        $instance,
-                        //        instanceBodyData.data.room_temperature,
-                        //        instanceBodyData.data.datetime
-                        //    );
-                        //} else {
-                        //    // TODO N/A
-                        //}
-
-                        //if(instanceBodyData.data.tank_temperature) {
-                        //    me.createTankTemperatureGage(
-                        //        $instance,
-                        //        instanceBodyData.data.tank_temperature,
-                        //        instanceBodyData.data.datetime
-                        //    );
-                        //} else {
-                        //    // TODO N/A
-                        //}
-
-                        //if(instanceBodyData.data.humidity) {
-                        //    me.createHumidityGage(
-                        //        $instance,
-                        //        instanceBodyData.data.humidity,
-                        //        instanceBodyData.data.datetime
-                        //    );
-                        //} else {
-                        //    // TODO N/A
-                        //}
-
-                        //instanceBodyData.data.water_level = 80;
-                        //if(instanceBodyData.data.water_level) {
-                        //    me.createWaterLevelGage(
-                        //        $instance,
-                        //        instanceBodyData.data.water_level,
-                        //        instanceBodyData.data.datetime
-                        //    );
-                        //} else {
-                        //    // TODO N/A
-                        //}
-
-                        //if(instanceBodyData.waterTest.ph) {
-                        //    me.createPhGage(
-                        //        $instance,
-                        //        instanceBodyData.waterTest.ph,
-                        //        instanceBodyData.waterTest.datetime
-                        //    );
-                        //} else {
-                        //    // TODO N/A
-                        //}
-
-                        //if(instanceBodyData.waterTest.ammonia) {
-                        //    me.createAmmoniaGage(
-                        //        $instance,
-                        //        instanceBodyData.waterTest.ammonia,
-                        //        instanceBodyData.waterTest.datetime
-                        //    );
-                        //} else {
-                        //    // TODO N/A
-                        //}
-
-                        //if(instanceBodyData.waterTest.nitrite) {
-                        //    me.createNitriteGage(
-                        //        $instance,
-                        //        instanceBodyData.waterTest.nitrite,
-                        //        instanceBodyData.waterTest.datetime
-                        //    );
-                        //} else {
-                        //    // TODO N/A
-                        //}
-
-                        //if(instanceBodyData.waterTest.nitrate) {
-                        //    me.createNitrateGage(
-                        //        $instance,
-                        //        instanceBodyData.waterTest.nitrate,
-                        //        instanceBodyData.waterTest.datetime
-                        //    );
-                        //} else {
-                        //    // TODO N/A
-                        //}
-                    }
-                });
-            } else {
-                // TODO No monitoring or water tests
-            }
+                    });
+                    me.stopLoading();
+                }
+            });
         } else {
             // TODO destroy gages
             $instanceBody.find('[data-toggle=popover]').popover('destroy');
