@@ -2,16 +2,19 @@
  * Created by eoto88 on 15/01/17.
  */
 ES.Form = ES.Cmp.extend({
+    fields: null,
+
     initCmp: function(configs) {
         var me = this;
 
         ES.apply(me, configs);
         me._super('form');
         me.appendTo(configs.parent);
+        me.fields = [];
         $.each(configs.fields, function(key, config) {
             me.addField(config);
         });
-        $.each(configs.buttons, function(key, config) {
+        $.each(me.buttons, function(key, config) {
             me.addField(config);
         });
     },
@@ -63,10 +66,29 @@ ES.Form = ES.Cmp.extend({
 
         config.parent = $form;
         field.initCmp(config);
+
+        me.fields[field.name] = field;
     },
 
-    getField: function() {
-        return null;
+    removeField: function(fieldName) {
+        var me = this,
+            field = me.getFieldByName(fieldName);
+
+        if(field) {
+            var index = me.fields.indexOf(fieldName);
+            if (index > -1) {
+                me.fields.splice(index, 1);
+            }
+            field.destroy();
+        } else {
+            console.warn("Can't delete this field: "+ fieldName);
+        }
+    },
+
+    getFieldByName: function(name) {
+        var me = this;
+
+        return me.fields[name];
     }
 
 }, 'ES.Form');

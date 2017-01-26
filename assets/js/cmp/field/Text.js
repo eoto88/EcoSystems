@@ -3,6 +3,7 @@
  */
 ES.Field.Text = ES.Field.extend({
     attr: '',
+    cls: '',
     maxLength: null,
 
     initCmp: function(config) {
@@ -10,6 +11,7 @@ ES.Field.Text = ES.Field.extend({
 
         ES.apply(me, config);
         me._super(me.cmpType);
+        me.cls += ' form-control';
         me.appendTo(config.parent);
     },
 
@@ -17,7 +19,7 @@ ES.Field.Text = ES.Field.extend({
         var me = this,
             tpl = me._super(),
             label = me.getLabel(),
-            field = '{{{before}}}<input type="text" name="{{name}}" class="form-control" {{{attr}}} />{{{after}}}';
+            field = '{{{before}}}<input type="text" name="{{name}}" class="{{cls}}" {{{attr}}} />{{{after}}}';
 
         if( ! ES.isEmpty(me.maxLength) ) {
             me.attr += ' maxlength="'+ me.maxLength +'"';

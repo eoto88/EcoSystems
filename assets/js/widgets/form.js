@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 ES.WidgetForm = ES.Widget.extend({
     init: function() {
         var me = this;
@@ -26,43 +29,6 @@ ES.WidgetForm = ES.Widget.extend({
                 data: jsonData,
                 success: function(data) {
 
-                }
-            });
-        });
-
-        $component.find('.form-spinner').each(function(index, spinner) {
-            var initval = $(spinner).data('initval'),
-                min = $(spinner).data('min'),
-                max = $(spinner).data('max'),
-                step = $(spinner).data('step'),
-                decimals = $(spinner).data('decimals');
-
-            $(spinner).TouchSpin({
-                initval: initval,
-                min: min,
-                max: max,
-                step: step,
-                decimals: decimals,
-                boostat: 5,
-                maxboostedstep: 10
-            });
-        });
-
-        $component.find('.form-datepicker').each(function(index, datepicker) {
-            var format = $(datepicker).data('format');
-
-            $(datepicker).datetimepicker({
-                format: format,
-                icons: {
-                    time: 'fa fa-clock-o',
-                    date: 'fa fa-calendar',
-                    up: 'fa fa-chevron-up',
-                    down: 'fa fa-chevron-down',
-                    previous: 'fa fa-chevron-left',
-                    next: 'fa fa-chevron-right',
-                    today: 'fa fa-calendar-check-o',
-                    clear: 'fa fa-trash-o',
-                    close: 'fa fa-close'
                 }
             });
         });

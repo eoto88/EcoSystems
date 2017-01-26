@@ -4,6 +4,7 @@
 ES.Field.Tagfield = ES.Field.Combo.extend({
     values: null,
     selectize: null,
+    load: null,
 
     initCmp: function(config) {
         var me = this;
@@ -12,30 +13,22 @@ ES.Field.Tagfield = ES.Field.Combo.extend({
         me._super(me.cmpType);
         me.appendTo(config.parent);
 
-        var $selectize = me.getCmp().find('.fieldSelectize').selectize({
+        var options = {
             maxItems: null,
-            valueField: 'id',
-            labelField: 'title',
-            searchField: 'title',
-            preload: true,
             hideSelected: true,
+            load: me.load,
+            valueField: me.valField,
+            labelField: me.titleField,
+            searchField: me.titleField,
+            preload:true,
             //optgroupField: 'id_category',
             //optgroupValueField: 'id_category',
             //optgroupLabelField: 'category_title',
             plugins: ['remove_button'], // ,'optgroup_columns'
-            create: false,
-            load: function(query, callback) {
-                var idInstance = ES.getActiveInstanceId();
+            create: false
+        };
 
-                ES.ajax({
-                    url: BASE_URL + "api/instances/"+ idInstance +"/params",
-                    success: function(data) {
-                        me.values = data.entities;
-                        callback(data.entities);
-                    }
-                });
-            }
-        });
+        var $selectize = me.getCmp().find('.fieldSelectize').selectize(options);
 
         me.selectize = $selectize[0].selectize;
     },

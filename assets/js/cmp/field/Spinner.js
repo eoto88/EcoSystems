@@ -2,7 +2,7 @@
  * Created by eoto88 on 17/01/17.
  */
 ES.Field.Spinner = ES.Field.Text.extend({
-    initVal: null,
+    initVal: 0,
     minVal: null,
     maxVal: null,
     step: 1,
@@ -14,7 +14,7 @@ ES.Field.Spinner = ES.Field.Text.extend({
         ES.apply(me, config);
         me._super(me.cmpType);
         me.appendTo(config.parent);
-        var $spinner = me.getCmp(),
+        var $spinner = me.getInput(),
             initval = $spinner.data('initval'),
             min = $spinner.data('min'),
             max = $spinner.data('max'),
@@ -36,9 +36,7 @@ ES.Field.Spinner = ES.Field.Text.extend({
         var me = this,
             label = me.getLabel();
 
-        if( ! ES.isEmpty(me.initval) ) {
-            me.attr += ' data-initval="'+ me.initval +'"';
-        }
+        me.attr += ' data-initval="'+ me.initVal +'"';
         if( ! ES.isEmpty(me.minVal) ) {
             me.attr += ' data-min="'+ me.minVal +'"';
         }

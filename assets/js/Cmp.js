@@ -45,5 +45,9 @@ ES.Cmp = Class.extend({
 
     show: function() {
         this.getCmp().show();
+    },
+
+    destroy: function() {
+        this.getCmp().remove();
     }
 });

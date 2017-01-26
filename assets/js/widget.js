@@ -3,6 +3,7 @@ ES.Widget = Class.extend({
         collapsible: true,
         refreshable: false
     },
+    items: [],
 
     init: function(cssId, configs) {
         this.cssId = cssId;
@@ -17,6 +18,7 @@ ES.Widget = Class.extend({
                         item.parent = $wbody;
                         var cmp = ES.create(item.cmpType);
                         cmp.initCmp(item);
+                        me.items[cmp.cmpIndex] = cmp;
                     } else {
                         // <debug>
                         console.warn("cmpType is required.");
@@ -52,6 +54,12 @@ ES.Widget = Class.extend({
                 }
             });
         }
+    },
+
+    getCmpByIndex: function(cmpIndex) {
+        var me = this;
+
+        return me.items[cmpIndex];
     },
 
     onClick: function(selector, fn, data) {
