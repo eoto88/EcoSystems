@@ -90,6 +90,7 @@ class Controller_AuthenticatedPage extends Controller_Template {
             "assets/js/widgets/InstanceParams.js",
             "assets/js/widgets/instances.js",
             "assets/js/cmp/Button.js",
+            "assets/js/cmp/field/Tagfield.js",
             "assets/js/cmp/field/JsonFields.js",
             "assets/js/cmp/field/Colorpicker.js",
             "assets/js/cmp/field/Iconpicker.js",

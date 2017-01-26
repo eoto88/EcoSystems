@@ -131,8 +131,7 @@ ES.WidgetInstanceParams = ES.Widget.extend({
 
     editParam: function(event) {
         event.preventDefault();
-        var me = this,
-            idInstance = ES.getActiveInstanceId(),
+        var idInstance = ES.getActiveInstanceId(),
             idParam = $(event.target.closest('tr')).data('id'),
             formParam = ES.getCmp('FormParam');
 

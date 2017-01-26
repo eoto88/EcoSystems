@@ -89,12 +89,12 @@ ES.WidgetLive = ES.Widget.extend({
 
         window.myLine = new Chart($("#testChart"), config);
 
-        ES.ajax({
-            url: BASE_URL + "api/instances/"+ idInstance +"/data",
-            success: function(data) {
-                debugger;
-            }
-        });
+        //ES.ajax({
+        //    url: BASE_URL + "api/instances/"+ idInstance +"/data",
+        //    success: function(data) {
+        //        debugger;
+        //    }
+        //});
     }
 
 

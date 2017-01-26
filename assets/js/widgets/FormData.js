@@ -17,14 +17,13 @@ ES.WidgetFormData = ES.Widget.extend({
                 {
                     cmpIndex: 'FormData',
                     cmpType: 'form',
-                    title: 'Form Data',
-                    hidden: true,
+                    //title: 'Form Data',
                     fields: [
                         {
                             cmpType: 'tagfield',
-                            name: 'id_group',
-                            label: 'Group',
-                            url: BASE_URL + "api/instances/"+ idInstance +"/groups",
+                            name: 'params',
+                            label: 'Parameters to add data',
+                            url: BASE_URL + "api/instances/"+ idInstance +"/params",
                             valField: 'id',
                             titleField: 'title'
                         }
@@ -32,46 +31,27 @@ ES.WidgetFormData = ES.Widget.extend({
                     buttons: [
                         {
                             cmpType: 'button',
-                            text: 'Save'
-                        },
-                        {
-                            cmpType: 'button',
-                            text: 'Cancel'
+                            text: 'Select'
                         }
                     ]
                 }
             ],
             listeners: [
                 {
-                    sel: 'table .action-edit',
+                    sel: 'form button',
                     event: 'click',
-                    fn: me.editParam
+                    fn: me.addFields
                 }
             ]
         });
     },
 
-    editParam: function(event) {
+    addFields: function(event) {
         event.preventDefault();
-        var me = this,
-            idInstance = ES.getActiveInstanceId(),
-            idParam = $(event.target.closest('tr')).data('id'),
-            formParam = ES.getCmp('FormParam');
+        var form = event.data.context;
 
-        ES.ajax({
-            url: BASE_URL + "api/instances/"+ idInstance +"/params/"+ idParam,
-            success: function(data) {
-                var param = data.entities[0];
-                formParam.populate(param);
-                formParam.show();
-                ES.scrollToMe(formParam.getCmp());
-                //if(param.options) {
-                //    var options = ES.parseData(param.options);
-                //    $.each(options, function(key, option) {
-                //        formParam.addField(option);
-                //    });
-                //}
-            }
-        });
+        var $form = form.getCmp();
+
+        $form.find('[name=params]');
     }
 });

@@ -14,7 +14,7 @@ ES.Widget = Class.extend({
                 var $wbody = $component.find('.widget-body')
                 $.each(configs.items, function (key, item) {
                     if (item.cmpType) {
-                        item.parent = $component.find('.widget-body');
+                        item.parent = $wbody;
                         var cmp = ES.create(item.cmpType);
                         cmp.initCmp(item);
                     } else {
@@ -26,7 +26,7 @@ ES.Widget = Class.extend({
             }
             if(configs.listeners) {
                 $.each(configs.listeners, function(key, item) {
-                    $component.on(item.event, item.sel, item.fn);
+                    $component.on(item.event, item.sel, { context: me }, item.fn);
                 });
             }
         }

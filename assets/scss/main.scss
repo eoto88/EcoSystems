@@ -806,13 +806,9 @@ label {
       border-bottom: 1px solid $light-grey;
     }
 
-//    .param {
-//      float: left;
-//      width: 50%;
-//    }
-
     .param {
       margin-bottom: 15px;
+      position: relative;
 
       h5 {
         position: relative;

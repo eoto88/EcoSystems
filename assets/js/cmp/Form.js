@@ -11,6 +11,9 @@ ES.Form = ES.Cmp.extend({
         $.each(configs.fields, function(key, config) {
             me.addField(config);
         });
+        $.each(configs.buttons, function(key, config) {
+            me.addField(config);
+        });
     },
 
     /**
@@ -60,6 +63,10 @@ ES.Form = ES.Cmp.extend({
 
         config.parent = $form;
         field.initCmp(config);
+    },
+
+    getField: function() {
+        return null;
     }
 
 }, 'ES.Form');

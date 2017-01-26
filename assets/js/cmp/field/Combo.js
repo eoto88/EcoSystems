@@ -2,6 +2,7 @@
  * Created by eoto88 on 17/01/17.
  */
 ES.Field.Combo = ES.Field.extend({
+    cls: 'form-control',
     valField: null,
     titleField: null,
     loaded: false,
@@ -22,7 +23,7 @@ ES.Field.Combo = ES.Field.extend({
         var me = this,
             tpl = me._super(),
             label = me.getLabel(),
-            field = '<select name="{{name}}" class="form-control"></select>';
+            field = '<select name="{{name}}" class="{{cls}}"></select>';
 
         field = Handlebars.compile(label + field);
 

@@ -28,7 +28,8 @@ $(document).ready(function() {
         'widget-params': ES.WidgetInstanceParams,
         'widget-history': ES.WidgetHistory,
         'widget-livedata': ES.WidgetLive,
-        'widget-logs': ES.WidgetLogs
+        'widget-logs': ES.WidgetLogs,
+        'widget-formdata': ES.WidgetFormData
     };
 
     $(".widget").each(function() {

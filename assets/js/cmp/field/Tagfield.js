@@ -1,13 +1,43 @@
 /**
  * Created by eoto88 on 17/01/17.
  */
-ES.Field.TagField = ES.Field.Combo.extend({
+ES.Field.Tagfield = ES.Field.Combo.extend({
+    values: null,
+    selectize: null,
+
     initCmp: function(config) {
         var me = this;
 
         ES.apply(me, config);
         me._super(me.cmpType);
         me.appendTo(config.parent);
+
+        var $selectize = me.getCmp().find('.fieldSelectize').selectize({
+            maxItems: null,
+            valueField: 'id',
+            labelField: 'title',
+            searchField: 'title',
+            preload: true,
+            hideSelected: true,
+            //optgroupField: 'id_category',
+            //optgroupValueField: 'id_category',
+            //optgroupLabelField: 'category_title',
+            plugins: ['remove_button'], // ,'optgroup_columns'
+            create: false,
+            load: function(query, callback) {
+                var idInstance = ES.getActiveInstanceId();
+
+                ES.ajax({
+                    url: BASE_URL + "api/instances/"+ idInstance +"/params",
+                    success: function(data) {
+                        me.values = data.entities;
+                        callback(data.entities);
+                    }
+                });
+            }
+        });
+
+        me.selectize = $selectize[0].selectize;
     },
 
     /**
@@ -15,66 +45,22 @@ ES.Field.TagField = ES.Field.Combo.extend({
      * @returns String
      */
     getTpl: function() {
-        var me = this,
-            tpl = me._super(),
-            label = me.getLabel(),
-            field = '<select name="{{name}}" class="form-control"></select>';
-
-        field = Handlebars.compile(label + field);
-
-        return tpl({
-            cmpId: me.cmpId,
-            field: field(me)
-        });
-    },
-
-    /**
-     * @averride
-     * @param value
-     */
-    setValue: function (value) {
-        var me = this,
-            $select = me.getInput();
-
-        me.value = value;
-
-        if(me.url && ! me.loaded) {
-            me.loadValues();
-        } else if(me.url && me.loaded) {
-            var $value = $select.find('option[value='+me.value+']');
-            if($value.length) {
-                $value.attr('selected', 'selected');
-            }
-        }
-    },
-
-    getInput: function() {
-        return this.getCmp().find('select');
-    },
-
-    loadValues: function() {
         var me = this;
 
-        ES.ajax({
-            url: me.url,
-            success: function(data) {
-                $.each(data.entities, function(key, entity) {
-                    me.addOption(entity);
-                });
+        me.cls = "fieldSelectize";
 
-                me.loaded = true;
-
-                if(me.value) {
-                    me.setValue(me.value);
-                }
-            }
-        });
+        return me._super();
     },
 
-    addOption: function(opt) {
-        var me = this,
-            $select = me.getInput();
+    getValue: function() {
+        var me = this;
 
-        $select.append('<option value="'+ opt[me.valField] +'">'+ opt[me.titleField] +'</option')
+        return me.selectize.getValue();
+    },
+
+    setValue: function(values) {
+        var me = this;
+
+        return me.selectize.setValue(values);
     }
-}, 'ES.Field.Combo');
+}, 'ES.Field.Tagfield');
