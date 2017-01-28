@@ -5,6 +5,9 @@ ES.Field.Tagfield = ES.Field.Combo.extend({
     values: null,
     selectize: null,
     load: null,
+    groupField: null,
+    groupValueField: null,
+    groupLabelField: null,
 
     initCmp: function(config) {
         var me = this;
@@ -20,13 +23,17 @@ ES.Field.Tagfield = ES.Field.Combo.extend({
             valueField: me.valField,
             labelField: me.titleField,
             searchField: me.titleField,
-            preload:true,
-            //optgroupField: 'id_category',
-            //optgroupValueField: 'id_category',
-            //optgroupLabelField: 'category_title',
-            plugins: ['remove_button'], // ,'optgroup_columns'
+            preload: true,
+            plugins: ['remove_button'],
             create: false
         };
+
+        if( ! ES.isEmpty(me.groupField) && ! ES.isEmpty(me.groupValueField) && ! ES.isEmpty(me.groupLabelField) ) {
+            options.plugins.push('optgroup_columns');
+            options.optgroupField = me.groupField;
+            options.optgroupValueField = me.groupValueField;
+            options.optgroupLabelField = me.groupLabelField;
+        }
 
         var $selectize = me.getCmp().find('.fieldSelectize').selectize(options);
 
@@ -55,5 +62,15 @@ ES.Field.Tagfield = ES.Field.Combo.extend({
         var me = this;
 
         return me.selectize.setValue(values);
+    },
+
+    /**
+     * @override
+     */
+    destroy: function() {
+        var me = this;
+
+        me.selectize.destroy();
+        me._super();
     }
 }, 'ES.Field.Tagfield');

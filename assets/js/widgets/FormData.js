@@ -28,7 +28,18 @@ ES.WidgetFormData = ES.Widget.extend({
                             url: BASE_URL + "api/instances/"+ idInstance +"/params",
                             valField: 'id',
                             titleField: 'title',
+                            groupField: 'id_group',
+                            groupValueField: 'id_group',
+                            groupLabelField: 'groupTitle',
                             load: me.loadParams()
+                        },
+                        {
+                            cmpType: 'datepicker',
+                            label: 'Date & time',
+                            name: 'datetime',
+                            value: moment().format(ES.datetimeFormat),
+                            format: ES.datetimeFormat,
+                            hidden: true
                         }
                     ],
                     buttons: [
@@ -36,6 +47,18 @@ ES.WidgetFormData = ES.Widget.extend({
                             cmpType: 'button',
                             name: 'selectParams',
                             text: 'Select'
+                        },
+                        {
+                            cmpType: 'button',
+                            name: 'saveButton',
+                            text: 'Save',
+                            hidden: true
+                        },
+                        {
+                            cmpType: 'button',
+                            name: 'cancelButton',
+                            text: 'Cancel',
+                            hidden: true
                         }
                     ]
                 }
@@ -44,7 +67,7 @@ ES.WidgetFormData = ES.Widget.extend({
                 {
                     sel: 'form button.selectParams',
                     event: 'click',
-                    fn: me.addFields
+                    fn: me.selectParams
                 },
                 {
                     sel: 'form button.saveButton',
@@ -60,55 +83,10 @@ ES.WidgetFormData = ES.Widget.extend({
         });
     },
 
-    addFields: function(event) {
+    selectParams: function(event) {
         event.preventDefault();
-        var me = event.data.context,
-            form = me.getCmpByIndex('FormData'),
-            fieldParams = form.getFieldByName('params'),
-            values = fieldParams.getValue();
-
+        var me = event.data.context;
         me.showFormFirstPart(false);
-
-        var createDatepicker = ES.isEmpty(form.getFieldByName('datetime'));
-        if(createDatepicker) {
-            form.addField({
-                cmpType: 'datepicker',
-                label: 'Date & time',
-                name: 'datetime'
-            });
-        }
-
-        $.each(values, function(key, idParam) {
-            var param = me.params[idParam];
-
-            if( param ) {
-                var field = {};
-                field.name = param.alias;
-                field.label = param.title;
-                if(param.dataType == 'float') {
-                    field.cmpType = 'spinner';
-                    field.initVal = 7;
-                    field.minVal = 0;
-                    field.maxVal = 14;
-                }
-
-                me.selectedParamsAlias.push(param.alias);
-
-                form.addField(field);
-            }
-        });
-
-        form.addField({
-            cmpType: 'button',
-            name: 'saveButton',
-            text: 'Save'
-        });
-
-        form.addField({
-            cmpType: 'button',
-            name: 'cancelButton',
-            text: 'Cancel'
-        });
     },
 
     loadParams: function() {
@@ -139,34 +117,63 @@ ES.WidgetFormData = ES.Widget.extend({
             form = me.getCmpByIndex('FormData');
 
         me.showFormFirstPart(true);
-        me.removeFormSecondPart();
     },
 
     showFormFirstPart: function(visible) {
         var me = this,
             form = me.getCmpByIndex('FormData'),
             fieldParams = form.getFieldByName('params'),
-            butSelectParams = form.getFieldByName('selectParams');
+            butSelectParams = form.getFieldByName('selectParams'),
+            butSaveData = form.getFieldByName('saveButton'),
+            butCancel = form.getFieldByName('cancelButton'),
+            fieldDatetime = form.getFieldByName('datetime');
 
         if(visible) {
+            fieldDatetime.hide();
+            butSaveData.hide();
+            butCancel.hide();
             fieldParams.show();
             butSelectParams.show();
+
+            $.each(me.selectedParamsAlias, function(key, alias) {
+                // var field = form.getFieldByName(alias);
+                form.removeField(alias);
+            });
+            me.selectedParamsAlias = [];
         } else {
-            fieldParams.hide();
             butSelectParams.hide();
+            fieldParams.hide();
+            fieldDatetime.show();
+            butSaveData.show();
+            butCancel.show();
+            me.addFields();
         }
     },
 
-    removeFormSecondPart: function() {
+    addFields: function() {
         var me = this,
             form = me.getCmpByIndex('FormData'),
-            fieldDatetime = form.getFieldByName('datetime');
+            fieldParams = form.getFieldByName('params'),
+            values = fieldParams.getValue();
 
-        fieldDatetime.hide();
+        $.each(values, function(key, idParam) {
+            var param = me.params[idParam];
 
-        $.each(me.selectedParamsAlias, function(key, alias) {
-            // var field = form.getFieldByName(alias);
-            form.removeField(alias);
+            if( param ) {
+                var field = {};
+                field.name = param.alias;
+                field.label = param.title;
+                if(param.dataType == 'float') {
+                    field.cmpType = 'spinner';
+                    field.initVal = 7;
+                    field.minVal = 0;
+                    field.maxVal = 14;
+                }
+
+                me.selectedParamsAlias.push(param.alias);
+
+                form.addField(field);
+            }
         });
     }
 });

@@ -16,45 +16,6 @@ class Model_Param {
         return $query->execute()->current();
     }
 
-    /**
-     * @deprecated
-     *
-     * @return mixed
-     */
-    public function getParams() {
-        $query = DB::query(Database::SELECT,
-            "SELECT p.id, p.id_category, p.code, p.title, pc.title AS category_title ".
-            "FROM param AS p ".
-            "JOIN param_category AS pc ON pc.id = p.id_category ".
-            "ORDER BY p.title ASC, pc.id ASC"
-        );
-        return $query->execute()->as_array();
-    }
-
-//    /**
-//     * @deprecated
-//     *
-//     * @param $idInstance
-//     * @param $header
-//     * @return mixed
-//     */
-//    public function getGroupParamsWithData($idInstance, $header) {
-//        $query = DB::query(Database::SELECT,
-//            "SELECT p.title, p.alias AS paramAlias, p.icon, pt.alias AS typeAlias, pt.title AS type, p.id_group, pg.title AS groupTitle, p.options, d.data, d.datetime ".
-//            "FROM param AS p ".
-//            "JOIN param_type AS pt ON pt.id = p.id_type ".
-//            "JOIN param_group AS pg ON pg.id = p.id_group ".
-//            "LEFT JOIN data AS d ON d.id_param = p.id ".
-//            "LEFT OUTER JOIN data d2 ON (d2.id_param = p.id AND (d.datetime < d2.datetime OR d.datetime = d2.datetime AND d.id < d2.id)) ".
-//            "WHERE pg.id_instance = :id_instance ".
-//            "AND d.data <> \"\" ".
-//            "AND d2.id IS NULL ".
-//            "AND pg.header = ". ($header ? "1" : "0") ." ".
-//            "ORDER BY d.datetime DESC, p.title ASC");
-//        $query->param(':id_instance', $idInstance);
-//        return $query->execute()->as_array();
-//    }
-
     public function getInstanceHeaderGroupParams($id_instance) {
         $query = DB::query(Database::SELECT,
             "SELECT p.id AS id_param, p.title, p.alias AS paramAlias, p.icon, pt.alias AS typeAlias, pt.title AS type, p.options ".
@@ -129,7 +90,7 @@ class Model_Param {
             "LEFT JOIN param_type AS pt ON pt.id = p.id_type ".
             "LEFT JOIN param_group AS pg ON pg.id = p.id_group ".
             "WHERE pg.id_instance = :id_instance ".
-            "ORDER BY pg.title ASC, p.title ASC"
+            "ORDER BY p.title ASC"
         );
         $query->param(':id_instance', $idInstance);
         return $query->execute()->as_array();
@@ -142,8 +103,8 @@ class Model_Param {
             "LEFT JOIN param_type AS pt ON pt.id = p.id_type ".
             "LEFT JOIN param_group AS pg ON pg.id = p.id_group ".
             "WHERE pg.id_instance = :id_instance ".
-            "AND p.id = :id_param ".
-            "ORDER BY pg.title ASC, p.title ASC"
+            "AND p.id = :id_param"
+//            "ORDER BY pg.title ASC, p.title ASC"
         );
         $query->param(':id_instance', $idInstance);
         $query->param(':id_param', $idParam);

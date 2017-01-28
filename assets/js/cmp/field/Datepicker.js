@@ -2,7 +2,7 @@
  * Created by eoto88 on 26/01/17.
  */
 ES.Field.Datepicker = ES.Field.Text.extend({
-    format: 'YYYY/MM/DD', // 'YYYY/MM/DD h:mm:ss'
+    format: 'YYYY-MM-DD',
 
     initCmp: function(config) {
         var me = this;

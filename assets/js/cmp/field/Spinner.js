@@ -7,6 +7,7 @@ ES.Field.Spinner = ES.Field.Text.extend({
     maxVal: null,
     step: 1,
     decimals: 0,
+    $spinner: null,
 
     initCmp: function(config) {
         var me = this;
@@ -14,14 +15,14 @@ ES.Field.Spinner = ES.Field.Text.extend({
         ES.apply(me, config);
         me._super(me.cmpType);
         me.appendTo(config.parent);
-        var $spinner = me.getInput(),
+        me.$spinner = me.getInput(),
             initval = $spinner.data('initval'),
             min = $spinner.data('min'),
             max = $spinner.data('max'),
             step = $spinner.data('step'),
             decimals = $spinner.data('decimals');
 
-        $spinner.TouchSpin({
+        me.$spinner.TouchSpin({
             initval: initval,
             min: min,
             max: max,
@@ -51,5 +52,14 @@ ES.Field.Spinner = ES.Field.Text.extend({
         }
 
         return me._super();
+    },
+
+    /**
+     * @override
+     */
+    destroy: function() {
+        var me = this;
+
+        me.$spinner.destroy();
     }
 }, 'ES.Field.Spinner');

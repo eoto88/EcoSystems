@@ -1078,13 +1078,22 @@ label {
   color: #ffffff;
 }
 
-/* **** Widget Table - START **** */
-.widget-form {
-  .widget-body {
-    padding: 15px;
+#widget-formdata form {
+  padding: 10px 10px 15px 10px;
+}
+
+form.es-cmp {
+  .form-fields {
+
+  }
+  .form-buttons {
+    margin-top: 15px;
+
+    button {
+      margin-right: 15px;
+    }
   }
 }
-/* **** Widget Table - END **** */
 
 /* **** Widget Live - START **** */
 .widget-live {

@@ -15,7 +15,7 @@ ES.Form = ES.Cmp.extend({
             me.addField(config);
         });
         $.each(me.buttons, function(key, config) {
-            me.addField(config);
+            me.addField(config, true);
         });
     },
 
@@ -29,7 +29,7 @@ ES.Form = ES.Cmp.extend({
         if(me.title) {
             tpl += '<header role="heading"><span class="widget-icon"><i class="fa fa-pencil fa-fw"></i></span><h2>'+ me.title +'</h2> <span class="close-form"><i class="fa fa-times"></i></span></header>';
         }
-        return tpl + '</form>';
+        return tpl + '<div class="form-fields"></div><div class="form-buttons"></div></form>';
     },
 
     populate: function(obj) {
@@ -59,12 +59,14 @@ ES.Form = ES.Cmp.extend({
         return $field;
     },
 
-    addField: function(config) {
+    addField: function(config, button) {
         var me = this,
             $form = me.getCmp(),
             field = ES.create(config.cmpType);
 
-        config.parent = $form;
+         var $parent = (button ? $form.find('.form-buttons') : $form.find('.form-fields'))
+
+        config.parent = $parent;
         field.initCmp(config);
 
         me.fields[field.name] = field;

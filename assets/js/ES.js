@@ -7,6 +7,9 @@ var ES = {
     cmpTypes: [],
     createdCmps: [],
 
+    dateFormat: 'YYYY-MM-DD',
+    datetimeFormat: 'YYYY-MM-DD h:mm:ss',
+
     register: function(classCmp) {
         var cmpType = classCmp.substring(classCmp.lastIndexOf('.') + 1).toLowerCase();
 

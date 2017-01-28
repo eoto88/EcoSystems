@@ -38,5 +38,11 @@ ES.Field = ES.Cmp.extend({
 
         $input.val(value);
         me.value = value;
+    },
+
+    focus: function() {
+        var me = this;
+
+        me.getInput().focus();
     }
 });
