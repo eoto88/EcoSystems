@@ -106,13 +106,13 @@ ES.WidgetInstances = ES.Widget.extend({
                             );
                         }
 
-                        if(instanceData.water_tests == "1") {
-                            deferredCalls.push(
-                                ES.ajax({
-                                    url: BASE_URL + "api/instances/" + instanceData.id + "/WaterTests/"
-                                })
-                            );
-                        }
+                        //if(instanceData.water_tests == "1") {
+                        //    deferredCalls.push(
+                        //        ES.ajax({
+                        //            url: BASE_URL + "api/instances/" + instanceData.id + "/WaterTests/"
+                        //        })
+                        //    );
+                        //}
 
                         // .statusGage
 

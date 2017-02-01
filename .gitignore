@@ -4,6 +4,7 @@
 /application/logs/*
 /application/config/*
 !/application/config/*.template.php
+/assets/js/config.js
 /bkp/
 /nbproject/
 /assets/css/main.css

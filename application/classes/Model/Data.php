@@ -53,20 +53,28 @@ class Model_Data {
         return $query->execute()->as_array();
     }
 
-    function insertParamsData($idInstance, $params) {
+    function insertParamsData($idInstance, $data) {
         $mLog = new Model_Log();
         $mParam = new Model_Param();
         $return = array();
+        $datetime = null;
 
+        if(isset($data['datetime'])) {
+            $datetime = date('Y-m-d H:i:s', $data['datetime']);
+        } else {
+            $datetime = date("Y-m-d H:i:s");
+        }
+        $params = $data['params'];
+        if( ! is_array($params)) {
+            // If not an array, maybe it's json
+            $params = json_decode($data['params'], true);
+        }
         foreach($params as $paramData) {
             $param = $mParam->getParamByAlias($idInstance, $paramData['a']);
 
             if(isset($param['id'])) {
                 // TODO Validation
                 $value = null;
-                if( ! isset($data['datetime']) ) {
-                    $data['datetime'] = date("Y-m-d H:i:s");
-                }
                 if($param['dataType'] == "boolean") {
                     $value = ($paramData['v'] == "1" ? 'true' : 'false');
                 } else if($param['dataType'] == "int") {
@@ -84,7 +92,7 @@ class Model_Data {
                     DB::expr("UUID()"),
                     $idInstance,
                     $param['id'],
-                    $data['datetime'],
+                    $datetime,
                     '{"type":"'.$param['dataType'].'","value":'. $value .'}'
                 ));
                 $query->execute();
@@ -94,62 +102,33 @@ class Model_Data {
                 $mLog->log($idInstance, "error", "Unknown param: "+ $paramData['a']);
                 $return['errors'][] = "Unknown param.";
             }
+            // TODO Improve return..
         }
         return $return;
-
-
-//
-//        $return = array();
-//        $validation = Validation::factory($data);
-//        $validation->rule('roomTemperature', 'decimal', array(':value', '1'));
-//        $validation->rule('tankTemperature', 'decimal', array(':value', '1'));
-//        $validation->rule('param', 'decimal', array(':value', '1'));
-//
-//        // FIXME Validate code
-//        // FIXME Validate datetime
-//
-//        if( $validation->check() ) {
-//            if( ! isset($data['datetime']) ) {
-//                $data['datetime'] = null;
-//            }
-//            if( ! isset($data['humidity']) ) {
-//                $data['humidity'] = null;
-//            }
-//
-//            if ( ! isset($data['id_param'])) {
-//                $data['id_param'] = 0;
-//            }
-//
-//            $query = DB::insert('data', array(
-//                'id',
-//                'id_instance',
-//                'id_param',
-//                'datetime',
-//                'humidity',
-//                'room_temperature',
-//                'tank_temperature'
-//            ))->values( array(
-//                DB::expr("UUID()"),
-//                $idInstance,
-//                $data['id_param'],
-//                $data['datetime'],
-//                $data['humidity'],
-//                $data['roomTemperature'],
-//                $data['tankTemperature']
-//            ) );
-//            $query->execute();
-//
-//            $return['success'] = true;
-//        } else {
-//            $return['success'] = false;
-//            $return['errors'] = $validation->errors('todo');
-//        }
-//        return $return;
     }
 
     function insertData($idInstance, $data) {
         $return = array();
-        $validation = Validation::factory($data);
+//        $validation = Validation::factory($data);
+//        $validation->rule('datetime', 'decimal', array(':value', '1'));
+        $datetime = null;
+
+        var_dump($data);
+
+        foreach ($data as $key => $value) {
+            if ($key == "datetime") {
+                $datetime = $value;
+                break;
+            }
+        }
+        foreach ($data as $key => $value) {
+            if ($key != "datetime") {
+                $datetime = $value;
+                break;
+            }
+        }
+
+
         $validation->rule('roomTemperature', 'decimal', array(':value', '1'));
         $validation->rule('tankTemperature', 'decimal', array(':value', '1'));
         $validation->rule('humidity', 'decimal', array(':value', '1'));

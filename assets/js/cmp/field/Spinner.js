@@ -15,12 +15,13 @@ ES.Field.Spinner = ES.Field.Text.extend({
         ES.apply(me, config);
         me._super(me.cmpType);
         me.appendTo(config.parent);
-        me.$spinner = me.getInput(),
-            initval = $spinner.data('initval'),
-            min = $spinner.data('min'),
-            max = $spinner.data('max'),
-            step = $spinner.data('step'),
-            decimals = $spinner.data('decimals');
+        me.$spinner = me.getInput();
+
+        var initval = me.$spinner.data('initval'),
+            min = me.$spinner.data('min'),
+            max = me.$spinner.data('max'),
+            step = me.$spinner.data('step'),
+            decimals = me.$spinner.data('decimals');
 
         me.$spinner.TouchSpin({
             initval: initval,
@@ -34,8 +35,8 @@ ES.Field.Spinner = ES.Field.Text.extend({
     },
 
     getTpl: function() {
-        var me = this,
-            label = me.getLabel();
+        var me = this;
+            //label = me.getLabel();
 
         me.attr += ' data-initval="'+ me.initVal +'"';
         if( ! ES.isEmpty(me.minVal) ) {

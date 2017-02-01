@@ -30,30 +30,18 @@ class Task_Cron extends Minion_Task {
     }
 
     private function createData() {
-//        $mData = new Model_Data();
-//        // FIXME code
-//        $mData->insertData(1, array(
-//            'datetime' => null,
-//            'humidity' => $this->f_rand(20, 40, 10),
-//            'roomTemperature' => $this->f_rand(18, 25, 10),
-//            'tankTemperature' => $this->f_rand(18, 25, 10)
-//        ));
-
         $mData = new Model_Data();
-        $mData->insertData(2, array(
+        $mData->insertParamsData(2, array(
             'datetime' => null,
-            'humidity' => $this->f_rand(20, 40, 10),
-            'roomTemperature' => $this->f_rand(18, 25, 10),
-            'tankTemperature' => $this->f_rand(18, 25, 10)
-        ));
-
-        $mWater = new Model_WaterTest();
-        $mWater->insertWaterTest(2, array(
-            'date' => date('Y-m-d'),
-            'ph' => $this->f_rand(5, 8, 10),
-            'ammonia' => $this->f_rand(0, 7.3, 10),
-            'nitrite' => $this->f_rand(0, 3.3, 10),
-            'nitrate' => $this->f_rand(0, 110, 10)
+            'params' => array(
+                array('a' => 'humidity', 'v' => $this->f_rand(20, 40, 10)),
+                array('a' => 'roomTemperature', 'v' => $this->f_rand(18, 25, 10)),
+                array('a' => 'tankTemperature', 'v' => $this->f_rand(18, 25, 10)),
+                array('a' => 'ph', 'v' => $this->f_rand(5, 8, 10)),
+                array('a' => 'ammonia', 'v' => $this->f_rand(0, 7.3, 10)),
+                array('a' => 'nitrite', 'v' => $this->f_rand(0, 3.3, 10)),
+                array('a' => 'nitrate', 'v' => $this->f_rand(0, 110, 10))
+            )
         ));
     }
 

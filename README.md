@@ -20,6 +20,8 @@ For more infos, come visit later or simply write me!
     * [ 0 6 * * 0 ] php index.php --task=Cron --action=backupLastDays
     * [ 0 5 * * * ] php index.php --task=Cron --action=checkTodos
 
+7. Rename /assets/js/config.template.js to config.js and change for you firebase configs
+
 ### bootstrap.php
 * SALT
 *

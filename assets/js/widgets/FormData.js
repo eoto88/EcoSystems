@@ -39,6 +39,7 @@ ES.WidgetFormData = ES.Widget.extend({
                             name: 'datetime',
                             value: moment().format(ES.datetimeFormat),
                             format: ES.datetimeFormat,
+                            obligatory: true,
                             hidden: true
                         }
                     ],
@@ -108,7 +109,27 @@ ES.WidgetFormData = ES.Widget.extend({
 
     saveData: function(event) {
         event.preventDefault();
-        var me = event.data.context;
+        var me = event.data.context,
+            idInstance = ES.getActiveInstanceId(),
+            form = me.getCmpByIndex('FormData'),
+            fieldDatetime = form.getFieldByName('datetime'),
+            data = {"params":[]};
+
+        data.datetitme = fieldDatetime.getValue();
+
+        $.each(me.selectedParamsAlias, function(key, alias) {
+            var field = form.getFieldByName(alias);
+            data.params.push({"a":alias,"v":field.getValue()});
+        });
+        ES.ajax({
+            url: BASE_URL + "api/instances/" + idInstance + "/data",
+            method: 'POST',
+            data: data,
+            success: function(data) {
+                // TODO Feedback
+                me.showFormFirstPart(true);
+            }
+        });
     },
 
     cancelData: function(event) {
@@ -124,9 +145,9 @@ ES.WidgetFormData = ES.Widget.extend({
             form = me.getCmpByIndex('FormData'),
             fieldParams = form.getFieldByName('params'),
             butSelectParams = form.getFieldByName('selectParams'),
+            fieldDatetime = form.getFieldByName('datetime'),
             butSaveData = form.getFieldByName('saveButton'),
-            butCancel = form.getFieldByName('cancelButton'),
-            fieldDatetime = form.getFieldByName('datetime');
+            butCancel = form.getFieldByName('cancelButton');
 
         if(visible) {
             fieldDatetime.hide();
@@ -163,12 +184,14 @@ ES.WidgetFormData = ES.Widget.extend({
                 var field = {};
                 field.name = param.alias;
                 field.label = param.title;
-                if(param.dataType == 'float') {
+                field.obligatory = true;
+                if(param.dataType == 'float' || param.dataType == 'int') {
                     field.cmpType = 'spinner';
-                    field.initVal = 7;
-                    field.minVal = 0;
-                    field.maxVal = 14;
                 }
+                var valueOptions = ES.parseData(param.valueOptions);
+                $.each(valueOptions, function(key, option) {
+                    field[key] = option;
+                });
 
                 me.selectedParamsAlias.push(param.alias);
 

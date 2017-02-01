@@ -25,8 +25,9 @@ class Controller_Rest_Data extends Controller_REST {
         $id_instance = $this->request->param('id_instance');
         $mData= new Model_Data();
 
-//        $data = json_decode(file_get_contents('php://input'), true);
-        $result = $mData->insertData($id_instance, $this->request->post());
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $result = $mData->insertParamsData($id_instance, $data);
 
         if( $result['success']) {
             echo json_encode($result);

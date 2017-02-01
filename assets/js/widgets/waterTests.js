@@ -341,45 +341,5 @@ ES.WidgetWaterTests = ES.Widget.extend({
         //        data: nitrateData
         //    }]
         //});
-    },
-    requestChartData: function() {
-        var me = this;
-        $.ajax({
-            url: BASE_URL + 'ajax/chartLiveData/' + ES.getActiveInstanceId(),
-            cache: false,
-            dataType: "json",
-            success: function(point) {
-                /*if(point.roomTemperature.length > 0 &&
-                 temperatureChart.series[0].data.length > 0 &&
-                 temperatureChart.series[0].data[temperatureChart.series[0].data.length-1].x != point.roomTemperature[0]) {
-                 var series = temperatureChart.series[0],
-                 shift = series.data.length > 40;
-
-                 temperatureChart.series[0].addPoint(eval(point.roomTemperature), true, shift);
-                 }*/
-
-                me.addChartData(point.roomTemperature, me.temperatureChart.series[0]);
-
-                /*if(point.tankTemperature.length > 0 &&
-                 temperatureChart.series[1].data.length > 0 &&
-                 temperatureChart.series[1].data[temperatureChart.series[1].data.length-1].x != point.tankTemperature[0]) {
-                 var series = temperatureChart.series[1],
-                 shift = series.data.length > 40;
-
-                 temperatureChart.series[1].addPoint(eval(point.tankTemperature), true, shift);
-                 }*/
-
-                me.addChartData(point.tankTemperature, me.temperatureChart.series[1]);
-            }
-        });
-    },
-    addChartData: function(data, chartSerie) {
-        if(data.length > 0 &&
-            chartSerie.data.length > 0 &&
-            chartSerie.data[chartSerie.data.length-1].x != data[0]) {
-            var shift = chartSerie.data.length > 80;
-
-            chartSerie.addPoint(eval(data), true, shift);
-        }
     }
 });

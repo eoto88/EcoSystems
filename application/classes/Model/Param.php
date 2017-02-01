@@ -84,8 +84,14 @@ class Model_Param {
     }
 
     public function getInstanceParams($idInstance) {
+        // = addFields =
+        // - type
+        // - groupTitle
+        // - dataType
+        // - valueOptions
+
         $query = DB::query(Database::SELECT,
-            "SELECT p.id, p.title, p.alias, pt.title AS type, p.id_group, pg.title AS groupTitle, pt.data_type AS dataType ". //  p.options AS optionsValues, pt.options ".
+            "SELECT p.id, p.title, p.alias, pt.title AS type, p.id_group, pg.title AS groupTitle, pt.data_type AS dataType, pt.value_options AS valueOptions ".
             "FROM param AS p ".
             "LEFT JOIN param_type AS pt ON pt.id = p.id_type ".
             "LEFT JOIN param_group AS pg ON pg.id = p.id_group ".

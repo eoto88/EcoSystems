@@ -1084,7 +1084,9 @@ label {
 
 form.es-cmp {
   .form-fields {
-
+    .obligatory {
+      color: $brightRed;
+    }
   }
   .form-buttons {
     margin-top: 15px;

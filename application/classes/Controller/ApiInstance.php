@@ -70,7 +70,7 @@ class Controller_ApiInstance extends Controller {
 
                 if($params) {
                     $mData = new Model_Data();
-                    $mData->insertParamsData($idInstance, $params);
+                    $mData->insertParamsData($idInstance, $_POST);
                 } else {
                     $return['errors'] = "Not valid json.";
                 }

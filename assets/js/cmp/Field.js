@@ -5,6 +5,7 @@ ES.Field = ES.Cmp.extend({
     name: null,
     value: null,
     label: null,
+    obligatory: false,
 
     initCmp: function(cmpType) {
         var me = this;
@@ -19,7 +20,11 @@ ES.Field = ES.Cmp.extend({
     getLabel: function() {
         var me = this;
         if(!ES.isEmpty(me.label)) {
-            return '<label>'+ me.label +' :</label>';
+            var lbl = me.label;
+            if(me.obligatory) {
+                lbl += ' <span class="obligatory">*</span>'
+            }
+            return '<label>'+ lbl +' :</label>';
         }
         return '';
     },
@@ -29,7 +34,7 @@ ES.Field = ES.Cmp.extend({
     },
 
     getValue: function () {
-        return this.value;
+        return this.getInput().val();
     },
     
     setValue: function (value) {
